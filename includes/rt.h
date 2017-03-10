@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/10 16:22:48 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/03/10 16:54:31 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,19 @@ typedef	struct	s_mlx
 	int			end;
 }				t_mlx;
 
+typedef struct  s_yi
+{
+    t_lv		*lvstru;
+	t_lo		*lostru;
+}               t_yi;
+typedef struct  s_lv
+{
+	t_yi        *yistru;
+    t_lo        *lostru;
+}               t_lv;
+typedef struct  s_lo
+{
+	t_lv        *lvstru;
+    t_yi        *yistru;
+}               t_lo;
 #endif
