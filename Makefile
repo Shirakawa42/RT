@@ -6,13 +6,13 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/03/06 12:41:12 by lvasseur         ###   ########.fr        #
+#    Updated: 2017/03/10 16:23:07 by lomeress         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: make all clean fclean re
 
-NAME = rt
+NAME = RT
 
 LIB = -L libft/ -lft
 
