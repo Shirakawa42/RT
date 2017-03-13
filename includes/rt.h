@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/10 17:41:20 by yismail          ###   ########.fr       */
+/*   Updated: 2017/03/13 17:14:09 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ typedef struct  s_e
 	t_yi yi;
 	t_lv lv;
 }               t_e;
+
+void	raytrace(t_mlx *truc);
 
 #endif
