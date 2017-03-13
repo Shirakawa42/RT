@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:05:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/13 17:37:25 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/13 19:27:56 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 typedef struct	s_vec
 {
-	double			x;
-	double			y;
-	double			z;
+	double		x;
+	double		y;
+	double		z;
 }				t_vec;
 
 typedef struct	s_ray
 {
-	t_vec	o;
-	t_vec	d;
+	t_vec		o;
+	t_vec		d;
 }				t_ray;
 
 typedef struct	s_sphere
 {
-	t_vec	c;
-	double	r;
+	t_vec		c;
+	double		r;
 }				t_sphere;
 
 double	dot(t_vec v, t_vec b)
@@ -83,11 +83,11 @@ void	raytrace(t_mlx *truc)
 		while (++x < W)
 		{
 			t = 20000;
-			ray.d.z = 1;
 			ray.o.x = x;
 			ray.o.y = y;
+			ray.d.z = 1;
 			if (intersect(sphere, ray, &t) == 1)
-				mlx_pixel_put(truc->mlx, truc->win, x, y, 0x0000FFFF);
+				mlx_pixel_put(truc->mlx, truc->win, x, y, 0xAABBFF);
 		}
 	}
 }
