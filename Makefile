@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/03/13 17:14:52 by lvasseur         ###   ########.fr        #
+#    Updated: 2017/03/14 17:01:33 by yismail          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT = libft/libft.a
 
 C_DIR = src/
 
-SRCS = main.c raytracing.c
+SRCS = main.c raytracing.c light.c
 
 SRC = $(addprefix $(C_DIR), $(SRCS))
 

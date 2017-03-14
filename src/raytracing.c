@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:05:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/14 11:41:53 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/14 17:57:50 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ void	raytrace(t_mlx *truc)
 		while (++x < W)
 		{
 			t = 20000;
-			ray.d.z = 1;
+			ray.d.z = 5;
 			ray.o.x = x;
 			ray.o.y = y;
 			if (intersect(sphere, ray, &t) == 1)
 				*(unsigned *)(truc->gda + (y * truc->size_line) +
-						(x * truc->bpx / 8)) = 0x0000FFFF;
+							  (x * truc->bpx / 8)) = color_lighted(sphere, ray);
 		}
 	}
 	mlx_put_image_to_window(truc->mlx, truc->win, truc->img, 0, 0);

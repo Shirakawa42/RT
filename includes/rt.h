@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/14 11:37:04 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/14 17:41:18 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ typedef	struct	s_mlx
 	int			end;
 }				t_mlx;
 
+typedef struct      s_color
+{
+	int             r;
+	int             g;
+	int             b;
+}                   t_color;
+
+
 typedef struct  s_yi
 {
 }               t_yi;
@@ -59,6 +67,13 @@ typedef struct	s_vec
 	double			z;
 }				t_vec;
 
+typedef struct  s_spot
+{
+    double          x;
+    double          y;
+    double          z;
+}               t_spot;
+
 typedef struct	s_ray
 {
 	t_vec	o;
@@ -71,6 +86,7 @@ typedef struct	s_sphere
 	double	r;
 }				t_sphere;
 
+int color_lighted(t_sphere sphere,  t_ray ray);
 void	raytrace(t_mlx *truc);
 
 #endif
