@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/10 17:41:20 by yismail          ###   ########.fr       */
+/*   Updated: 2017/03/14 11:37:04 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,26 @@ typedef struct  s_e
 	t_yi yi;
 	t_lv lv;
 }               t_e;
+
+typedef struct	s_vec
+{
+	double			x;
+	double			y;
+	double			z;
+}				t_vec;
+
+typedef struct	s_ray
+{
+	t_vec	o;
+	t_vec	d;
+}				t_ray;
+
+typedef struct	s_sphere
+{
+	t_vec	c;
+	double	r;
+}				t_sphere;
+
+void	raytrace(t_mlx *truc);
 
 #endif

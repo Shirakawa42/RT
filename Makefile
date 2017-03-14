@@ -6,11 +6,11 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/03/10 16:23:07 by lomeress         ###   ########.fr        #
+#    Updated: 2017/03/13 17:14:52 by lvasseur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: make all clean fclean re
+.PHONY: make all clean fclean re c f r g
 
 NAME = RT
 
@@ -20,7 +20,7 @@ LIBFT = libft/libft.a
 
 C_DIR = src/
 
-SRCS = main.c
+SRCS = main.c raytracing.c
 
 SRC = $(addprefix $(C_DIR), $(SRCS))
 
@@ -39,14 +39,14 @@ $(LIBFT):
 $(OBJ) : $(SRC)
 	gcc -c -Wall -Wextra -Werror $^ $(INC)
 
-clean :
+c clean :
 	make clean -C libft/
 	rm -f $(OBJ)
 
-fclean : clean
+f fclean : clean
 	make fclean -C libft/
 	rm -f $(NAME)
 
-re : fclean all
+r re : fclean all
 
-good: all clean
+g good: all clean
