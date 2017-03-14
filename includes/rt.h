@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/14 11:37:04 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/14 16:25:25 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,6 @@ typedef	struct	s_mlx
 	int			end;
 }				t_mlx;
 
-typedef struct  s_yi
-{
-}               t_yi;
-typedef struct  s_lv
-{
-}               t_lv;
-typedef struct  s_lo
-{
-}               t_lo;
-
-typedef struct  s_e
-{
-	t_mlx mlx;
-	t_lo lo;
-	t_yi yi;
-	t_lv lv;
-}               t_e;
-
 typedef struct	s_vec
 {
 	double			x;
@@ -71,6 +53,27 @@ typedef struct	s_sphere
 	double	r;
 }				t_sphere;
 
-void	raytrace(t_mlx *truc);
+typedef struct  s_yi
+{
+}               t_yi;
+typedef struct  s_lv
+{
+	t_sphere	*sphere;
+	int			nbsphere;
+	char		tab[H][W];
+}               t_lv;
+typedef struct  s_lo
+{
+}               t_lo;
+
+typedef struct  s_e
+{
+	t_lo lo;
+	t_yi yi;
+	t_lv lv;
+}               t_e;
+
+void	raytrace(t_mlx *truc, t_e *e);
+t_e		*parsing(t_e *e, char *data);
 
 #endif
