@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/13 17:26:33 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/14 11:47:13 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int		main(void)
 	st = (t_mlx*)malloc(sizeof(*st));
 	st->mlx = mlx_init();
 	st->win = mlx_new_window(st->mlx, W, H, "RT");
-//	st->img = mlx_new_image(st->mlx, W, H);
-//	st->gda = mlx_get_data_addr(st->img, &st->bpx, &st->size_line, &st->end);
+	st->img = mlx_new_image(st->mlx, W, H);
+	st->gda = mlx_get_data_addr(st->img, &st->bpx, &st->size_line, &st->end);
+	raytrace(st);
 	mlx_key_hook(st->win, my_key_funct, st);
 	mlx_hook(st->win, 17, 1L << 6, my_key_funct2, st);
-	raytrace(st);
 	mlx_loop(st->mlx);
 	return (0);
 }
