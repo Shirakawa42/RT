@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/14 16:25:25 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/16 16:46:48 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-#define W	1280
+#define W	720
 #define H	720
 
 typedef	struct	s_mlx
@@ -34,12 +34,45 @@ typedef	struct	s_mlx
 	int			end;
 }				t_mlx;
 
+typedef struct      s_color
+{
+	int             r;
+	int             g;
+	int             b;
+}                   t_color;
+
+
+typedef struct  s_yi
+{
+}               t_yi;
+typedef struct  s_lv
+{
+}               t_lv;
+typedef struct  s_lo
+{
+}               t_lo;
+
+typedef struct  s_e
+{
+	t_mlx mlx;
+	t_lo lo;
+	t_yi yi;
+	t_lv lv;
+}               t_e;
+
 typedef struct	s_vec
 {
 	double			x;
 	double			y;
 	double			z;
 }				t_vec;
+
+typedef struct  s_spot
+{
+    double          x;
+    double          y;
+    double          z;
+}               t_spot;
 
 typedef struct	s_ray
 {
@@ -50,30 +83,11 @@ typedef struct	s_ray
 typedef struct	s_sphere
 {
 	t_vec	c;
+	t_color	color;
 	double	r;
 }				t_sphere;
 
-typedef struct  s_yi
-{
-}               t_yi;
-typedef struct  s_lv
-{
-	t_sphere	*sphere;
-	int			nbsphere;
-	char		tab[H][W];
-}               t_lv;
-typedef struct  s_lo
-{
-}               t_lo;
-
-typedef struct  s_e
-{
-	t_lo lo;
-	t_yi yi;
-	t_lv lv;
-}               t_e;
-
-void	raytrace(t_mlx *truc, t_e *e);
-t_e		*parsing(t_e *e, char *data);
+int		color_lighted(t_sphere sphere,  t_ray ray, int x, int y);
+void	raytrace(t_mlx *truc);
 
 #endif

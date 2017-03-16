@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 16:13:55 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/14 13:32:49 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/02/23 20:19:11 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void				ft_putendl_fd(const char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 int					get_next_line(const int fd, char **line);
 void				ft_putenbr(int n);
-int					nb_of_x_word(char *str, char *word);
 
 typedef struct		s_list
 {
