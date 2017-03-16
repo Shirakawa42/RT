@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/14 17:41:18 by yismail          ###   ########.fr       */
+/*   Updated: 2017/03/16 15:18:41 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-#define W	1280
+#define W	720
 #define H	720
 
 typedef	struct	s_mlx
@@ -83,6 +83,7 @@ typedef struct	s_ray
 typedef struct	s_sphere
 {
 	t_vec	c;
+	t_color	color;
 	double	r;
 }				t_sphere;
 

@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:05:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/14 17:57:50 by yismail          ###   ########.fr       */
+/*   Updated: 2017/03/16 15:16:31 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int		intersect(t_sphere sphere, t_ray ray, double *t)
 	t_vec	o;
 	t_vec	d;
 	t_vec	oc;
+	double	a;
 	double	b;
 	double	cc;
 	double	disc;
@@ -33,9 +34,10 @@ int		intersect(t_sphere sphere, t_ray ray, double *t)
 	oc.x = o.x - sphere.c.x;
 	oc.y = o.y - sphere.c.y;
 	oc.z = o.z - sphere.c.z;
+	a = dot(ray.d, ray.d);
 	b = 2 * dot(oc, d);
 	cc = dot(oc, oc) - sphere.r * sphere.r;
-	disc = b * b - 4 * cc;
+	disc = b * b - 4 * a * cc;
 	if (disc < 0)
 		return (0);
 	disc = sqrt(disc);
@@ -50,13 +52,19 @@ void	raytrace(t_mlx *truc)
 	int			x;
 	int			y;
 	t_ray		ray;
-	t_sphere	sphere;
+	t_sphere	sphere = {{0, 0, 15}, {255, 155, 125}, 5};
 	double		t;
+	/*
+	sphere.c.x = 0;
+	sphere.c.y = 0;
+	sphere.c.z = 15;
+	sphere.r = 5;
+	*/
+	ray.o.x = 0;
+	ray.o.y = 0;
+	ray.o.z = 0;
+	ray.d.z = 1.0;
 
-	sphere.c.x = W / 2;
-	sphere.c.y = H / 2;
-	sphere.c.z = 50;
-	sphere.r = 20;
 	y = -1;
 	while (++y < H)
 	{
@@ -64,9 +72,8 @@ void	raytrace(t_mlx *truc)
 		while (++x < W)
 		{
 			t = 20000;
-			ray.d.z = 5;
-			ray.o.x = x;
-			ray.o.y = y;
+			ray.d.x = (double)x / W - 0.5;
+			ray.d.y = (double)y / H - 0.5;
 			if (intersect(sphere, ray, &t) == 1)
 				*(unsigned *)(truc->gda + (y * truc->size_line) +
 							  (x * truc->bpx / 8)) = color_lighted(sphere, ray);

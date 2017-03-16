@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/03/14 17:01:33 by yismail          ###   ########.fr        #
+#    Updated: 2017/03/16 14:45:39 by lomeress         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,13 +31,13 @@ INC = -I includes/ -I libft/
 all : $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	gcc -Wall -Wextra -Werror $^ -o $@ $(LIB) -lmlx -framework OpenGL -framework AppKit
+	gcc $^ -o $@ $(LIB) -lmlx -framework OpenGL -framework AppKit
 
 $(LIBFT):
 	make -C libft/
 
 $(OBJ) : $(SRC)
-	gcc -c -Wall -Wextra -Werror $^ $(INC)
+	gcc -c  $^ $(INC)
 
 c clean :
 	make clean -C libft/
