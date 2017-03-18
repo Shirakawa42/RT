@@ -6,7 +6,7 @@
 /*   By: yismail <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 16:04:47 by yismail           #+#    #+#             */
-/*   Updated: 2017/03/16 15:49:50 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/03/18 16:03:40 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,5 @@ int color_lighted(t_sphere sphere,  t_ray ray, int x, int y)
 	int z;
 	light.x = 0;
 	light.y = 0;
-	light.z = 0;
-
-	
+	light.z = 0;	
 }
