@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/17 16:11:28 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/18 16:22:36 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-#define W	720
-#define H	720
+#define W	1280
+#define H	1280
 
 typedef	struct	s_mlx
 {
@@ -72,6 +72,13 @@ typedef struct	s_ray
 	t_vec	o;
 	t_vec	d;
 }				t_ray;
+
+typedef struct  s_spot
+{
+    double          x;
+    double          y;
+    double          z;
+}               t_spot;
 
 typedef struct	s_sphere
 {

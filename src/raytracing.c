@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:05:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/17 16:11:12 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/18 16:56:16 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		intersect(t_sphere sphere, t_ray ray, double *t)
 	a = dot(ray.d, ray.d);
 	b = 2 * dot(oc, d);
 	cc = dot(oc, oc) - sphere.r * sphere.r;
+	printf("cc : %f\n", cc);
 	disc = b * b - 4 * a * cc;
 	if (disc < 0)
 		return (0);
@@ -70,7 +71,7 @@ void	raytrace(t_mlx *truc)
 			ray.d.y = (double)y / H - 0.5;
 			if (intersect(sphere, ray, &t) == 1)
 				*(unsigned *)(truc->gda + (y * truc->size_line) +
-						  (x * truc->bpx / 8)) = color_lighted(sphere, ray, t);
+						  (x * truc->bpx / 8)) = 0xffffff;//color_lighted(sphere, ray, t);
 		}
 	}
 	mlx_put_image_to_window(truc->mlx, truc->win, truc->img, 0, 0);
