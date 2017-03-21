@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 16:12:45 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/21 16:04:06 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/21 17:27:45 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,13 @@ int		color_lighted(t_sphere sphere,  t_ray ray, double t)
 	t_vec	normalpoint = {sphere.c.x - ray.d.x, sphere.c.y - ray.d.y, sphere.c.z - ray.d.z};
 	double color_int;
 	t_color color;
+
 	light.r = 255;
 	light.g = 255;
 	light.b = 255;
-	sphere.color.r = 44;
-	sphere.color.g = 76;
-	sphere.color.b = 170;
+	sphere.color.r = 255;
+	sphere.color.g = 255;
+	sphere.color.b = 255;
 	lightvector.o.x = 300;
 	lightvector.o.y = 300;
 	lightvector.o.z = 1;
@@ -113,8 +114,8 @@ int		color_lighted(t_sphere sphere,  t_ray ray, double t)
 		return (0);
 	tmp = sphere.color;
 	color.r = (tmp.r + light.r) / 2;
-	color.g += (tmp.g + light.g) / 2;
-	color.b += (tmp.b + light.b) / 2;
+	color.g = (tmp.g + light.g) / 2;
+	color.b = (tmp.b + light.b) / 2;
 	color_int = color_to_int(color);
 	color_int *= angle;
 	return ((int)color_int);
