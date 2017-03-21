@@ -6,11 +6,16 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 16:12:45 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/21 15:35:29 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/21 16:04:06 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/rt.h"
+
+int		color_to_int(t_color c)
+{
+	return (((int)c.r & 0xff) << 16) | (((int)c.g & 0xff) << 8) | ((int)c.b & 0xff);
+}
 
 void	normalize(t_vec *truc)
 {
@@ -76,21 +81,21 @@ void	normalize(t_vec *truc)
 int		color_lighted(t_sphere sphere,  t_ray ray, double t)
 {
 	t_ray	lightvector;
-	t_vec	lightpoint = {ray.d.x - -360, ray.d.y - -360, ray.d.z - 0};
+	t_vec	lightpoint = {ray.d.x - 0, ray.d.y - -360, ray.d.z - 0};
 	int		sphere_color;
 	double	angle;
 	t_ray	normal;
 	t_color	tmp;
 	t_color	light;
 	t_vec	normalpoint = {sphere.c.x - ray.d.x, sphere.c.y - ray.d.y, sphere.c.z - ray.d.z};
-
+	double color_int;
+	t_color color;
 	light.r = 255;
-	light.g = 125;
-	light.b = 200;
-	sphere.color.r = 138;
-	sphere.color.r = 138;
-	sphere.color.g = 238;
-	sphere.color.b = 85;
+	light.g = 255;
+	light.b = 255;
+	sphere.color.r = 44;
+	sphere.color.g = 76;
+	sphere.color.b = 170;
 	lightvector.o.x = 300;
 	lightvector.o.y = 300;
 	lightvector.o.z = 1;
@@ -107,11 +112,10 @@ int		color_lighted(t_sphere sphere,  t_ray ray, double t)
 	if (angle <= 0)
 		return (0);
 	tmp = sphere.color;
-	tmp.r = (tmp.r + light.r) / 2;
-	tmp.g = (tmp.g + light.g) / 2;
-	tmp.b = (tmp.b + light.b) / 2;
-	tmp.r /= (angle * 10);
-	tmp.g /= (angle * 10);
-	tmp.b /= (angle * 10);
-	return (color_to_int(tmp));
+	color.r = (tmp.r + light.r) / 2;
+	color.g += (tmp.g + light.g) / 2;
+	color.b += (tmp.b + light.b) / 2;
+	color_int = color_to_int(color);
+	color_int *= angle;
+	return ((int)color_int);
 }

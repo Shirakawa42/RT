@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/20 12:18:18 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/21 15:45:24 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ typedef	struct	s_mlx
 
 typedef struct      s_color
 {
-	int             r;
-	int             g;
-	int             b;
+	double          r;
+	double          g;
+	double	        b;
 }                   t_color;
 
 
