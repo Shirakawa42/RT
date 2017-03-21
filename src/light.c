@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 16:12:45 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/20 16:28:03 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/03/21 15:35:29 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,24 @@ void	normalize(t_vec *truc)
 int		color_lighted(t_sphere sphere,  t_ray ray, double t)
 {
 	t_ray	lightvector;
-	t_vec	lightpoint = {ray.d.x - ray.o.x, ray.d.y - ray.o.y, ray.d.z - ray.o.z};
+	t_vec	lightpoint = {ray.d.x - -360, ray.d.y - -360, ray.d.z - 0};
 	int		sphere_color;
 	double	angle;
 	t_ray	normal;
+	t_color	tmp;
+	t_color	light;
 	t_vec	normalpoint = {sphere.c.x - ray.d.x, sphere.c.y - ray.d.y, sphere.c.z - ray.d.z};
 
-	sphere_color = 0x99FF00;
-	lightvector.o = ray.o;
+	light.r = 255;
+	light.g = 125;
+	light.b = 200;
+	sphere.color.r = 138;
+	sphere.color.r = 138;
+	sphere.color.g = 238;
+	sphere.color.b = 85;
+	lightvector.o.x = 300;
+	lightvector.o.y = 300;
+	lightvector.o.z = 1;
 	lightvector.d = ray.d;
 	normalize(&lightvector.o);
 	normalize(&lightvector.d);
@@ -96,5 +106,12 @@ int		color_lighted(t_sphere sphere,  t_ray ray, double t)
 	angle = dot(lightpoint, normalpoint);
 	if (angle <= 0)
 		return (0);
-	return (sphere_color * acos(angle));
+	tmp = sphere.color;
+	tmp.r = (tmp.r + light.r) / 2;
+	tmp.g = (tmp.g + light.g) / 2;
+	tmp.b = (tmp.b + light.b) / 2;
+	tmp.r /= (angle * 10);
+	tmp.g /= (angle * 10);
+	tmp.b /= (angle * 10);
+	return (color_to_int(tmp));
 }
