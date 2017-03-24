@@ -81,8 +81,7 @@ void	normalize(t_vec *truc)
 int		color_lighted(t_sphere sphere,  t_ray ray, double t)
 {
 	t_ray	lightvector;
-	t_vec	lightpoint = {ray.d.x - 0, ray.d.y - -360, ray.d.z - 0};
-	int		sphere_color;
+	t_vec	lightpoint = {ray.d.x - 0, ray.d.y - -360, ray.d.z - 5};
 	double	angle;
 	t_ray	normal;
 	t_color	tmp;
@@ -91,6 +90,7 @@ int		color_lighted(t_sphere sphere,  t_ray ray, double t)
 	double color_int;
 	t_color color;
 
+	light.r = t;
 	light.r = 255;
 	light.g = 255;
 	light.b = 255;
@@ -109,7 +109,7 @@ int		color_lighted(t_sphere sphere,  t_ray ray, double t)
 	normalize(&normal.d);
 	normalize(&lightpoint);
 	normalize(&normalpoint);
-	angle = dot(lightpoint, normalpoint);
+	angle = dot(lightpoint, normalpoint) / t;
 	if (angle <= 0)
 		return (0);
 	tmp = sphere.color;

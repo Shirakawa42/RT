@@ -3,50 +3,29 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/03/16 14:45:39 by lomeress         ###   ########.fr        #
+#    Created: 2016/02/16 11:16:50 by rmenegau          #+#    #+#              #
+#    Updated: 2017/03/22 18:58:41 by rmenegau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: make all clean fclean re c f r g
-
 NAME = RT
+SRC = src/main.c
+OBJ = $(SRC:.c=.o)
+FLAGS = #-Wall -Wextra -Werror
 
-LIB = -L libft/ -lft
+all: $(NAME)
 
-LIBFT = libft/libft.a
+$(NAME): $(OBJ)
+	gcc $(FLAGS) -o RT $(SRC) includes/rt.h /usr/include/SDL2/SDL.h -lSDL2 -lm
 
-C_DIR = src/
-
-SRCS = main.c raytracing.c light.c
-
-SRC = $(addprefix $(C_DIR), $(SRCS))
-
-OBJ = $(SRCS:.c=.o)
-
-INC = -I includes/ -I libft/
-
-all : $(NAME)
-
-$(NAME): $(OBJ) $(LIBFT)
-	gcc $^ -o $@ $(LIB) -lmlx -framework OpenGL -framework AppKit
-
-$(LIBFT):
-	make -C libft/
-
-$(OBJ) : $(SRC)
-	gcc -c  $^ $(INC)
-
-c clean :
-	make clean -C libft/
+c clean:
 	rm -f $(OBJ)
 
-f fclean : clean
-	make fclean -C libft/
+f fclean: clean
 	rm -f $(NAME)
 
-r re : fclean all
+r re: fclean all
 
-g good: all clean
+g good: $(NAME) clean

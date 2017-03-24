@@ -1,70 +1,16 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rt.h                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/21 15:45:24 by lvasseur         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef RT_H
 
 # define RT_H
 
-# include "../libft/libft.h"
-# include <math.h>
-# include <mlx.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-#define W	720
-#define H	720
-
-typedef	struct	s_mlx
-{
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*gda;
-	int			bpx;
-	int			size_line;
-	int			end;
-}				t_mlx;
-
-typedef struct      s_color
-{
-	double          r;
-	double          g;
-	double	        b;
-}                   t_color;
-
-
-typedef struct  s_yi
-{
-}               t_yi;
-typedef struct  s_lv
-{
-}               t_lv;
-typedef struct  s_lo
-{
-}               t_lo;
-
-typedef struct  s_e
-{
-	t_mlx mlx;
-	t_lo lo;
-	t_yi yi;
-	t_lv lv;
-}               t_e;
+#include <math.h>
+#define H 512
+#define W 512
 
 typedef struct	s_vec
 {
-	double			x;
-	double			y;
-	double			z;
+	double x;
+	double y;
+	double z;
 }				t_vec;
 
 typedef struct	s_ray
@@ -73,15 +19,50 @@ typedef struct	s_ray
 	t_vec	d;
 }				t_ray;
 
+typedef struct	s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}				t_color;
+
+#define SPHERE 1
+
 typedef struct	s_sphere
 {
 	t_vec	c;
-	t_color	color;
 	double	r;
 }				t_sphere;
 
-int		color_lighted(t_sphere sphere,  t_ray ray, double t);
-void	raytrace(t_mlx *truc);
-double	dot(t_vec v, t_vec b);
+union	u_shape
+{
+	t_sphere	sphere;
+};
+
+typedef struct	s_object
+{
+	int				type;
+	t_color			color;
+	union u_shape	shape;
+}				t_object;
+
+#define LIGHT_BULB 1
+
+typedef struct	s_light_bulb
+{
+	t_vec	p;
+}				t_light_bulb;
+
+union u_light
+{
+	t_light_bulb	light_bulb;
+};
+
+typedef struct	s_light
+{
+	int				type;
+	t_color			color;
+	union u_light	light;
+}				t_light;
 
 #endif
