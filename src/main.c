@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/22 06:23:32 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/03/22 18:52:42 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/03/28 16:40:12 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt)
 		ray.d.y = lights[i].light.light_bulb.p.y - ray.o.y;
 		ray.d.z = lights[i].light.light_bulb.p.z - ray.o.z;
 		normalize(&ray.d);
-		N = getNormal(p, objects[0].shape.sphere);
+		N = getNormal(p, objects[obj].shape.sphere);
 		normalize(&N);
 		*dt = dot(ray.d, N);
 		if (*dt < 0)
@@ -196,9 +196,8 @@ t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights)
 		if (lightning(create_vec(ray.o.x + ray.d.x * tmp_t,
 				ray.o.y + ray.d.y * tmp_t, ray.o.z + ray.d.z * tmp_t),
 				objects, tmp_i, lights, &dt))
-			return (create_color(50 * dt, 50 * dt, 50 * dt));
-		t_color tmp_color = {objects[tmp_i].color.r * dt,
-			objects[tmp_i].color.g * dt, objects[tmp_i].color.b * dt};
+			return (create_color(((objects[tmp_i].color.r + lights[0].color.r) / 4) * dt, ((objects[tmp_i].color.g + lights[0].color.g) / 4) * dt, ((objects[tmp_i].color.b + lights[0].color.b) / 4) * dt));
+		t_color tmp_color = {((objects[tmp_i].color.r + lights[0].color.r) / 2) * dt, ((objects[tmp_i].color.g + lights[0].color.g) / 2) * dt, ((objects[tmp_i].color.b + lights[0].color.b) / 2) * dt};
 		return (tmp_color);
 	}
 	return (create_color(0, 0, 0));
@@ -208,12 +207,13 @@ void	launch(SDL_Renderer *renderer)
 {
 	t_object	objects[4];
 	objects[0] = create_sphere(0, 0, 8.0, 2.0, create_color(255, 0, 0));
-	//objects[1] = create_sphere(2, -2, 9.0, 2.0, create_color(0, 255, 0));
-	//objects[2] = create_sphere(0, 3, 8.0, 1.0, create_color(0, 0, 255));
-	objects[1].type = 0;
+	objects[1] = create_sphere(2, -2, 9.0, 1.5, create_color(0, 255, 0));
+	objects[2] = create_sphere(-1, 2, 7.0, 1, create_color(0, 0, 255));
+	objects[3].type = 0;
 
-	t_light		lights[2];
-	lights[0] = create_light_bulb(-150, -150, 1, create_color(255, 255, 255));
+	t_light		lights[3];
+	lights[0] = create_light_bulb(0, -150, 1, create_color(255, 255, 255));
+//	lights[1] = create_light_bulb(0, 150, 1, create_color(255, 255, 255));
 	lights[1].type = 0;
 
 	t_ray	ray;
