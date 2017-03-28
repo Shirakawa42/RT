@@ -3,8 +3,9 @@
 # define RT_H
 
 #include <math.h>
-#define H 512
-#define W 512
+#include "SDL2/SDL.h"
+#define H 720
+#define W 720
 
 typedef struct	s_vec
 {

@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 
 #include "../includes/rt.h"
-#include "SDL2/SDL.h"
-#include <math.h>
 
+double	dot(t_vec a, t_vec b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
 
 t_light	create_light_bulb(double x, double y, double z, t_color color)
 {
@@ -58,11 +60,6 @@ t_object	create_sphere(double x, double y, double z, double r, t_color color)
 	ret.shape.sphere.c.z = z;
 	ret.shape.sphere.r = r;
 	return (ret);
-}
-
-double	dot(t_vec a, t_vec b)
-{
-	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
 t_vec	vec_times(t_vec a, t_vec b)
@@ -113,7 +110,7 @@ int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 typedef int(*t_intersect)(union u_shape, t_ray, double *);
 t_intersect intersect[2] = {NULL, sphere_intersect};
 
-typedef int(*t_get_normal)(union u_shape, t_vec);
+//typedef int(*t_get_normal)(union u_shape, t_vec);
 //t_get_normal get_normal[2] = {NULL, sphere_normal};
 
 t_color	color_mult_double(t_color c, double d)
@@ -133,11 +130,22 @@ void	normalize(t_vec *v)
 	v->z /= len;
 }
 
-int		lightning(t_vec p, t_object *objects, int obj, t_light *lights)
+t_vec	getNormal(t_vec p, t_sphere sphere)
+{
+	t_vec	N;
+
+	N.x = (sphere.c.x - p.x) / sphere.r;
+	N.y = (sphere.c.y - p.y) / sphere.r;
+	N.z = (sphere.c.z - p.z) / sphere.r;
+	return (N);
+}
+
+int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt)
 {
 	int		i;
 	int		j;
 	t_ray	ray;
+	t_vec	N;
 
 	ray.o = p;
 	i = 0;
@@ -147,16 +155,16 @@ int		lightning(t_vec p, t_object *objects, int obj, t_light *lights)
 		ray.d.y = lights[i].light.light_bulb.p.y - ray.o.y;
 		ray.d.z = lights[i].light.light_bulb.p.z - ray.o.z;
 		normalize(&ray.d);
-		j = 0;
-		while (objects[j].type)
-		{
+		N = getNormal(p, objects[0].shape.sphere);
+		normalize(&N);
+		*dt = dot(ray.d, N);
+		if (*dt < 0)
+			*dt = 0;
+		j = -1;
+		while (objects[++j].type)
 			if (j != obj)
-			{
 				if (intersect[objects[j].type](objects[j].shape, ray, NULL))
 					return (1);
-			}
-			j++;
-		}
 		i++;
 	}
 	return (0);
@@ -168,13 +176,15 @@ t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights)
 	double	t;
 	double	tmp_t;
 	int		tmp_i;
+	double	dt;
 
 	i = 0;
 	tmp_t = 20000.0;
 	tmp_i = -1;
 	while (objects[i].type)
 	{
-		if (intersect[objects[i].type](objects[i].shape, ray, &t) && t > 0 && (tmp_i < 0 || t < tmp_t))
+		if (intersect[objects[i].type](objects[i].shape, ray, &t) && t > 0
+				&& (tmp_i < 0 || t < tmp_t))
 		{
 			tmp_t = t;
 			tmp_i = i;
@@ -183,9 +193,12 @@ t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights)
 	}
 	if (tmp_i >= 0)
 	{
-		t_color tmp_color = objects[tmp_i].color;
-		if (lightning(create_vec(ray.o.x + ray.d.x * tmp_t, ray.o.y + ray.d.y * tmp_t, ray.o.z + ray.d.z * tmp_t), objects, tmp_i, lights))
-//			return (create_color(0, 0, 0));
+		if (lightning(create_vec(ray.o.x + ray.d.x * tmp_t,
+				ray.o.y + ray.d.y * tmp_t, ray.o.z + ray.d.z * tmp_t),
+				objects, tmp_i, lights, &dt))
+			return (create_color(50 * dt, 50 * dt, 50 * dt));
+		t_color tmp_color = {objects[tmp_i].color.r * dt,
+			objects[tmp_i].color.g * dt, objects[tmp_i].color.b * dt};
 		return (tmp_color);
 	}
 	return (create_color(0, 0, 0));
@@ -194,13 +207,13 @@ t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights)
 void	launch(SDL_Renderer *renderer)
 {
 	t_object	objects[4];
-	objects[0] = create_sphere(0, 0, 10.0, 3.0, create_color(255, 0, 0));
-	objects[1] = create_sphere(2, -2, 9.0, 2.0, create_color(0, 255, 0));
-	objects[2] = create_sphere(0, 3, 8.0, 1.0, create_color(0, 0, 255));
-	objects[3].type = 0;
+	objects[0] = create_sphere(0, 0, 8.0, 2.0, create_color(255, 0, 0));
+	//objects[1] = create_sphere(2, -2, 9.0, 2.0, create_color(0, 255, 0));
+	//objects[2] = create_sphere(0, 3, 8.0, 1.0, create_color(0, 0, 255));
+	objects[1].type = 0;
 
 	t_light		lights[2];
-	lights[0] = create_light_bulb(-5.0, 5.0, 2.0, create_color(255, 255, 255));
+	lights[0] = create_light_bulb(-150, -150, 1, create_color(255, 255, 255));
 	lights[1].type = 0;
 
 	t_ray	ray;
@@ -234,30 +247,22 @@ int		main(int ac, char **av)
 	SDL_Renderer *renderer;
 
 	if (SDL_Init(SDL_INIT_VIDEO))
-	{
 		exit(0);
-	}
-	if (!(win = SDL_CreateWindow("rt_v1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, W, H, SDL_WINDOW_SHOWN)))
+	if (!(win = SDL_CreateWindow("RT", SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_CENTERED, W, H, SDL_WINDOW_SHOWN)))
 		exit(0);
-
 	if (!(renderer = SDL_CreateRenderer(win, -1, 0)))
 		exit(0);
-
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderDrawPoint(renderer, 400, 300);
 	SDL_RenderPresent(renderer);
-
 	launch(renderer);
 	SDL_RenderPresent(renderer);
-
 	while (SDL_WaitEvent(&event))
-	{
 		if (event.type == SDL_QUIT)
 			break ;
-	}
-
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(win);
 	SDL_Quit();

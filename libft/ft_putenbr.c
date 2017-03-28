@@ -15,5 +15,5 @@
 void	ft_putenbr(int n)
 {
 	ft_putnbr(n);
-	ft_putchar('\n');
+	write(1, "\n", 1);
 }
