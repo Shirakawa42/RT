@@ -212,8 +212,8 @@ void	launch(SDL_Renderer *renderer)
 	objects[3].type = 0;
 
 	t_light		lights[3];
-	lights[0] = create_light_bulb(0, -150, 1, create_color(255, 255, 255));
-//	lights[1] = create_light_bulb(0, 150, 1, create_color(255, 255, 255));
+	lights[0] = create_light_bulb(350, -350, -200, create_color(255, 255, 255));
+//	lights[1] = create_light_bulb(0, -350, 1, create_color(255, 255, 255));
 	lights[1].type = 0;
 
 	t_ray	ray;
