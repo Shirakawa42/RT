@@ -62,6 +62,17 @@ t_object	create_sphere(double x, double y, double z, double r, t_color color)
 	return (ret);
 }
 
+t_object	create_plane(t_vec p, t_vec n, t_color color)
+{
+	t_object	ret;
+
+	ret.type = PLANE;
+	ret.color = color;
+	ret.shape.plane.p = p;
+	ret.shape.plane.n = n;
+	return (ret);
+}
+
 t_vec	vec_times(t_vec a, t_vec b)
 {
 	t_vec ret;
@@ -107,11 +118,29 @@ int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 	}
 }
 
-typedef int(*t_intersect)(union u_shape, t_ray, double *);
-t_intersect intersect[2] = {NULL, sphere_intersect};
+int	plane_intersect(union u_shape shape, t_ray ray, double *t)
+{
+	t_plane	plane;
+	t_vec	a;
+	t_vec	lopor;
+	double	denom;
 
-//typedef int(*t_get_normal)(union u_shape, t_vec);
-//t_get_normal get_normal[2] = {NULL, sphere_normal};
+	plane = shape.plane;
+	lopor.x = plane.p.x - ray.o.x;
+	lopor.y = plane.p.y - ray.o.y;
+	lopor.z = plane.p.z - ray.o.z;
+	denom = dot(ray.d, plane.n);
+	if (denom > 1e-6)
+	{
+		*t = dot(lopor, plane.n) / denom;
+		if (t >= 0)
+			return (1);
+	}
+	return (0);
+}
+
+typedef int(*t_intersect)(union u_shape, t_ray, double *);
+t_intersect intersect[3] = {NULL, sphere_intersect, plane_intersect};
 
 t_color	color_mult_double(t_color c, double d)
 {
@@ -130,7 +159,7 @@ void	normalize(t_vec *v)
 	v->z /= len;
 }
 
-t_vec	getNormal(t_vec p, t_sphere sphere)
+t_vec	sphere_getNormal(t_vec p, t_sphere sphere)
 {
 	t_vec	N;
 
@@ -155,16 +184,19 @@ int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt)
 		ray.d.y = lights[i].light.light_bulb.p.y - ray.o.y;
 		ray.d.z = lights[i].light.light_bulb.p.z - ray.o.z;
 		normalize(&ray.d);
-		N = getNormal(p, objects[obj].shape.sphere);
+		if (objects[obj].type == SPHERE)
+			N = sphere_getNormal(p, objects[obj].shape.sphere);
+		else
+			N = objects[obj].shape.plane.n;
 		normalize(&N);
 		*dt = dot(ray.d, N);
 		if (*dt < 0)
 			*dt = 0;
 		j = -1;
-		while (objects[++j].type)
-			if (j != obj)
-				if (intersect[objects[j].type](objects[j].shape, ray, NULL))
-					return (1);
+//		while (objects[++j].type)
+//			if (j != obj)
+//				if (intersect[objects[j].type](objects[j].shape, ray, NULL))
+//					return (1);
 		i++;
 	}
 	return (0);
@@ -205,14 +237,15 @@ t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights)
 
 void	launch(SDL_Renderer *renderer)
 {
-	t_object	objects[4];
+	t_object	objects[5];
 	objects[0] = create_sphere(0, 0, 8.0, 2.0, create_color(255, 0, 0));
-	objects[1] = create_sphere(2, -2, 9.0, 1.5, create_color(0, 255, 0));
-	objects[2] = create_sphere(-1, 2, 7.0, 1, create_color(0, 0, 255));
-	objects[3].type = 0;
+	objects[1] = create_sphere(2, -2, 8.0, 2.0, create_color(0, 255, 0));
+	objects[2] = create_sphere(-1, 2, 8.0, 2.0, create_color(0, 0, 255));
+	objects[3] = create_plane(create_vec(0, 80, 0), create_vec(0, 0, 80), create_color(255, 0, 0));
+	objects[4].type = 0;
 
 	t_light		lights[3];
-	lights[0] = create_light_bulb(350, -350, -200, create_color(255, 255, 255));
+	lights[0] = create_light_bulb(0, 0, 200, create_color(255, 255, 255));
 //	lights[1] = create_light_bulb(0, -350, 1, create_color(255, 255, 255));
 	lights[1].type = 0;
 

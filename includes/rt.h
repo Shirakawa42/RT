@@ -28,6 +28,7 @@ typedef struct	s_color
 }				t_color;
 
 #define SPHERE 1
+#define PLANE 2
 
 typedef struct	s_sphere
 {
@@ -35,9 +36,16 @@ typedef struct	s_sphere
 	double	r;
 }				t_sphere;
 
+typedef struct	s_plane
+{
+	t_vec	p;
+	t_vec	n;
+}				t_plane;
+
 union	u_shape
 {
 	t_sphere	sphere;
+	t_plane		plane;
 };
 
 typedef struct	s_object
