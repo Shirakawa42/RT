@@ -49,6 +49,15 @@ t_vec	create_vec(double x, double y, double z)
 	return (ret);
 }
 
+void	normalize(t_vec *v)
+{
+	double len = v->x * v->x + v->y * v->y + v->z * v->z;
+	len = sqrt(len);
+	v->x /= len;
+	v->y /= len;
+	v->z /= len;
+}
+
 t_object	create_sphere(double x, double y, double z, double r, t_color color)
 {
 	t_object	ret;
@@ -69,9 +78,10 @@ t_object	create_plane(t_vec p, t_vec n, t_color color)
 	ret.type = PLANE;
 	ret.color = color;
 	ret.shape.plane.p = p;
-	ret.shape.plane.n.x = p.x - n.x;
-	ret.shape.plane.n.y = p.y - n.y;
-	ret.shape.plane.n.z = p.z - n.z;
+	ret.shape.plane.n.x = n.x - p.x;
+	ret.shape.plane.n.y = n.y - p.y;
+	ret.shape.plane.n.z = n.z - p.z;
+	normalize(&ret.shape.plane.n);
 	return (ret);
 }
 
@@ -128,13 +138,13 @@ int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 	double	denom;
 
 	plane = shape.plane;
-	lopor.x = plane.p.x - ray.o.x;
-	lopor.y = plane.p.y - ray.o.y;
-	lopor.z = plane.p.z - ray.o.z;
+	lopor.x = ray.o.x - plane.p.x;
+	lopor.y = ray.o.y - plane.p.y;
+	lopor.z = ray.o.z - plane.p.z;
 	denom = dot(ray.d, plane.n);
 	if (denom > 1e-6)
 	{
-		*t = dot(lopor, plane.n) / denom;
+		*t = -dot(lopor, plane.n) / denom;
 		if (t >= 0)
 			return (1);
 	}
@@ -150,15 +160,6 @@ t_color	color_mult_double(t_color c, double d)
 	c.g = c.g * d;
 	c.b = c.b * d;
 	return (c);
-}
-
-void	normalize(t_vec *v)
-{
-	double len = v->x * v->x + v->y * v->y + v->z * v->z;
-	len = sqrt(len);
-	v->x /= len;
-	v->y /= len;
-	v->z /= len;
 }
 
 t_vec	sphere_getNormal(t_vec p, t_sphere sphere)
@@ -192,8 +193,6 @@ int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt)
 			N = objects[obj].shape.plane.n;
 		normalize(&N);
 		*dt = dot(ray.d, N);
-		if (*dt <= 0 && objects[obj].type == PLANE)
-			*dt = -*dt;
 		if (*dt < 0)
 			*dt = 0;
 		j = -1;
@@ -245,7 +244,7 @@ void	launch(SDL_Renderer *renderer)
 	objects[0] = create_sphere(0, 0, 8.0, 2.0, create_color(255, 0, 0));
 	objects[1] = create_sphere(2, -2, 8.0, 2.0, create_color(0, 255, 0));
 	objects[2] = create_sphere(-1, 2, 8.0, 2.0, create_color(0, 0, 255));
-	objects[3] = create_plane(create_vec(0, 0, 0), create_vec(0, 0, -10), create_color(255, 0, 0));
+	objects[3] = create_plane(create_vec(-50, 0, 10), create_vec(0, 10, 5), create_color(255, 0, 0));
 	objects[4].type = 0;
 
 	t_light		lights[3];
