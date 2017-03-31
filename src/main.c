@@ -69,7 +69,9 @@ t_object	create_plane(t_vec p, t_vec n, t_color color)
 	ret.type = PLANE;
 	ret.color = color;
 	ret.shape.plane.p = p;
-	ret.shape.plane.n = n;
+	ret.shape.plane.n.x = p.x - n.x;
+	ret.shape.plane.n.y = p.y - n.y;
+	ret.shape.plane.n.z = p.z - n.z;
 	return (ret);
 }
 
@@ -190,6 +192,8 @@ int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt)
 			N = objects[obj].shape.plane.n;
 		normalize(&N);
 		*dt = dot(ray.d, N);
+		if (*dt <= 0 && objects[obj].type == PLANE)
+			*dt = -*dt;
 		if (*dt < 0)
 			*dt = 0;
 		j = -1;
@@ -241,11 +245,11 @@ void	launch(SDL_Renderer *renderer)
 	objects[0] = create_sphere(0, 0, 8.0, 2.0, create_color(255, 0, 0));
 	objects[1] = create_sphere(2, -2, 8.0, 2.0, create_color(0, 255, 0));
 	objects[2] = create_sphere(-1, 2, 8.0, 2.0, create_color(0, 0, 255));
-	objects[3] = create_plane(create_vec(0, 80, 0), create_vec(0, 0, 80), create_color(255, 0, 0));
+	objects[3] = create_plane(create_vec(0, 0, 0), create_vec(0, 0, -10), create_color(255, 0, 0));
 	objects[4].type = 0;
 
 	t_light		lights[3];
-	lights[0] = create_light_bulb(0, 0, 200, create_color(255, 255, 255));
+	lights[0] = create_light_bulb(200, 0, 50, create_color(255, 255, 255));
 //	lights[1] = create_light_bulb(0, -350, 1, create_color(255, 255, 255));
 	lights[1].type = 0;
 
