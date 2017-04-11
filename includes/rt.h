@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/31 19:25:03 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/04/11 18:33:17 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,25 @@ typedef struct	s_light
 	t_color			color;
 	union u_light	light;
 }				t_light;
+
+// vector.c
+double		dot(t_vec a, t_vec b);
+t_vec		create_vec(double x, double y, double z);
+void	normalize(t_vec *v);
+
+// create_lights.c
+t_light		create_light_bulb(double x, double y, double z, t_color color);
+
+// create_objects.c
+t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection);
+
+// color.c
+t_color		create_color(int r, int g, int b);
+
+// intersects.c
+int			sphere_intersect(union u_shape shape, t_ray ray, double *t);
+
+// normals.c
+t_vec	sphere_normal(union u_shape shape, t_vec p);
 
 #endif
