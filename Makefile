@@ -6,47 +6,29 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/03/10 16:23:07 by lomeress         ###   ########.fr        #
+#    Updated: 2017/04/02 18:08:47 by rmenegau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: make all clean fclean re
-
 NAME = RT
+SRC = src/main.c
+OBJ = $(SRC:.c=.o)
+	FLAGS = #-Wall -Wextra -Werror
 
-LIB = -L libft/ -lft
+all: $(NAME)
 
-LIBFT = libft/libft.a
+%.o: %.c
+	gcc -c $^ -o $@ -I /Users/rmenegau/Library/Frameworks/SDL2.framework/Headers
 
-C_DIR = src/
+$(NAME): $(OBJ)
+	gcc $(FLAGS) -o $(NAME) $(OBJ) -lm -F/Users/rmenegau/Library/Frameworks -framework SDL2
 
-SRCS = main.c
-
-SRC = $(addprefix $(C_DIR), $(SRCS))
-
-OBJ = $(SRCS:.c=.o)
-
-INC = -I includes/ -I libft/
-
-all : $(NAME)
-
-$(NAME): $(OBJ) $(LIBFT)
-	gcc -Wall -Wextra -Werror $^ -o $@ $(LIB) -lmlx -framework OpenGL -framework AppKit
-
-$(LIBFT):
-	make -C libft/
-
-$(OBJ) : $(SRC)
-	gcc -c -Wall -Wextra -Werror $^ $(INC)
-
-clean :
-	make clean -C libft/
+c clean:
 	rm -f $(OBJ)
 
-fclean : clean
-	make fclean -C libft/
+f fclean: clean
 	rm -f $(NAME)
 
-re : fclean all
+r re: fclean all
 
-good: all clean
+g good: $(NAME) clean
