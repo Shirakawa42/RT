@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = RT
-SRC = src/main.c
+SRC = src/*.c
 OBJ = $(SRC:.c=.o)
 FLAGS = #-Wall -Wextra -Werror
 
@@ -21,7 +21,7 @@ $(NAME): $(OBJ)
 	gcc $(FLAGS) -o RT $(SRC) includes/rt.h /usr/include/SDL2/SDL.h -lSDL2 -lm
 
 c clean:
-	rm -f $(OBJ)
+	rm -f **/*.o
 
 f fclean: clean
 	rm -f $(NAME)

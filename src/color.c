@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striter.c                                       :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/07 14:13:52 by lvasseur          #+#    #+#             */
-/*   Updated: 2016/11/21 12:19:12 by lvasseur         ###   ########.fr       */
+/*   Created: 2017/04/11 18:07:58 by rmenegau          #+#    #+#             */
+/*   Updated: 2017/04/11 18:08:54 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_striter(char *s, void (*f) (char *))
+#include "../includes/rt.h"
+
+t_color	create_color(int r, int g, int b)
 {
-	if (s && f)
-	{
-		while (*s)
-			f(s++);
-	}
+	t_color	ret;
+
+	ret.r = r;
+	ret.g = g;
+	ret.b = b;
+	return (ret);
 }

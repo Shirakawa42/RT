@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 20:12:52 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/03/20 13:28:40 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/02/23 20:18:59 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 
 void	ft_putenbr(int n)
 {
-	ft_putnbr(n);
-	write(1, "\n", 1);
+	if (n == -2147483648)
+	{
+		write(1, "-2147483648", 11);
+		return ;
+	}
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		n = -n;
+	}
+	if (n >= 10)
+	{
+		ft_putenbr(n / 10);
+		ft_putenbr(n % 10);
+	}
+	else
+		ft_putchar(n + 48);
+	ft_putchar('\n');
 }
