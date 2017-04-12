@@ -102,7 +102,7 @@ t_color ray_trace(t_ray ray, t_object *objects, t_light *lights, int index)
 			ray.d.x = ray.d.x - N.x;
 			ray.d.y = ray.d.y - N.y;
 			ray.d.z = ray.d.z - N.z;
-			t_colorreflection = ray_trace(ray, objects, lights, index - 1);
+			t_color reflection = ray_trace(ray, objects, lights, index - 1);
 			tmp_color.r = (tmp_color.r + reflection.r) / 2;
 			tmp_color.g = (tmp_color.g + reflection.g) / 2;
 			tmp_color.b = (tmp_color.b + reflection.b) / 2;

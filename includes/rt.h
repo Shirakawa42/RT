@@ -15,7 +15,9 @@
 # define RT_H
 
 #include <math.h>
+#include <stdlib.h>
 #include "SDL.h"
+#include "../libft/libft.h"
 #define H 720
 #define W 720
 
@@ -72,11 +74,11 @@ union u_light
 	t_light_bulb	light_bulb;
 };
 
-typedef structs_light
+typedef struct s_light
 {
 	int type;
 	t_color color;
-	union u_lightlight;
+	union u_light light;
 } t_light;
 
 // vector.c
