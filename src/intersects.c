@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:13:15 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:13:47 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/04/13 19:01:46 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,21 @@ int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 
 int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 {
+	t_vec	point;
+	double	d;
+	double	tmp;
+
+	point.x = ray.o.x - shape.plane.p.x;
+	point.y = ray.o.y - shape.plane.p.y;
+	point.z = ray.o.z - shape.plane.p.z;
+
+	if ((tmp = dot(ray.d, shape.plane.n)) == 0)
+		return (0);
+	d = dot(point, shape.plane.n);
+	d /= -tmp;
+	*t = d;
+	return (*t > 0);
+	/*
 	t_plane	plane;
 	t_vec	a;
 	t_vec	lopor;
@@ -70,5 +85,5 @@ int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 		if (t >= 0)
 			return (1);
 	}
-	return (0);
+	return (0);*/
 }

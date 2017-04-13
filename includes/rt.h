@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/04/11 18:33:17 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/04/13 17:55:53 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define RT_H
 
 #include <math.h>
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #define H 720
 #define W 720
 
@@ -108,5 +108,6 @@ int			plane_intersect(union u_shape shape, t_ray ray, double *t);
 
 // normals.c
 t_vec	sphere_normal(union u_shape shape, t_vec p);
+t_vec	plane_normal(union u_shape shape, t_vec p);
 
 #endif

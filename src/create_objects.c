@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:11:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:12:26 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/04/13 18:19:45 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection)
 	ret.type = PLANE;
 	ret.color = color;
 	ret.shape.plane.p = p;
-	ret.shape.plane.n.x = n.x - p.x;
-	ret.shape.plane.n.y = n.y - p.y;
-	ret.shape.plane.n.z = n.z - p.z;
+	ret.shape.plane.n.x = n.x;
+	ret.shape.plane.n.y = n.y;
+	ret.shape.plane.n.z = n.z;
 	normalize(&ret.shape.plane.n);
 	ret.reflection = reflection;
 	return (ret);
