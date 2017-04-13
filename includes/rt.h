@@ -17,7 +17,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "SDL.h"
-#include "../libft/libft.h"
+#include "libft.h"
 #define H 720
 #define W 720
 

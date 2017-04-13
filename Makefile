@@ -23,7 +23,7 @@ SRCS = src/main.c \
     src/normals.c \
     src/parse.c
 
-FLAGS = -I /Library/Frameworks/SDL2.framework/Headers -I -L./libft -lft -L
+FLAGS = -I /Library/Frameworks/SDL2.framework/Headers -L./libft -lft
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean fclean re
@@ -32,7 +32,7 @@ all: $(NAME)
 
 
 %.o: %.c
-	gcc -c $^ -o $@ -I /Library/Frameworks/SDL2.framework/Headers -I ./includes
+	gcc -c $^ -o $@ -I /Library/Frameworks/SDL2.framework/Headers -I ./includes -I ./libft/
 
 $(NAME): $(OBJS)
 	make -C ./libft
