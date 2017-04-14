@@ -15,7 +15,7 @@
 # define RT_H
 
 #include <math.h>
-#include "SDL.h"
+#include "SDL2/SDL.h"
 #define H 720
 #define W 720
 
@@ -41,6 +41,7 @@ typedef struct	s_color
 
 #define SPHERE 1
 #define PLANE 2
+#define CYLINDER 3
 
 typedef struct	s_sphere
 {
@@ -54,10 +55,17 @@ typedef struct	s_plane
 	t_vec	p;
 }				t_plane;
 
+typedef struct	s_cylinder
+{
+	t_vec	p;
+	double	r;
+}				t_cylinder;
+
 union	u_shape
 {
 	t_sphere	sphere;
 	t_plane		plane;
+	t_cylinder	cylinder;
 };
 
 typedef struct	s_object
@@ -98,6 +106,7 @@ t_light		create_light_bulb(double x, double y, double z, t_color color);
 // create_objects.c
 t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection);
 t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection);
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection);
 
 // color.c
 t_color		create_color(int r, int g, int b);
@@ -105,9 +114,11 @@ t_color		create_color(int r, int g, int b);
 // intersects.c
 int			sphere_intersect(union u_shape shape, t_ray ray, double *t);
 int			plane_intersect(union u_shape shape, t_ray ray, double *t);
+int			cylinder_intersect(union u_shape shape, t_ray ray, double *t);
 
 // normals.c
 t_vec	sphere_normal(union u_shape shape, t_vec p);
 t_vec	plane_normal(union u_shape shape, t_vec p);
+t_vec	cylinder_normal(union u_shape shape, t_vec p);
 
 #endif

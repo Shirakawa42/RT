@@ -68,22 +68,31 @@ int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 	d /= -tmp;
 	*t = d;
 	return (*t > 0);
-	/*
-	t_plane	plane;
-	t_vec	a;
-	t_vec	lopor;
-	double	denom;
+}
 
-	plane = shape.plane;
-	lopor.x = ray.o.x - plane.p.x;
-	lopor.y = ray.o.y - plane.p.y;
-	lopor.z = ray.o.z - plane.p.z;
-	denom = dot(ray.d, plane.n);
-	if (denom > 1e-6)
+int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
+{
+	double		a;
+	double		b;
+	double		c;
+	double		delta;
+	t_cylinder	cyl;
+	double		t1;
+	double		t2;
+
+	cyl = shape.cylinder;
+	a = ray.d.x * ray.d.x + ray.d.z * ray.d.z;
+	b = (2 * (ray.d.x * (ray.o.x - cyl.p.x))) + (2 *
+		(ray.d.z * (ray.o.z - cyl.p.z)));
+	c = (ray.o.x - cyl.p.x) * (ray.o.x - cyl.p.x) + (ray.o.z - cyl.p.z) *
+		(ray.o.z - cyl.p.z) - cyl.r * cyl.r;
+	delta = b * b - 4 * a * c;
+	if (delta > 0)
 	{
-		*t = -dot(lopor, plane.n) / denom;
-		if (t >= 0)
-			return (1);
+		t1 = (-b - sqrt(delta)) / (2 * a);
+		t2 = (-b + sqrt(delta)) / (2 * a);
+		(t1 < t2) ? (*t = t1) : (*t = t2);
+		return (1);
 	}
-	return (0);*/
+	return (0);
 }
