@@ -137,7 +137,8 @@ void	launch(SDL_Renderer *renderer)
 	objects[4] = create_plane(create_vec(0, 2, 0), create_vec(0, -1, 0), create_color(255, 255, 255), 0.5);
 	objects[5] = create_plane(create_vec(0, 0, 13), create_vec(0, 0, -1), create_color(255, 255, 255), 0.5);
 	objects[6] = create_cylinder(create_vec(-2, 0, 6), 0.7, create_color(255, 0, 0), 0.5);
-	objects[7].type = 0;
+	objects[7] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(255, 0, 255), 0.5);
+	objects[8].type = 0;
 
 	// rempli au parsing
 	t_light		lights[3];
