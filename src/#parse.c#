@@ -38,6 +38,7 @@ int     loop_main(int fd)
 	}
 	content[i] = NULL;
 	
+	
 	free(line);
 	return (ret);
 }
