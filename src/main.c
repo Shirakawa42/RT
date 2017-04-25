@@ -40,6 +40,8 @@ int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt,
 	ray.o = p;
 	*N = get_normal[objects[obj].type](objects[obj].shape, p);
 	normalize(N);
+	if (objects[obj].shape.texture >= 1)
+		*N = text1(*N, objects[obj].shape.texture);
 	i = 0;
 	while (lights[i].type)
 	{
@@ -129,16 +131,17 @@ t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights, int index)
 void	launch(SDL_Renderer *renderer)
 {
 	// rempli au parsing
-	t_object	objects[9];
-	objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(255, 0, 0), 0.5);
-	objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(0, 255, 0), 0.5);
-	objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(0, 0, 255), 0.5);
-	objects[3] = create_plane(create_vec(0, -2, 0), create_vec(0, 1, 0), create_color(255, 255, 255), 0.5);
-	objects[4] = create_plane(create_vec(0, 2, 0), create_vec(0, -1, 0), create_color(255, 255, 255), 0.5);
-	objects[5] = create_plane(create_vec(0, 0, 13), create_vec(0, 0, -1), create_color(255, 255, 255), 0.5);
-	objects[6] = create_cylinder(create_vec(-2, 0, 6), 0.7, create_color(255, 0, 0), 0.5);
-	objects[7] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(255, 0, 255), 0.5);
-	objects[8].type = 0;
+	t_object	objects[10];
+	objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(255, 0, 255), 0.5, 4);
+	objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(255, 255, 255), 0.5, 1);
+	objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(255, 255, 255), 0.5, 5);
+	objects[3] = create_plane(create_vec(0, -2, 0), create_vec(0, 1, 0), create_color(255, 255, 255), 0.5, 0);
+	objects[4] = create_plane(create_vec(0, 2, 0), create_vec(0, -1, 0), create_color(255, 255, 255), 0.5, 0);
+	objects[5] = create_plane(create_vec(0, 0, 13), create_vec(0, 0, -1), create_color(255, 255, 255), 0.5, 0);
+	objects[6] = create_cylinder(create_vec(-2, 0, 6), 0.7, create_color(0, 0, 255), 0.5, 2);
+	objects[7] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(255, 255, 255), 0.5, 2);
+	objects[8] = create_sphere(0.5, 2, 4.0, 0.75, create_color(255, 255, 255), 0.5, 3);
+	objects[9].type = 0;
 
 	// rempli au parsing
 	t_light		lights[3];

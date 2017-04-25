@@ -15,6 +15,7 @@
 # define RT_H
 
 #include <math.h>
+#include "../libft/libft.h"
 #include "SDL2/SDL.h"
 #define H 720
 #define W 720
@@ -66,6 +67,7 @@ union	u_shape
 	t_sphere	sphere;
 	t_plane		plane;
 	t_cylinder	cylinder;
+	int			texture;
 };
 
 typedef struct	s_object
@@ -104,9 +106,9 @@ void	normalize(t_vec *v);
 t_light		create_light_bulb(double x, double y, double z, t_color color);
 
 // create_objects.c
-t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection);
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection);
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection);
+t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture);
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture);
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture);
 
 // color.c
 t_color		create_color(int r, int g, int b);
@@ -120,5 +122,8 @@ int			cylinder_intersect(union u_shape shape, t_ray ray, double *t);
 t_vec	sphere_normal(union u_shape shape, t_vec p);
 t_vec	plane_normal(union u_shape shape, t_vec p);
 t_vec	cylinder_normal(union u_shape shape, t_vec p);
+
+// textures.c
+t_vec	text1(t_vec n, int text);
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "../includes/rt.h"
 
-t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection)
+t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture)
 {
 	t_object	ret;
 
@@ -23,10 +23,11 @@ t_object	create_sphere(double x, double y, double z, double r, t_color color, do
 	ret.shape.sphere.c.z = z;
 	ret.shape.sphere.r = r;
 	ret.reflection = reflection;
+	ret.shape.texture = texture;
 	return (ret);
 }
 
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection)
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture)
 {
 	t_object	ret;
 
@@ -36,10 +37,11 @@ t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection)
 	ret.shape.plane.n = n;
 	normalize(&ret.shape.plane.n);
 	ret.reflection = reflection;
+	ret.shape.texture = texture;
 	return (ret);
 }
 
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection)
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture)
 {
 	t_object	ret;
 
@@ -48,5 +50,6 @@ t_object	create_cylinder(t_vec p, double r, t_color color, double reflection)
 	ret.shape.cylinder.p = p;
 	ret.shape.cylinder.r = r;
 	ret.reflection = reflection;
+	ret.shape.texture = texture;
 	return (ret);
 }

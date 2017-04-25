@@ -16,7 +16,8 @@ SRC = src/main.c \
 	  src/create_lights.c \
 	  src/create_objects.c \
 	  src/intersects.c \
-	  src/normals.c
+	  src/normals.c \
+	  src/textures.c
 OBJ = $(SRC:.c=.o)
 	FLAGS = #-Wall -Wextra -Werror
 
@@ -26,7 +27,7 @@ all: $(NAME)
 	gcc -c $^ -o $@ -I ./includes -lSDL2 -lm
 
 $(NAME): $(OBJ)
-	gcc $(FLAGS) -o $(NAME) $(OBJ) -lm -lSDL2
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -lm -lSDL2
 
 c clean:
 	rm -f $(OBJ)
