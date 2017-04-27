@@ -1,0 +1,14 @@
+evenements:
+
+e: passer en mode editeur, bon ya rien a editer mais en gros ça desactive un peu tout histoire que ça soit plus fluide si on fait des trucs, comme ce deplacer par exemple, reappuyer sur e pour enlever le edit mod.
+
+z, q, s, d: se deplacer, faite le en mode éditeur pour aller plus vite
+
+espace: aller vers le haut
+
+shift gauche: aller vers le bas
+
+
+
+
+j'ai testé des trucs, je dit pas que le code que j'ai fait pour avoir ça est parfait pour le coup, mais au moins on peut se deplacer c'est cool.

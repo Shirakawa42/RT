@@ -97,6 +97,12 @@ typedef struct	s_light
 	union u_light	light;
 }				t_light;
 
+typedef struct	s_edit
+{
+	t_ray	ray;
+	int		editmod;
+}				t_edit;
+
 // vector.c
 double		dot(t_vec a, t_vec b);
 t_vec		create_vec(double x, double y, double z);

@@ -28,7 +28,7 @@ t_color		create_color(int r, int g, int b)
 	return (ret);
 }
 
-int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt, t_vec *N)
+int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt, t_vec *N, t_vec *h, t_edit e)
 {
 	int		i;
 	int		j;
@@ -37,13 +37,14 @@ int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt,
 	//a supprimer plus tard
 	double	tmp;
 
+	*h = p;
 	ray.o = p;
 	*N = get_normal[objects[obj].type](objects[obj].shape, p);
 	normalize(N);
-	if (objects[obj].shape.texture >= 1)
+	if (objects[obj].shape.texture >= 1 && e.editmod == 0)
 		*N = text1(*N, objects[obj].shape.texture);
 	i = 0;
-	while (lights[i].type)
+	while (lights[i].type && e.editmod == 0)
 	{
 		ray.d.x = lights[i].light.light_bulb.p.x - ray.o.x;
 		ray.d.y = lights[i].light.light_bulb.p.y - ray.o.y;
@@ -63,15 +64,17 @@ int		lightning(t_vec p, t_object *objects, int obj, t_light *lights, double *dt,
 
 void	diffuse(t_color *color, t_color ambiant)
 {
+
 	color->r = color->r * 9 / 10;
 	color->r = color->r + ambiant.r / 10;
 	color->g = color->g * 9 / 10;
 	color->g = color->g + ambiant.g / 10;
 	color->b = color->b * 9 / 10;
 	color->b = color->b + ambiant.b / 10;
+
 }
 
-t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights, int index)
+t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights, int index, t_edit e)
 {
 	int		i;
 	double	t;
@@ -79,6 +82,7 @@ t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights, int index)
 	int		tmp_i;
 	double	dt;
 	t_vec	N;
+	t_vec	p;
 
 	i = 0;
 	tmp_t = 20000.0;
@@ -95,16 +99,17 @@ t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights, int index)
 	}
 	if (tmp_i >= 0)
 	{
-		if (lightning(create_vec(ray.o.x + ray.d.x * tmp_t,
+			if (lightning(create_vec(ray.o.x + ray.d.x * tmp_t,
 						ray.o.y + ray.d.y * tmp_t, ray.o.z + ray.d.z * tmp_t),
-					objects, tmp_i, lights, &dt, &N))
-			return (create_color(0, 0 , 0));
+					objects, tmp_i, lights, &dt, &N, &p, e))
+				return (create_color(0, 0, 0));
 //		t_vec v = create_vec(lights[i].light.light_bulb.p.x - ray.o.x, lights[i].light.light_bulb.p.y - ray.o.y, lights[i].light.light_bulb.p.z - ray.o.z);
 //		N = get_normal[objects[tmp_i].type](objects[tmp_i].shape, v);
 //		dt = 1;
 		t_color tmp_color = {(((objects[tmp_i].color.r + lights[0].color.r) * dt) / 2),
 			(((objects[tmp_i].color.g + lights[0].color.g) * dt) / 2),
 			(((objects[tmp_i].color.b + lights[0].color.b) * dt) / 2)};
+		N = get_normal[objects[tmp_i].type](objects[tmp_i].shape, p);
 		if (objects[tmp_i].reflection && index)
 		{
 			ray.o.x = ray.o.x + ray.d.x * tmp_t;
@@ -117,43 +122,49 @@ t_color	ray_trace(t_ray ray, t_object *objects, t_light *lights, int index)
 			ray.d.x = ray.d.x - N.x;
 			ray.d.y = ray.d.y - N.y;
 			ray.d.z = ray.d.z - N.z;
-			t_color	reflection = ray_trace(ray, objects, lights, index - 1);
+			t_color	reflection = ray_trace(ray, objects, lights, index - 1, e);
 			tmp_color.r = (tmp_color.r + reflection.r) / 2;
 			tmp_color.g = (tmp_color.g + reflection.g) / 2;
 			tmp_color.b = (tmp_color.b + reflection.b) / 2;
 		}
-//		diffuse(&tmp_color, objects[tmp_i].color);
+		if (e.editmod == 1)
+			diffuse(&tmp_color, objects[tmp_i].color);
 		return (tmp_color);
 	}
 	return (create_color(0, 0, 0));
 }
 
-void	launch(SDL_Renderer *renderer)
+void	launch(SDL_Renderer *renderer, t_edit e)
 {
 	// rempli au parsing
-	t_object	objects[10];
-	objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(255, 0, 255), 0.5, 4);
-	objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(255, 255, 255), 0.5, 1);
-	objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(255, 255, 255), 0.5, 5);
-	objects[3] = create_plane(create_vec(0, -2, 0), create_vec(0, 1, 0), create_color(255, 255, 255), 0.5, 0);
-	objects[4] = create_plane(create_vec(0, 2, 0), create_vec(0, -1, 0), create_color(255, 255, 255), 0.5, 0);
-	objects[5] = create_plane(create_vec(0, 0, 13), create_vec(0, 0, -1), create_color(255, 255, 255), 0.5, 0);
-	objects[6] = create_cylinder(create_vec(-2, 0, 6), 0.7, create_color(0, 0, 255), 0.5, 2);
-	objects[7] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(255, 255, 255), 0.5, 2);
-	objects[8] = create_sphere(0.5, 2, 4.0, 0.75, create_color(255, 255, 255), 0.5, 3);
-	objects[9].type = 0;
+	static	int	j = 0;
+	static t_object	objects[10];
+	static t_light		lights[3];
+
+	if (j == 0)
+	{
+		objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(255, 0, 255), 0.5, 4);
+		objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(0, 255, 0), 0.5, 1);
+		objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(255, 255, 255), 0.5, 5);
+		objects[3] = create_plane(create_vec(0, -2, 0), create_vec(0, 1, 0), create_color(255, 255, 255), 0.5, 0);
+		objects[4] = create_plane(create_vec(0, 2, 0), create_vec(0, -1, 0), create_color(255, 255, 255), 0.5, 0);
+		objects[5] = create_plane(create_vec(0, 0, 13), create_vec(0, 0, -1), create_color(255, 255, 255), 0.5, 0);
+		objects[6] = create_cylinder(create_vec(-2, 0, 6), 0.7, create_color(0, 0, 255), 0.5, 2);
+		objects[7] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(255, 255, 255), 0.5, 2);
+		objects[8] = create_sphere(0.5, 2, 4.0, 0.75, create_color(255, 255, 255), 0.5, 3);
+		objects[9].type = 0;
 
 	// rempli au parsing
-	t_light		lights[3];
-	lights[0] = create_light_bulb(0, 0, 0, create_color(255, 255, 255));
-	lights[1].type = 0;
-
+		lights[0] = create_light_bulb(0, 0, 0, create_color(255, 255, 255));
+		lights[1].type = 0;
+		j++;
+	}
 	t_ray	ray;
 	int	y;
 	int	x;
 	t_color	color;
 
-	ray.o = create_vec(0, 0, 0);
+	ray.o = e.ray.o;
 
 	y = 0;
 	while (y < H)
@@ -163,7 +174,10 @@ void	launch(SDL_Renderer *renderer)
 		{
 			ray.d = create_vec((double)x / W - 0.5, 0.5 - (double)y / H, 1);
 			normalize(&ray.d);
-			color = ray_trace(ray, objects, lights, 10);
+			if (e.editmod == 0)
+				color = ray_trace(ray, objects, lights, 3, e);
+			else
+				color = ray_trace(ray, objects, lights, 0, e);
 			if (color.r > 255)
 				color.r = 255;
 			if (color.g > 255)
@@ -184,12 +198,21 @@ void	launch(SDL_Renderer *renderer)
 	}
 }
 
+void	reload(SDL_Renderer *renderer, t_edit e)
+{
+	launch(renderer, e);
+	SDL_RenderPresent(renderer);
+}
+
 int		main(int ac, char **av)
 {
 	SDL_Window *win;
 	SDL_Event event;
 	SDL_Renderer *renderer;
+	t_edit		e;
 
+	e.editmod = 1;
+	e.ray.o = create_vec(0, 0, 0);
 	if (SDL_Init(SDL_INIT_VIDEO))
 		exit(0);
 	if (!(win = SDL_CreateWindow("RT", SDL_WINDOWPOS_CENTERED,
@@ -199,11 +222,35 @@ int		main(int ac, char **av)
 		exit(0);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
-	launch(renderer);
+	launch(renderer, e);
 	SDL_RenderPresent(renderer);
 	while (SDL_WaitEvent(&event))
+	{
+		if (event.type == SDL_KEYDOWN)
+			printf("%d\n", event.key.keysym.sym);
 		if (event.type == SDL_QUIT)
 			break ;
+		if (event.type == SDL_KEYDOWN)
+		{
+			if (event.key.keysym.sym == 27)
+				break ;
+			else if (event.key.keysym.sym == 101)
+				e.editmod = !e.editmod;
+			else if (event.key.keysym.sym == 122)
+				e.ray.o.z += 0.5;
+			else if (event.key.keysym.sym == 115)
+				e.ray.o.z -= 0.5;
+			else if (event.key.keysym.sym == 113)
+				e.ray.o.x -= 0.5;
+			else if (event.key.keysym.sym == 100)
+				e.ray.o.x += 0.5;
+			else if (event.key.keysym.sym == 32)
+				e.ray.o.y += 0.5;
+			else if (event.key.keysym.sym == 1073742049)
+				e.ray.o.y -= 0.5;
+			reload(renderer, e);
+		}
+	}
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(win);
 	SDL_Quit();

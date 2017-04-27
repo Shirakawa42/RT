@@ -35,7 +35,7 @@ t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int te
 	ret.color = color;
 	ret.shape.plane.p = p;
 	ret.shape.plane.n = n;
-	normalize(&ret.shape.plane.n);
+//	normalize(&ret.shape.plane.n);
 	ret.reflection = reflection;
 	ret.shape.texture = texture;
 	return (ret);
