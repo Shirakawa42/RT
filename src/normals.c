@@ -21,3 +21,20 @@ t_vec	sphere_normal(union u_shape shape, t_vec p)
 	n.z = (p.z - shape.sphere.c.z) / shape.sphere.r;
 	return (n);
 }
+
+t_vec	plane_normal(union u_shape shape, t_vec p)
+{
+	return (shape.plane.n);
+}
+
+t_vec	cylinder_normal(union u_shape shape, t_vec p)
+{
+	t_vec	n;
+	double	r;
+
+	r = 1 / shape.cylinder.r;
+	n.x = (p.x - shape.cylinder.p.x) * r;
+	n.y = 0;
+	n.z = (p.z - shape.cylinder.p.z) * r;
+	return (n);
+}

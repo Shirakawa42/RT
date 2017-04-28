@@ -17,6 +17,35 @@ double	dot(t_vec a, t_vec b)
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
+t_vec	get_point(t_ray ray, double t)
+{
+	t_vec	p;
+
+	p.x = ray.o.x + ray.d.x * t;
+	p.y = ray.o.y + ray.d.y * t;
+	p.z = ray.o.z + ray.d.z * t;
+	return (p);
+}
+
+double	abs(double d)
+{
+	return (d < 0 ? -d : d);
+}
+
+t_vec	bisector(t_vec v, t_vec l)
+{
+	t_vec	b;
+	t_vec	sum;
+
+	sum.x = v.x + l.x;
+	sum.y = v.y + l.y;
+	sum.z = v.z + l.z;
+	b.x = sum.x / abs(sum.x);
+	b.y = sum.y / abs(sum.y);
+	b.z = sum.z / abs(sum.z);
+	return (b);
+}
+
 t_vec	create_vec(double x, double y, double z)
 {
 	t_vec ret;

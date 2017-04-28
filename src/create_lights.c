@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-t_light	create_light_bulb(double x, double y, double z, t_color color)
+t_light	create_light_bulb(double x, double y, double z, t_color color, double intensity)
 {
 	t_light	ret;
 
@@ -21,5 +21,6 @@ t_light	create_light_bulb(double x, double y, double z, t_color color)
 	ret.light.light_bulb.p.y = y;
 	ret.light.light_bulb.p.z = z;
 	ret.color = color;
+	ret.intensity = intensity;
 	return (ret);
 }

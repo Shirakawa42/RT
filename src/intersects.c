@@ -51,3 +51,48 @@ int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 		return (1);
 	}
 }
+
+int	plane_intersect(union u_shape shape, t_ray ray, double *t)
+{
+	t_vec	point;
+	double	d;
+	double	tmp;
+
+	point.x = ray.o.x - shape.plane.p.x;
+	point.y = ray.o.y - shape.plane.p.y;
+	point.z = ray.o.z - shape.plane.p.z;
+
+	if ((tmp = dot(ray.d, shape.plane.n)) == 0)
+		return (0);
+	d = dot(point, shape.plane.n);
+	d /= -tmp;
+	*t = d;
+	return (*t > 0);
+}
+
+int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
+{
+	double		a;
+	double		b;
+	double		c;
+	double		delta;
+	t_cylinder	cyl;
+	double		t1;
+	double		t2;
+
+	cyl = shape.cylinder;
+	a = ray.d.x * ray.d.x + ray.d.z * ray.d.z;
+	b = (2 * (ray.d.x * (ray.o.x - cyl.p.x))) + (2 *
+		(ray.d.z * (ray.o.z - cyl.p.z)));
+	c = (ray.o.x - cyl.p.x) * (ray.o.x - cyl.p.x) + (ray.o.z - cyl.p.z) *
+		(ray.o.z - cyl.p.z) - cyl.r * cyl.r;
+	delta = b * b - 4 * a * c;
+	if (delta > 0)
+	{
+		t1 = (-b - sqrt(delta)) / (2 * a);
+		t2 = (-b + sqrt(delta)) / (2 * a);
+		(t1 < t2) ? (*t = t1) : (*t = t2);
+		return (1);
+	}
+	return (0);
+}

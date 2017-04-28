@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-t_color	create_color(int r, int g, int b)
+t_color	create_color(double r, double g, double b)
 {
 	t_color	ret;
 
