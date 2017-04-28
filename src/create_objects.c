@@ -6,11 +6,11 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:11:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/13 18:19:45 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/04/11 18:12:26 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
 t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture)
 {
@@ -35,7 +35,7 @@ t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int te
 	ret.color = color;
 	ret.shape.plane.p = p;
 	ret.shape.plane.n = n;
-//	normalize(&ret.shape.plane.n);
+	//	normalize(&ret.shape.plane.n);
 	ret.reflection = reflection;
 	ret.shape.texture = texture;
 	return (ret);
@@ -52,4 +52,17 @@ t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, in
 	ret.reflection = reflection;
 	ret.shape.texture = texture;
 	return (ret);
+}
+
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture)
+{
+    t_object ret;
+
+    ret.type = CONE;
+    ret.color = color;
+    ret.shape.cone.d = p;
+    ret.shape.cone.r = r;
+    ret.reflection = reflection;
+    ret.shape.texture = texture;
+    return (ret);
 }

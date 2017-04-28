@@ -17,7 +17,9 @@ SRC = src/main.c \
 	  src/create_objects.c \
 	  src/intersects.c \
 	  src/normals.c \
-	  src/textures.c
+	  src/texture.c \
+	  src/color.c \
+	  src/matrice.c
 OBJ = $(SRC:.c=.o)
 	FLAGS = #-Wall -Wextra -Werror
 

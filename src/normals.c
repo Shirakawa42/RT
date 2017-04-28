@@ -6,11 +6,11 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:29:36 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/13 17:48:36 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/04/11 18:31:07 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
 t_vec	sphere_normal(union u_shape shape, t_vec p)
 {
@@ -37,4 +37,16 @@ t_vec	cylinder_normal(union u_shape shape, t_vec p)
 	n.y = 0;
 	n.z = (p.z - shape.cylinder.p.z) * r;
 	return (n);
+}
+
+t_vec   cone_normal(union u_shape shape, t_vec p)
+{
+	t_vec	n;
+	double	r;
+    
+    r = 1 / shape.cone.r;
+	n.x = (p.x - shape.cone.d.x) * r;
+    n.y = shape.cone.d.y * r;
+	n.z = (p.z - shape.cone.d.z) * r;
+    return (n);
 }

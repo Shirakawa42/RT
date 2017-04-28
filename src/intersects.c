@@ -6,11 +6,11 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:13:15 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/13 19:01:46 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/04/11 18:13:47 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
 int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 {
@@ -94,5 +94,10 @@ int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
 		(t1 < t2) ? (*t = t1) : (*t = t2);
 		return (1);
 	}
+	return (0);
+}
+
+int	cone_intersect(union u_shape shape, t_ray ray, double *t)
+{
 	return (0);
 }
