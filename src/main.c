@@ -13,10 +13,10 @@
 #include "rt.h"
 
 typedef int(*t_intersect)(union u_shape, t_ray, double *);
-t_intersect intersect[4] = { NULL, sphere_intersect, plane_intersect, cylinder_intersect };
+t_intersect intersect[5] = { NULL, sphere_intersect, plane_intersect, cylinder_intersect, cone_intersect };
 
 typedef t_vec(*t_get_normal)(union u_shape, t_vec);
-t_get_normal get_normal[4] = { NULL, sphere_normal, plane_normal, cylinder_normal };
+t_get_normal get_normal[5] = { NULL, sphere_normal, plane_normal, cylinder_normal, cone_normal };
 
 t_color	get_intensity(t_light light, double t)
 {
@@ -118,6 +118,7 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 		if (e.scene.objects[tmp_i].shape.texture >= 1 && e.editmod == 0)
 			normal = text1(normal, e.scene.objects[tmp_i].shape.texture);
 		t_color tmp_color = lightning(ray, p, tmp_i, normal, e);
+		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p);
 		if (e.scene.objects[tmp_i].reflection && index)
 		{
 			ray.o.x = ray.o.x + ray.d.x * tmp_t;
@@ -149,16 +150,19 @@ void	launch(SDL_Renderer *renderer, t_env e)
 
 	ray.o = e.scene.camera.o;
 
+	radian(&e.scene.rotation.tmp1, &e.scene.rotation.tmp2, &e.scene.rotation.tmp3, e);
+
 	y = 0;
 	while (y < H)
 	{
 		x = 0;
 		while (x < W)
 		{
-			ray.d = create_vec((double)x / W - 0.5, 0.5 - (double)y / H, 1);
+			ray.d = create_vec(((double)x / W - 0.5), (0.5 - (double)y / H), 1);
+			matrice(&ray.d.x, &ray.d.y, &ray.d.z, &e);
 			normalize(&ray.d);
 			if (e.editmod == 0)
-				color = ray_trace(ray, 3, e);
+				color = ray_trace(ray, 6, e);
 			else
 				color = ray_trace(ray, 0, e);
 			if (color.r > 1.0)
@@ -189,25 +193,33 @@ t_env	init(void)
 
 	e.editmod = 1;
 
+	e.scene.rotation.rotx = 0;
+	e.scene.rotation.roty = 0;
+	e.scene.rotation.rotz = 0;
+
 	e.scene.camera.o = create_vec(0, 0, 0);
 	e.scene.camera.d = create_vec(0, 0, 1);
 
-	e.scene.objects = (t_object*)malloc(sizeof(t_object) * 10);
-	e.scene.objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(1.0, 0.0, 1.0), 0.5, 4);
-	e.scene.objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(0.0, 1.0, 0), 0, 4);
-	e.scene.objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(1.0, 1.0, 1.0), 0, 4);
+	e.scene.objects = (t_object*)malloc(sizeof(t_object) * 13);
+	e.scene.objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(1.0, 0.0, 1.0), 0.5, 3);
+	e.scene.objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(0.0, 1.0, 0), 0.5, 1);
+	e.scene.objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(1.0, 1.0, 1.0), 0.5, 5);
 	e.scene.objects[3] = create_plane(create_vec(0, -2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[4] = create_plane(create_vec(0, 2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[5] = create_plane(create_vec(0, 0, 13), create_vec(0, 0, -1), create_color(1.0, 1.0, 1.0), 0.5, 0);
-	e.scene.objects[6] = create_cylinder(create_vec(-2, 0, 6), 0.7, create_color(0, 0, 1.0), 0.5, 5);
-	e.scene.objects[7] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(1.0, 1.0, 1.0), 0.5, 5);
-	e.scene.objects[8] = create_sphere(0.5, 2, 4.0, 0.75, create_color(1.0, 1.0, 1.0), 0.5, 4);
-	e.scene.objects[9].type = 0;
+	e.scene.objects[6] = create_plane(create_vec(4, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
+	e.scene.objects[7] = create_plane(create_vec(-4, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
+	e.scene.objects[8] = create_plane(create_vec(0, 0, -1), create_vec(0, 0, 1), create_color(1.0, 1.0, 1.0), 0, 0);
+	e.scene.objects[9] = create_cylinder(create_vec(-2, 0, 6), 0.5, create_color(0, 0, 1.0), 0.5, 2);
+	e.scene.objects[10] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(1.0, 1.0, 1.0), 0.5, 2);
+	e.scene.objects[11] = create_sphere(0.5, 2, 4.0, 0.75, create_color(1.0, 1.0, 1.0), 0.5, 4);
+	e.scene.objects[12].type = 0;
 
-	e.scene.lights = (t_light*)malloc(sizeof(t_light) * 3);
-	e.scene.lights[0] = create_light_bulb(0, 0, 5, create_color(1.0, 1.0, 1.0), 1.5);
-	e.scene.lights[1] = create_light_bulb(-5, 0, 0, create_color(1.0, 1.0, 1.0), 2.5);
-	e.scene.lights[2].type = 0;
+	e.scene.lights = (t_light*)malloc(sizeof(t_light) * 2);
+//	e.scene.lights[0] = create_light_bulb(3, 0, 0, create_color(1.0, 1.0, 1.0), 6);
+//	e.scene.lights[1] = create_light_bulb(-3, 0, 0, create_color(1.0, 1.0, 1.0), 6);
+	e.scene.lights[0] = create_light_bulb(0, 0, 0, create_color(1.0, 1.0, 1.0), 6);
+	e.scene.lights[1].type = 0;
 	return (e);
 }
 
@@ -250,6 +262,14 @@ int		main(int ac, char **av)
 				e.scene.camera.o.y += 0.5;
 			else if (event.key.keysym.sym == 1073742049)
 				e.scene.camera.o.y -= 0.5;
+			else if (event.key.keysym.sym == 1073741906)
+				e.scene.rotation.rotx -= 0.1;
+			else if (event.key.keysym.sym == 1073741905)
+				e.scene.rotation.rotx += 0.1;
+			else if (event.key.keysym.sym == 1073741904)
+				e.scene.rotation.roty -= 0.1;
+			else if (event.key.keysym.sym == 1073741903)
+				e.scene.rotation.roty += 0.1;
 			launch(renderer, e);
 		}
 	}

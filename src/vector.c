@@ -27,11 +27,6 @@ t_vec	get_point(t_ray ray, double t)
 	return (p);
 }
 
-double	abs(double d)
-{
-	return (d < 0 ? -d : d);
-}
-
 t_vec	bisector(t_vec v, t_vec l)
 {
 	t_vec	b;

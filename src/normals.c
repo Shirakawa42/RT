@@ -38,3 +38,15 @@ t_vec	cylinder_normal(union u_shape shape, t_vec p)
 	n.z = (p.z - shape.cylinder.p.z) * r;
 	return (n);
 }
+
+t_vec   cone_normal(union u_shape shape, t_vec p)
+{
+	t_vec	n;
+	double	r;
+    
+    r = 1 / shape.cone.r;
+	n.x = (p.x - shape.cone.d.x) * r;
+    n.y = shape.cone.d.y * r;
+	n.z = (p.z - shape.cone.d.z) * r;
+    return (n);
+}

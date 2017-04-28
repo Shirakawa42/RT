@@ -53,3 +53,16 @@ t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, in
 	ret.shape.texture = texture;
 	return (ret);
 }
+
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture)
+{
+    t_object ret;
+
+    ret.type = CONE;
+    ret.color = color;
+    ret.shape.cone.d = p;
+    ret.shape.cone.r = r;
+    ret.reflection = reflection;
+    ret.shape.texture = texture;
+    return (ret);
+}

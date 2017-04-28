@@ -15,19 +15,21 @@ SRC = src/main.c \
 	  src/vector.c \
 	  src/create_lights.c \
 	  src/create_objects.c \
-	  src/color.c \
 	  src/intersects.c \
-	  src/normals.c
+	  src/normals.c \
+	  src/texture.c \
+	  src/color.c \
+	  src/matrice.c
 OBJ = $(SRC:.c=.o)
 	FLAGS = #-Wall -Wextra -Werror
 
 all: $(NAME)
 
 %.o: %.c
-	gcc -c $^ -o $@ -I /Users/rmenegau/Library/Frameworks/SDL2.framework/Headers -I ./includes
+	gcc -c $^ -o $@ -I ./includes -lSDL2 -lm
 
 $(NAME): $(OBJ)
-	gcc $(FLAGS) -o $(NAME) $(OBJ) -lm -F/Users/rmenegau/Library/Frameworks -framework SDL2
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -lm -lSDL2
 
 c clean:
 	rm -f $(OBJ)

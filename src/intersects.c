@@ -96,3 +96,8 @@ int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
 	}
 	return (0);
 }
+
+int	cone_intersect(union u_shape shape, t_ray ray, double *t)
+{
+	return (0);
+}

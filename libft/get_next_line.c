@@ -76,10 +76,8 @@ int		get_next_line(const int fd, char **line)
 {
 	static char		*str = NULL;
 	char			*buf;
-	int				i;
 	int				error;
 
-	i = 0;
 	buf = ft_strnew(BUFF_SIZE);
 	if (str == NULL)
 		if ((str = (char*)malloc(sizeof(char))) == 0)
