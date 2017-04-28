@@ -41,6 +41,8 @@ t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e)
 	//a supprimer plus tard
 	double	tmp;
 
+	if (e.editmod == 2)
+		return (e.scene.objects[obj].color);
 	color.r = 0;
 	color.g = 0;
 	color.b = 0;
@@ -97,6 +99,7 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 	int		tmp_i;
 	t_vec	normal;
 	t_vec	p;
+	t_color tmp_color;
 
 	i = 0;
 	tmp_t = 20000.0;
@@ -111,13 +114,15 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 		}
 		i++;
 	}
+	if (e.editmod == 2 && tmp_i >= 0)
+		return (e.scene.objects[tmp_i].color);
 	if (tmp_i >= 0)
 	{
 		p = get_point(ray, tmp_t);
 		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p);
 		if (e.scene.objects[tmp_i].shape.texture >= 1 && e.editmod == 0)
 			normal = text1(normal, e.scene.objects[tmp_i].shape.texture);
-		t_color tmp_color = lightning(ray, p, tmp_i, normal, e);
+		tmp_color = lightning(ray, p, tmp_i, normal, e);
 		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p);
 		if (e.scene.objects[tmp_i].reflection && index)
 		{
@@ -147,22 +152,27 @@ void	launch(SDL_Renderer *renderer, t_env e)
 	int	y;
 	int	x;
 	t_color	color;
+	double	w;
+	double	h;
+
+	(e.editmod >= 1) ? (w = W / 3) : (w = W);
+	(e.editmod >= 1) ? (h = H / 3) : (h = H);
 
 	ray.o = e.scene.camera.o;
 
 	radian(&e.scene.rotation.tmp1, &e.scene.rotation.tmp2, &e.scene.rotation.tmp3, e);
 
 	y = 0;
-	while (y < H)
+	while (y < h)
 	{
 		x = 0;
-		while (x < W)
+		while (x < w)
 		{
-			ray.d = create_vec(((double)x / W - 0.5), (0.5 - (double)y / H), 1);
+			ray.d = create_vec(((double)x / w - 0.5), (0.5 - (double)y / h), 1);
 			matrice(&ray.d.x, &ray.d.y, &ray.d.z, &e);
 			normalize(&ray.d);
 			if (e.editmod == 0)
-				color = ray_trace(ray, 6, e);
+				color = ray_trace(ray, 3, e);
 			else
 				color = ray_trace(ray, 0, e);
 			if (color.r > 1.0)
@@ -191,7 +201,7 @@ t_env	init(void)
 {
 	t_env	e;
 
-	e.editmod = 1;
+	e.editmod = 0;
 
 	e.scene.rotation.rotx = 0;
 	e.scene.rotation.roty = 0;
@@ -249,7 +259,9 @@ int		main(int ac, char **av)
 			if (event.key.keysym.sym == 27)
 				break;
 			else if (event.key.keysym.sym == 'e')
-				e.editmod = !e.editmod;
+				(e.editmod == 2) ? (e.editmod = 0) : (e.editmod += 1);
+			else if (event.key.keysym.sym == 'r')
+				(e.editmod == 0) ? (e.editmod = 2) : (e.editmod -= 1);
 			else if (event.key.keysym.sym == 'z')
 				e.scene.camera.o.z += 0.5;
 			else if (event.key.keysym.sym == 's')
