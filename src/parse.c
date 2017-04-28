@@ -1,23 +1,7 @@
 #include "rt.h"
 
-int		check_entry(char *line)
-{
-	 int		j;
-	j = 0;
-	while (line[j])
-	{
-		if ((line[j] >= 48 && line[j] <= 57) || (line[j] >=65 && line[j] <= 90) || (line[j] >= 97 && line[j] <= 122) || (line[j] == 123) || (line[j] == 125) || (line[j] == 44))
-				j++;
-		else
-		{
-			ft_putstr("invalid entry file");
-			exit(EXIT_FAILURE);
-		}
-	}
-	return (0);
-	}
 
-int     loop_main(int fd)
+int loop_main(int fd)
 {
 	char    *line;
 	char **content;
@@ -31,15 +15,14 @@ int     loop_main(int fd)
 	line = NULL;
 	while ((ret = (get_next_line(fd, &line)) > 0))
 	{
-		if (!(check_entry(line)))
-			content[i] = ft_strdup(line);
+		content[i] = ft_strdup(line);
 		free(line);
 		i++;
 	}
 	content[i] = NULL;
-	
 	free(line);
-	return (ret);
+	use_values(content);
+	return (0);
 }
 
 int     ft_parsing(int argc, char **argv)
