@@ -14,8 +14,11 @@
 
 # define RT_H
 
+#include "../libft/libft.h"
 #include <math.h>
 #include "SDL2/SDL.h"
+#include <pthread.h>
+
 #define H 720
 #define W 720
 
@@ -128,6 +131,15 @@ typedef struct	s_env
 	t_scene	scene;
 	int		editmod;
 }				t_env;
+
+typedef struct	s_raytrace
+{
+	t_ray	ray;
+	int		index;
+	t_env	e;
+	t_color	color;
+	pthread_mutex_t	mutex;
+}				t_raytrace;
 
 // vector.c
 double		dot(t_vec a, t_vec b);

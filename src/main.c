@@ -91,7 +91,7 @@ t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e)
 	return (color);
 }
 
-t_color	ray_trace(t_ray ray, int index, t_env e)
+void	*ray_trace(void *truc)
 {
 	int		i;
 	double	t;
@@ -100,7 +100,14 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 	t_vec	normal;
 	t_vec	p;
 	t_color tmp_color;
+	t_env	e;
+	t_ray	ray;
+	t_color	reflection;
+	int		index;
 
+	ray = (*(t_raytrace*)truc).ray;
+	e = (*(t_raytrace*)truc).e;
+	index = (*(t_raytrace*)truc).index;
 	i = 0;
 	tmp_t = 20000.0;
 	tmp_i = -1;
@@ -115,7 +122,10 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 		i++;
 	}
 	if (e.editmod == 2 && tmp_i >= 0)
-		return (e.scene.objects[tmp_i].color);
+	{
+		(*(t_raytrace*)truc).color = e.scene.objects[tmp_i].color;
+		return (&(*(t_raytrace*)truc).color);
+	}
 	if (tmp_i >= 0)
 	{
 		p = get_point(ray, tmp_t);
@@ -136,29 +146,114 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 			ray.d.x = ray.d.x - normal.x;
 			ray.d.y = ray.d.y - normal.y;
 			ray.d.z = ray.d.z - normal.z;
-			t_color	reflection = ray_trace(ray, index - 1, e);
+			(*(t_raytrace*)truc).index -= 1;
+			(*(t_raytrace*)truc).e = e;
+			(*(t_raytrace*)truc).ray = ray;
+			reflection = *(t_color*)ray_trace(truc);
 			tmp_color.r = (tmp_color.r + reflection.r) / 2;
 			tmp_color.g = (tmp_color.g + reflection.g) / 2;
 			tmp_color.b = (tmp_color.b + reflection.b) / 2;
 		}
-		return (tmp_color);
+		(*(t_raytrace*)truc).color = tmp_color;
+		return (&(*(t_raytrace*)truc).color);
 	}
-	return (create_color(0, 0, 0));
+	(*(t_raytrace*)truc).color = create_color(0, 0, 0);
+	return (&(*(t_raytrace*)truc).color);
+}
+
+t_color	iscolor_good(t_color color)
+{
+	if (color.r > 1.0)
+		color.r = 1.0;
+	if (color.g > 1.0)
+		color.g = 1.0;
+	if (color.b > 1.0)
+		color.b = 1.0;
+	if (color.r < 0.0)
+		color.r = 0.0;
+	if (color.g < 0.0)
+		color.g = 0.0;
+	if (color.b < 0.0)
+		color.b = 0.0;
+	return (color);
+}
+
+t_color	*threads(t_ray *ray, int index, t_env e)
+{
+	t_color		*colors;
+	t_raytrace	*truc;
+
+	colors = (t_color*)malloc(sizeof(t_color) * 4);
+	truc = (t_raytrace*)malloc(sizeof(t_raytrace) * 4);
+
+	truc[0].e = e;
+	truc[1].e = e;
+	truc[2].e = e;
+	truc[3].e = e;
+
+	truc[0].index = index;
+	truc[1].index = index;
+	truc[2].index = index;
+	truc[3].index = index;
+
+	truc[0].ray = ray[0];
+	truc[1].ray = ray[1];
+	truc[2].ray = ray[2];
+	truc[3].ray = ray[3];
+
+/*	colors[0] = *(t_color*)ray_trace(&truc[0]);
+	colors[1] = *(t_color*)ray_trace(&truc[1]);
+	colors[2] = *(t_color*)ray_trace(&truc[2]);
+	colors[3] = *(t_color*)ray_trace(&truc[3]);*/
+
+	// début threading
+
+	pthread_t	threads[4];
+	static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+	truc[0].mutex = mutex;
+	truc[1].mutex = mutex;
+	truc[2].mutex = mutex;
+	truc[3].mutex = mutex;
+
+	pthread_create(&threads[0], NULL, ray_trace, &truc[0]);
+	pthread_create(&threads[1], NULL, ray_trace, &truc[1]);
+	pthread_create(&threads[2], NULL, ray_trace, &truc[2]);
+	pthread_create(&threads[3], NULL, ray_trace, &truc[3]);
+
+	pthread_join(threads[0], NULL);
+	pthread_join(threads[1], NULL);
+	pthread_join(threads[2], NULL);
+	pthread_join(threads[3], NULL);
+
+	colors[0] = truc[0].color;
+	colors[1] = truc[1].color;
+	colors[2] = truc[2].color;
+	colors[3] = truc[3].color;
+
+	// fin threading
+
+	free(truc);
+	return (colors);
 }
 
 void	launch(SDL_Renderer *renderer, t_env e)
 {
-	t_ray	ray;
+	t_ray	ray[4];
 	int	y;
 	int	x;
-	t_color	color;
+	t_color	*color;
 	double	w;
 	double	h;
 
 	(e.editmod >= 1) ? (w = W / 3) : (w = W);
 	(e.editmod >= 1) ? (h = H / 3) : (h = H);
 
-	ray.o = e.scene.camera.o;
+
+	ray[0].o = e.scene.camera.o;
+	ray[1].o = e.scene.camera.o;
+	ray[2].o = e.scene.camera.o;
+	ray[3].o = e.scene.camera.o;
 
 	radian(&e.scene.rotation.tmp1, &e.scene.rotation.tmp2, &e.scene.rotation.tmp3, e);
 
@@ -168,28 +263,36 @@ void	launch(SDL_Renderer *renderer, t_env e)
 		x = 0;
 		while (x < w)
 		{
-			ray.d = create_vec(((double)x / w - 0.5), (0.5 - (double)y / h), 1);
-			matrice(&ray.d.x, &ray.d.y, &ray.d.z, &e);
-			normalize(&ray.d);
+			ray[0].d = create_vec(((double)x / w - 0.5), (0.5 - (double)y / h), 1);
+			matrice(&ray[0].d.x, &ray[0].d.y, &ray[0].d.z, &e);
+			normalize(&ray[0].d);
+			ray[1].d = create_vec(((double)(x + 1) / w - 0.5), (0.5 - (double)y / h), 1);
+			matrice(&ray[1].d.x, &ray[1].d.y, &ray[1].d.z, &e);
+			normalize(&ray[1].d);
+			ray[2].d = create_vec(((double)(x + 2) / w - 0.5), (0.5 - (double)y / h), 1);
+			matrice(&ray[2].d.x, &ray[2].d.y, &ray[2].d.z, &e);
+			normalize(&ray[2].d);
+			ray[3].d = create_vec(((double)(x + 3) / w - 0.5), (0.5 - (double)y / h), 1);
+			matrice(&ray[3].d.x, &ray[3].d.y, &ray[3].d.z, &e);
+			normalize(&ray[3].d);
 			if (e.editmod == 0)
-				color = ray_trace(ray, 3, e);
+				color = threads(ray, 3, e);
 			else
-				color = ray_trace(ray, 0, e);
-			if (color.r > 1.0)
-				color.r = 1.0;
-			if (color.g > 1.0)
-				color.g = 1.0;
-			if (color.b > 1.0)
-				color.b = 1.0;
-			if (color.r < 0.0)
-				color.r = 0.0;
-			if (color.g < 0.0)
-				color.g = 0.0;
-			if (color.b < 0.0)
-				color.b = 0.0;
-			SDL_SetRenderDrawColor(renderer, color.r * 255.0, color.g * 255.0, color.b * 255.0, 255);
+				color = threads(ray, 0, e);
+			color[0] = iscolor_good(color[0]);
+			color[1] = iscolor_good(color[1]);
+			color[2] = iscolor_good(color[2]);
+			color[3] = iscolor_good(color[3]);
+			SDL_SetRenderDrawColor(renderer, color[0].r * 255.0, color[0].g * 255.0, color[0].b * 255.0, 255);
 			SDL_RenderDrawPoint(renderer, x, y);
-			x++;
+			SDL_SetRenderDrawColor(renderer, color[1].r * 255.0, color[1].g * 255.0, color[1].b * 255.0, 255);
+			SDL_RenderDrawPoint(renderer, x + 1, y);
+			SDL_SetRenderDrawColor(renderer, color[2].r * 255.0, color[2].g * 255.0, color[2].b * 255.0, 255);
+			SDL_RenderDrawPoint(renderer, x + 2, y);
+			SDL_SetRenderDrawColor(renderer, color[3].r * 255.0, color[3].g * 255.0, color[3].b * 255.0, 255);
+			SDL_RenderDrawPoint(renderer, x + 3, y);
+			free(color);
+			x += 4;
 		}
 		y++;
 	}
