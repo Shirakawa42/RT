@@ -146,7 +146,7 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 	return (create_color(0, 0, 0));
 }
 
-void	*launch(void *truc)
+int		launch(void *truc)
 {
 	t_ray			ray;
 	int				y;
@@ -154,27 +154,33 @@ void	*launch(void *truc)
 	t_color			color;
 	double			w;
 	double			h;
-	SDL_Renderer	*renderer;
 	t_env			e;
 	int				number;
 	int				savex;
+	int				wsave;
+	int				hsave;
 
+	SDL_LockMutex((*(t_void*)truc).mutex);
 	e = (*(t_void*)truc).e;
-	renderer = (*(t_void*)truc).renderer;
 	number = (*(t_void*)truc).number;
+	(*(t_void*)truc).number += 1;
+	SDL_UnlockMutex((*(t_void*)truc).mutex);
 	y = 0;
 
 	(e.editmod >= 1) ? (w = W / 3) : (w = W);
 	(e.editmod >= 1) ? (h = H / 3) : (h = H);
+
+	wsave = w;
+	hsave = h;
 
 	if (number < NB_THREADS / 2)
 		h /= 2;
 	else
 		y = h / 2;
 	if (number < NB_THREADS / 2)
-		savex = (number * (w / (NB_THREADS / 2))) + (w / (NB_THREADS / 2));
+		savex = (number * (w / (NB_THREADS / 2)));
 	else
-		savex = ((number - (NB_THREADS / 2)) * (w / (NB_THREADS / 2))) + (w / (NB_THREADS / 2));
+		savex = ((number - (NB_THREADS / 2)) * (w / (NB_THREADS / 2)));
 	w = savex + (w / (NB_THREADS / 2));
 
 	ray.o = e.scene.camera.o;
@@ -186,7 +192,7 @@ void	*launch(void *truc)
 		x = savex;
 		while (x < w)
 		{
-			ray.d = create_vec(((double)x / w - 0.5), (0.5 - (double)y / h), 1);
+			ray.d = create_vec(((double)x / wsave - 0.5), (0.5 - (double)y / hsave), 1);
 			matrice(&ray.d.x, &ray.d.y, &ray.d.z, &e);
 			normalize(&ray.d);
 			if (e.editmod == 0)
@@ -205,10 +211,9 @@ void	*launch(void *truc)
 				color.g = 0.0;
 			if (color.b < 0.0)
 				color.b = 0.0;
-			pthread_mutex_lock((*(t_void*)truc).mutex);
-			SDL_SetRenderDrawColor(renderer, color.r * 255.0, color.g * 255.0, color.b * 255.0, 255);
-			SDL_RenderDrawPoint(renderer, x, y);
-			pthread_mutex_unlock((*(t_void*)truc).mutex);
+			SDL_LockMutex((*(t_void*)truc).mutex);
+			(*(t_void*)truc).colortab[y][x] = color;
+			SDL_UnlockMutex((*(t_void*)truc).mutex);
 			x++;
 		}
 		y++;
@@ -217,26 +222,37 @@ void	*launch(void *truc)
 
 void	threads(SDL_Renderer *renderer, t_env e)
 {
-	pthread_t	threads[NB_THREADS];
+	SDL_Thread	*threads[NB_THREADS];
 	int		i;
-	t_void	*truc;
-	static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+	static t_void	*truc;
+	SDL_mutex	*mutex;
+	int			y;
 
-	truc = (t_void*)malloc(sizeof(t_void) * NB_THREADS);
+	mutex = SDL_CreateMutex();
+	if (!truc)
+		truc = (t_void*)malloc(sizeof(t_void));
+	truc->e = e;
+	truc->renderer = renderer;
+	truc->mutex = mutex;
+	truc->number = 0;
 	i = -1;
 	while (++i < NB_THREADS)
+		threads[i] = SDL_CreateThread(launch, NULL, truc);
+	i = -1;
+	while (++i < NB_THREADS)
+		SDL_WaitThread(threads[i], NULL);
+	y = -1;
+	while (++y < H)
 	{
-		truc[i].e = e;
-		truc[i].renderer = renderer;
-		truc[i].mutex = &mutex;
-		truc[i].number = i;
-		pthread_create(&threads[i], NULL, launch, &truc[i]);
+		i = -1;
+		while (++i < W)
+		{
+			SDL_SetRenderDrawColor(renderer, truc->colortab[y][i].r * 255.0, truc->colortab[y][i].g * 255.0, truc->colortab[y][i].b * 255.0, 255);
+			SDL_RenderDrawPoint((*(t_void*)truc).renderer, i, y);
+		}
 	}
-	i = -1;
-	while (++i < NB_THREADS)
-		pthread_join(threads[i], NULL);
 	SDL_RenderPresent(renderer);
-	free(truc);
+	SDL_DestroyMutex(mutex);
 }
 
 //init = parsing

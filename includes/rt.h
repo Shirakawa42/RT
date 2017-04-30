@@ -16,7 +16,8 @@
 
 #include <math.h>
 #include "SDL2/SDL.h"
-#include "pthread.h"
+#include "SDL2/SDL_thread.h"
+#include "../libft/libft.h"
 #define H 720
 #define W 720
 #define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
@@ -135,8 +136,9 @@ typedef struct	s_void
 {
 	t_env	e;
 	SDL_Renderer	*renderer;
-	pthread_mutex_t	*mutex;
+	SDL_mutex		*mutex;
 	int				number;
+	t_color			colortab[H][W];
 }				t_void;
 
 // vector.c

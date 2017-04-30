@@ -26,10 +26,10 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 %.o: %.c
-	gcc -c $^ -o $@ -I ./includes -lSDL2 -lm -lpthread
+	gcc -c $^ -o $@ -I ./includes -lSDL2 -lm
 
 $(NAME): $(OBJ)
-	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -lm -lSDL2 -lpthread
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -lm -lSDL2
 
 c clean:
 	rm -f $(OBJ)
