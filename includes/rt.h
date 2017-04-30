@@ -16,8 +16,10 @@
 
 #include <math.h>
 #include "SDL2/SDL.h"
+#include "pthread.h"
 #define H 720
 #define W 720
+#define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
 
 typedef struct	s_vec
 {
@@ -128,6 +130,14 @@ typedef struct	s_env
 	t_scene	scene;
 	int		editmod;
 }				t_env;
+
+typedef struct	s_void
+{
+	t_env	e;
+	SDL_Renderer	*renderer;
+	pthread_mutex_t	*mutex;
+	int				number;
+}				t_void;
 
 // vector.c
 double		dot(t_vec a, t_vec b);
