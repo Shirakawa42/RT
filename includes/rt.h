@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/04/13 17:55:53 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/04 17:19:44 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_thread.h"
 #include "../libft/libft.h"
-#define H 720
-#define W 720
+#define H 700
+#define W 700
 #define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
+#define SSAA 2
 
 typedef struct	s_vec
 {
@@ -138,7 +139,8 @@ typedef struct	s_void
 	SDL_Renderer	*renderer;
 	SDL_mutex		*mutex;
 	int				number;
-	t_color			colortab[H][W];
+	t_color			colortab[W][H];
+	int				ssaa;
 }				t_void;
 
 // vector.c

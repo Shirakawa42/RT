@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/04/13 20:03:17 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/04 17:19:58 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 		if (e.scene.objects[tmp_i].shape.texture >= 1 && e.editmod == 0)
 			normal = text1(normal, e.scene.objects[tmp_i].shape.texture);
 		tmp_color = lightning(ray, p, tmp_i, normal, e);
-		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p);
+		if (e.scene.objects[tmp_i].shape.texture < 4)
+			normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p);
 		if (e.scene.objects[tmp_i].reflection && index)
 		{
 			ray.o.x = ray.o.x + ray.d.x * tmp_t;
@@ -159,13 +160,21 @@ int		launch(void *truc)
 	int				savex;
 	int				wsave;
 	int				hsave;
+	int				ssaa;
+	int				n;
+	t_color			*colorsave;
+	int				ssaa_squared;
 
 	SDL_LockMutex((*(t_void*)truc).mutex);
 	e = (*(t_void*)truc).e;
 	number = (*(t_void*)truc).number;
 	(*(t_void*)truc).number += 1;
+	ssaa = (*(t_void*)truc).ssaa;
 	SDL_UnlockMutex((*(t_void*)truc).mutex);
 	y = 0;
+
+	if ((colorsave = (t_color*)malloc(sizeof(t_color) * (ssaa * ssaa))) == 0)
+		return (0);
 
 	(e.editmod >= 1) ? (w = W / 3) : (w = W);
 	(e.editmod >= 1) ? (h = H / 3) : (h = H);
@@ -187,37 +196,61 @@ int		launch(void *truc)
 
 	radian(&e.scene.rotation.tmp1, &e.scene.rotation.tmp2, &e.scene.rotation.tmp3, e);
 
+	ssaa_squared = ssaa * ssaa;
 	while (y < h)
 	{
 		x = savex;
 		while (x < w)
 		{
-			ray.d = create_vec(((double)x / wsave - 0.5), (0.5 - (double)y / hsave), 1);
-			matrice(&ray.d.x, &ray.d.y, &ray.d.z, &e);
-			normalize(&ray.d);
-			if (e.editmod == 0)
-				color = ray_trace(ray, 3, e);
-			else
-				color = ray_trace(ray, 0, e);
-			if (color.r > 1.0)
-				color.r = 1.0;
-			if (color.g > 1.0)
-				color.g = 1.0;
-			if (color.b > 1.0)
-				color.b = 1.0;
-			if (color.r < 0.0)
-				color.r = 0.0;
-			if (color.g < 0.0)
-				color.g = 0.0;
-			if (color.b < 0.0)
-				color.b = 0.0;
+			n = 0;
+			while (n < ssaa_squared)
+			{
+				ray.d = create_vec((((double)x + (double)(n % ssaa) / (double)ssaa) / wsave - 0.5), (0.5 - ((double)y + (double)(n / ssaa) / (double)ssaa) / hsave), 1);
+				matrice(&ray.d.x, &ray.d.y, &ray.d.z, &e);
+				normalize(&ray.d);
+				if (e.editmod == 0)
+					color = ray_trace(ray, 3, e);
+				else
+					color = ray_trace(ray, 0, e);
+				if (color.r > 1.0)
+					color.r = 1.0;
+				if (color.g > 1.0)
+					color.g = 1.0;
+				if (color.b > 1.0)
+					color.b = 1.0;
+				if (color.r < 0.0)
+					color.r = 0.0;
+				if (color.g < 0.0)
+					color.g = 0.0;
+				if (color.b < 0.0)
+					color.b = 0.0;
+				colorsave[n] = color;
+				n++;
+			}
+			color = colorsave[0];
+			n = 1;
+			while (n < ssaa_squared)
+			{
+				color.r += colorsave[n].r;
+				color.g += colorsave[n].g;
+				color.b += colorsave[n].b;
+				n++;
+			}
+			if (n != 1)
+			{
+				color.r /= ssaa_squared;
+				color.g /= ssaa_squared;
+				color.b /= ssaa_squared;
+			}
 			SDL_LockMutex((*(t_void*)truc).mutex);
-			(*(t_void*)truc).colortab[y][x] = color;
+			((t_void*)truc)->colortab[y][x] = color;
 			SDL_UnlockMutex((*(t_void*)truc).mutex);
 			x++;
 		}
 		y++;
 	}
+	free(colorsave);
+	return (0);
 }
 
 void	threads(SDL_Renderer *renderer, t_env e)
@@ -235,6 +268,7 @@ void	threads(SDL_Renderer *renderer, t_env e)
 	truc->renderer = renderer;
 	truc->mutex = mutex;
 	truc->number = 0;
+	truc->ssaa = SSAA;
 	i = -1;
 	while (++i < NB_THREADS)
 		threads[i] = SDL_CreateThread(launch, NULL, truc);
