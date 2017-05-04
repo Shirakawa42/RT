@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/04 17:19:58 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/04 17:44:19 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 typedef int(*t_intersect)(union u_shape, t_ray, double *);
 t_intersect intersect[5] = { NULL, sphere_intersect, plane_intersect, cylinder_intersect, cone_intersect };
 
-typedef t_vec(*t_get_normal)(union u_shape, t_vec);
+typedef t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
 t_get_normal get_normal[5] = { NULL, sphere_normal, plane_normal, cylinder_normal, cone_normal };
 
 t_color	get_intensity(t_light light, double t)
@@ -119,12 +119,12 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 	if (tmp_i >= 0)
 	{
 		p = get_point(ray, tmp_t);
-		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p);
+		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
 		if (e.scene.objects[tmp_i].shape.texture >= 1 && e.editmod == 0)
 			normal = text1(normal, e.scene.objects[tmp_i].shape.texture);
 		tmp_color = lightning(ray, p, tmp_i, normal, e);
 		if (e.scene.objects[tmp_i].shape.texture < 4)
-			normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p);
+			normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
 		if (e.scene.objects[tmp_i].reflection && index)
 		{
 			ray.o.x = ray.o.x + ray.d.x * tmp_t;

@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/04 17:19:44 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/04 17:43:46 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,10 +169,10 @@ int			cylinder_intersect(union u_shape shape, t_ray ray, double *t);
 int			cone_intersect(union u_shape shape, t_ray ray, double *t);
 
 // normals.c
-t_vec	sphere_normal(union u_shape shape, t_vec p);
-t_vec	plane_normal(union u_shape shape, t_vec p);
-t_vec	cylinder_normal(union u_shape shape, t_vec p);
-t_vec   cone_normal(union u_shape shape, t_vec p);
+t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d);
+t_vec	plane_normal(union u_shape shape, t_vec p, t_vec d);
+t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d);
+t_vec   cone_normal(union u_shape shape, t_vec p, t_vec d);
 
 // textures.c
 t_vec	text1(t_vec n, int text);
