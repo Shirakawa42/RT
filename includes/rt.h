@@ -17,11 +17,12 @@
 #include <math.h>
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_thread.h"
+#include "SDL2/SDL_image.h"
 #include "../libft/libft.h"
 #define H 700
 #define W 700
-#define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
-#define SSAA 2
+#define NB_THREADS 8 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
+#define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
 
 typedef struct	s_vec
 {
@@ -47,6 +48,16 @@ typedef struct	s_color
 #define PLANE 2
 #define CYLINDER 3
 #define CONE 4
+
+
+#define MARBLE 1
+#define MARBLE2 2
+#define MARBLE3 3
+#define NOISE 4
+#define NOISE2 5
+
+#define WOOD 6
+#define PAPER 7
 
 typedef struct	s_sphere
 {
@@ -78,7 +89,6 @@ union	u_shape
 	t_plane		plane;
 	t_cylinder	cylinder;
 	t_cone		cone;
-	int			texture;
 };
 
 typedef struct	s_object
@@ -86,6 +96,7 @@ typedef struct	s_object
 	int				type;
 	t_color			color;
 	double			reflection;
+	int				texture;
 	union u_shape	shape;
 }				t_object;
 
@@ -127,9 +138,16 @@ typedef struct s_scene
 	t_object	*objects;
 }				t_scene;
 
+typedef struct	s_texture
+{
+	SDL_Surface *wood;
+	SDL_Surface *paper;
+}				t_texture;
+
 typedef struct	s_env
 {
 	t_scene	scene;
+	t_texture texture;
 	int		editmod;
 }				t_env;
 
@@ -174,11 +192,18 @@ t_vec	plane_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec   cone_normal(union u_shape shape, t_vec p, t_vec d);
 
-// textures.c
+// perlin.c
 t_vec	text1(t_vec n, int text);
 
 // matrice.c
 void	radian(double *rotx, double *roty, double *rotz, t_env e);
 void	matrice(double *x, double *y, double *z, t_env *e);
+
+// texture.c
+t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i);
+t_color		texturing_plane(t_ray ray, t_vec p, t_env e, int i);
+t_color		texturing_cylinder(t_ray ray, t_vec p, t_env e, int i);
+t_color		texturing_cone(t_ray ray, t_vec p, t_env e, int i);
+SDL_Surface	*LoadBMP(char *fichier);
 
 #endif

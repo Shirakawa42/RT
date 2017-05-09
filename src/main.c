@@ -18,6 +18,9 @@ t_intersect intersect[5] = { NULL, sphere_intersect, plane_intersect, cylinder_i
 typedef t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
 t_get_normal get_normal[5] = { NULL, sphere_normal, plane_normal, cylinder_normal, cone_normal };
 
+typedef t_color(*t_texturing)(t_ray ray, t_vec p, t_env e, int tmp_i);
+t_texturing texturing[5] = { NULL, texturing_sphere, texturing_plane, texturing_cylinder, texturing_cone };
+
 t_color	get_intensity(t_light light, double t)
 {
 	t_color	color;
@@ -28,7 +31,17 @@ t_color	get_intensity(t_light light, double t)
 	return (color);
 }
 
-t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e)
+t_color	getMiddle(t_color a, t_color b)
+{
+	t_color	c;
+
+	c.r = (a.r + b.r) / 2.0;
+	c.g = (a.g + b.g) / 2.0;
+	c.b = (a.b + b.b) / 2.0;
+	return (c);
+}
+
+t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color text)
 {
 	int		i;
 	int		j;
@@ -85,9 +98,18 @@ t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e)
 		}
 		i++;
 	}
-	color.r = color.r * e.scene.objects[obj].color.r;
-	color.g = color.g * e.scene.objects[obj].color.g;
-	color.b = color.b * e.scene.objects[obj].color.b;
+	if (e.scene.objects[obj].texture < WOOD)
+	{
+		color.r = color.r * e.scene.objects[obj].color.r;
+		color.g = color.g * e.scene.objects[obj].color.g;
+		color.b = color.b * e.scene.objects[obj].color.b;
+	}
+	else
+	{
+		color.r = color.r * text.r;
+		color.g = color.g * text.g;
+		color.b = color.b * text.b;
+	}
 	return (color);
 }
 
@@ -120,11 +142,11 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 	{
 		p = get_point(ray, tmp_t);
 		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
-		if (e.scene.objects[tmp_i].shape.texture >= 1 && e.editmod == 0)
-			normal = text1(normal, e.scene.objects[tmp_i].shape.texture);
-		tmp_color = lightning(ray, p, tmp_i, normal, e);
-		if (e.scene.objects[tmp_i].shape.texture < 4)
-			normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
+		if (e.scene.objects[tmp_i].texture >= 1 && e.scene.objects[tmp_i].texture <= 5 && e.editmod == 0)
+			normal = text1(normal, e.scene.objects[tmp_i].texture);
+		tmp_color = lightning(ray, p, tmp_i, normal, e, texturing[e.scene.objects[tmp_i].type](ray, p, e, tmp_i));
+		if (e.scene.objects[tmp_i].texture != 4 && e.scene.objects[tmp_i].texture != 5 && e.scene.objects[tmp_i].texture != 2)
+		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
 		if (e.scene.objects[tmp_i].reflection && index)
 		{
 			ray.o.x = ray.o.x + ray.d.x * tmp_t;
@@ -138,13 +160,27 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 			ray.d.y = ray.d.y - normal.y;
 			ray.d.z = ray.d.z - normal.z;
 			t_color	reflection = ray_trace(ray, index - 1, e);
-			tmp_color.r = (tmp_color.r + reflection.r) / 2;
-			tmp_color.g = (tmp_color.g + reflection.g) / 2;
-			tmp_color.b = (tmp_color.b + reflection.b) / 2;
+			tmp_color = getMiddle(tmp_color, reflection);
 		}
 		return (tmp_color);
 	}
 	return (create_color(0, 0, 0));
+}
+
+void	IsColorGood(t_color *color)
+{
+	if (color->r > 1.0)
+		color->r = 1.0;
+	if (color->g > 1.0)
+		color->g = 1.0;
+	if (color->b > 1.0)
+		color->b = 1.0;
+	if (color->r < 0.0)
+		color->r = 0.0;
+	if (color->g < 0.0)
+		color->g = 0.0;
+	if (color->b < 0.0)
+		color->b = 0.0;
 }
 
 int		launch(void *truc)
@@ -212,18 +248,7 @@ int		launch(void *truc)
 					color = ray_trace(ray, 3, e);
 				else
 					color = ray_trace(ray, 0, e);
-				if (color.r > 1.0)
-					color.r = 1.0;
-				if (color.g > 1.0)
-					color.g = 1.0;
-				if (color.b > 1.0)
-					color.b = 1.0;
-				if (color.r < 0.0)
-					color.r = 0.0;
-				if (color.g < 0.0)
-					color.g = 0.0;
-				if (color.b < 0.0)
-					color.b = 0.0;
+				IsColorGood(&color);
 				colorsave[n] = color;
 				n++;
 			}
@@ -304,18 +329,18 @@ t_env	init(void)
 	e.scene.camera.d = create_vec(0, 0, 1);
 
 	e.scene.objects = (t_object*)malloc(sizeof(t_object) * 13);
-	e.scene.objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(1.0, 0.0, 1.0), 0.5, 3);
-	e.scene.objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(0.0, 1.0, 0), 0.5, 1);
-	e.scene.objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(1.0, 1.0, 1.0), 0.5, 5);
+	e.scene.objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(1.0, 0.0, 1.0), 0.0, PAPER);
+	e.scene.objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(0.0, 1.0, 0), 0.0, WOOD);
+	e.scene.objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(1.0, 1.0, 1.0), 0.5, NOISE2);
 	e.scene.objects[3] = create_plane(create_vec(0, -2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[4] = create_plane(create_vec(0, 2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[5] = create_plane(create_vec(0, 0, 13), create_vec(0, 0, -1), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[6] = create_plane(create_vec(4, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[7] = create_plane(create_vec(-4, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[8] = create_plane(create_vec(0, 0, -1), create_vec(0, 0, 1), create_color(1.0, 1.0, 1.0), 0, 0);
-	e.scene.objects[9] = create_cylinder(create_vec(-2, 0, 6), 0.5, create_color(0, 0, 1.0), 0.5, 2);
-	e.scene.objects[10] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[11] = create_sphere(0.5, 2, 4.0, 0.75, create_color(1.0, 1.0, 1.0), 0.5, 4);
+	e.scene.objects[9] = create_cylinder(create_vec(-2, 0, 6), 0.5, create_color(0, 0, 1.0), 0.5, MARBLE2);
+	e.scene.objects[10] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(1.0, 1.0, 1.0), 0.5, MARBLE2);
+	e.scene.objects[11] = create_sphere(0.5, 2, 4.0, 0.75, create_color(1.0, 1.0, 1.0), 0.5, NOISE);
 	e.scene.objects[12].type = 0;
 
 	e.scene.lights = (t_light*)malloc(sizeof(t_light) * 2);
@@ -323,6 +348,10 @@ t_env	init(void)
 //	e.scene.lights[1] = create_light_bulb(-3, 0, 0, create_color(1.0, 1.0, 1.0), 6);
 	e.scene.lights[0] = create_light_bulb(0, 0, 0, create_color(1.0, 1.0, 1.0), 6);
 	e.scene.lights[1].type = 0;
+	if (!(e.texture.wood = LoadBMP("textures/WOOD.bmp")))
+		exit(0);
+	if (!(e.texture.paper = LoadBMP("textures/PAPER.bmp")))
+		exit(0);
 	return (e);
 }
 
@@ -340,6 +369,9 @@ int		main(int ac, char **av)
 		exit(0);
 	if (!(renderer = SDL_CreateRenderer(win, -1, 0)))
 		exit(0);
+	if (!IMG_Init(IMG_INIT_JPG))
+		exit(0);
+
 
 	e = init();
 	threads(renderer, e);
@@ -380,6 +412,7 @@ int		main(int ac, char **av)
 	}
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(win);
+	IMG_Quit();
 	SDL_Quit();
 	return (0);
 }

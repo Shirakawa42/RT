@@ -17,19 +17,20 @@ SRC = src/main.c \
 	  src/create_objects.c \
 	  src/intersects.c \
 	  src/normals.c \
-	  src/texture.c \
+	  src/perlin.c \
 	  src/color.c \
-	  src/matrice.c
+	  src/matrice.c \
+	  src/texture.c
 OBJ = $(SRC:.c=.o)
 	FLAGS = #-Wall -Wextra -Werror
 
 all: $(NAME)
 
 %.o: %.c
-	gcc -c $^ -o $@ -I ./includes -I /Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/
+	gcc -c $^ -o $@ -I ./includes
 
 $(NAME): $(OBJ)
-	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L /Users/lvasseur/.brew/Cellar/sdl2/2.0.5/lib/ -lSDL2
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -lSDL2 -lm -lSDL2_image
 
 c clean:
 	rm -f $(OBJ)
