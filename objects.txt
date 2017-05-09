@@ -1,13 +1,4 @@
 sphere
-{ 0, 0, 8.0, 1.5 }
-{ 255, 0, 0, 0.5 }
-
-sphere
-{ 2, -2, 9.0, 1.0 }
-{ 0, 255, 0, 0.5 }
-
-
-sphere
 	position x y z
 	rayon r
 	reflection ref

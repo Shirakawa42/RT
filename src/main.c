@@ -113,8 +113,9 @@ t_color ray_trace(t_ray ray, t_object *objects, t_light *lights, int index)
 	return (create_color(0, 0, 0));
 }
 
-void launch(SDL_Renderer *renderer)
+void launch(SDL_Renderer *renderer, int argc, char **argv)
 {
+	ft_parsing (argc, argv);
 	// rempli au parsing
 	t_object objects[5];
 	objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(255, 0, 0), 0.5);
@@ -173,7 +174,7 @@ int main(int ac, char **av)
 		exit(0);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
-	launch(renderer);
+	launch(renderer, ac, av);
 	SDL_RenderPresent(renderer);
 	while (SDL_WaitEvent(&event))
 		if (event.type == SDL_QUIT)

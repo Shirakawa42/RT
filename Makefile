@@ -21,7 +21,8 @@ SRCS = src/main.c \
     src/color.c \
     src/intersects.c \
     src/normals.c \
-    src/parse.c
+    src/parse.c \
+	src/interprete_values.c
 
 FLAGS = -I /Library/Frameworks/SDL2.framework/Headers -L./libft -lft
 OBJS = $(SRCS:.c=.o)
