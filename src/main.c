@@ -233,6 +233,8 @@ int		launch(void *truc)
 	radian(&e.scene.rotation.tmp1, &e.scene.rotation.tmp2, &e.scene.rotation.tmp3, e);
 
 	ssaa_squared = ssaa * ssaa;
+	if (e.editmod >= 1)
+		ssaa_squared = 1;
 	while (y < h)
 	{
 		x = savex;
@@ -329,28 +331,33 @@ t_env	init(void)
 	e.scene.camera.d = create_vec(0, 0, 1);
 
 	e.scene.objects = (t_object*)malloc(sizeof(t_object) * 13);
-	e.scene.objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(1.0, 0.0, 1.0), 0.0, PAPER);
-	e.scene.objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(0.0, 1.0, 0), 0.0, WOOD);
-	e.scene.objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(1.0, 1.0, 1.0), 0.5, NOISE2);
+	e.scene.objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(1.0, 0.0, 1.0), 0.0, GRASS);
+	e.scene.objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(0.0, 1.0, 0), 0.0, PAPER);
+	e.scene.objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(1.0, 1.0, 1.0), 0.0, WOOD);
 	e.scene.objects[3] = create_plane(create_vec(0, -2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[4] = create_plane(create_vec(0, 2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
-	e.scene.objects[5] = create_plane(create_vec(0, 0, 13), create_vec(0, 0, -1), create_color(1.0, 1.0, 1.0), 0.5, 0);
+	e.scene.objects[5] = create_plane(create_vec(0, 0, 17), create_vec(0, 0, -1), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[6] = create_plane(create_vec(4, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[7] = create_plane(create_vec(-4, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
 	e.scene.objects[8] = create_plane(create_vec(0, 0, -1), create_vec(0, 0, 1), create_color(1.0, 1.0, 1.0), 0, 0);
 	e.scene.objects[9] = create_cylinder(create_vec(-2, 0, 6), 0.5, create_color(0, 0, 1.0), 0.5, MARBLE2);
 	e.scene.objects[10] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(1.0, 1.0, 1.0), 0.5, MARBLE2);
-	e.scene.objects[11] = create_sphere(0.5, 2, 4.0, 0.75, create_color(1.0, 1.0, 1.0), 0.5, NOISE);
+	e.scene.objects[11] = create_sphere(0.5, 2, 4.0, 0.75, create_color(1.0, 1.0, 1.0), 0.0, METAL);
 	e.scene.objects[12].type = 0;
 
-	e.scene.lights = (t_light*)malloc(sizeof(t_light) * 2);
+	e.scene.lights = (t_light*)malloc(sizeof(t_light) * 3);
 //	e.scene.lights[0] = create_light_bulb(3, 0, 0, create_color(1.0, 1.0, 1.0), 6);
 //	e.scene.lights[1] = create_light_bulb(-3, 0, 0, create_color(1.0, 1.0, 1.0), 6);
-	e.scene.lights[0] = create_light_bulb(0, 0, 0, create_color(1.0, 1.0, 1.0), 6);
-	e.scene.lights[1].type = 0;
+	e.scene.lights[0] = create_light_bulb(0, 0, 0, create_color(1.0, 1.0, 1.0), 8);
+	e.scene.lights[1] = create_light_bulb(0, 0, 15, create_color(1.0, 1.0, 1.0), 5);
+	e.scene.lights[2].type = 0;
 	if (!(e.texture.wood = LoadBMP("textures/WOOD.bmp")))
 		exit(0);
 	if (!(e.texture.paper = LoadBMP("textures/PAPER.bmp")))
+		exit(0);
+	if (!(e.texture.metal = LoadBMP("textures/METAL.bmp")))
+		exit(0);
+	if (!(e.texture.grass = LoadBMP("textures/GRASS.bmp")))
 		exit(0);
 	return (e);
 }

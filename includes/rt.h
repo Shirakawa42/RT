@@ -19,10 +19,10 @@
 #include "SDL2/SDL_thread.h"
 #include "SDL2/SDL_image.h"
 #include "../libft/libft.h"
-#define H 700
-#define W 700
+#define H 1000
+#define W 1000
 #define NB_THREADS 8 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
-#define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
+#define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
 
 typedef struct	s_vec
 {
@@ -58,6 +58,8 @@ typedef struct	s_color
 
 #define WOOD 6
 #define PAPER 7
+#define METAL 8
+#define GRASS 9
 
 typedef struct	s_sphere
 {
@@ -142,6 +144,8 @@ typedef struct	s_texture
 {
 	SDL_Surface *wood;
 	SDL_Surface *paper;
+	SDL_Surface *metal;
+	SDL_Surface *grass;
 }				t_texture;
 
 typedef struct	s_env

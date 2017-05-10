@@ -41,6 +41,10 @@ Uint32		WhichTexture(t_env e, int i, int w, int h)
 		return (SDL_GetPixel32(e.texture.wood, w, h));
 	if (e.scene.objects[i].texture == PAPER)
 		return (SDL_GetPixel32(e.texture.paper, w, h));
+	if (e.scene.objects[i].texture == METAL)
+		return (SDL_GetPixel32(e.texture.metal, w, h));
+	if (e.scene.objects[i].texture == GRASS)
+		return (SDL_GetPixel32(e.texture.grass, w, h));
 }
 
 t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i)
@@ -81,6 +85,16 @@ t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i)
 	{
 		w = e.texture.paper->w * u;
 		h = e.texture.paper->h * v;
+	}
+	else if (e.scene.objects[i].texture == METAL)
+	{
+		w = e.texture.metal->w * u;
+		h = e.texture.metal->h * v;
+	}
+	else if (e.scene.objects[i].texture == GRASS)
+	{
+		w = e.texture.grass->w * u;
+		h = e.texture.grass->h * v;
 	}
 
 	rgb = WhichTexture(e, i, w, h);
