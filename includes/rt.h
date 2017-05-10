@@ -83,11 +83,11 @@ typedef struct s_light
 
 typedef struct t_objparams
 {
-	int i;
-	int cpt;
 	int obj_mode;
+	int tmp;
 	char **params_obj;
 	int nbr_obj_param;
+	int nbr_objs;
 	
 }			t_objparams;
 

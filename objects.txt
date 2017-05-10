@@ -1,5 +1,12 @@
 sphere
-	position x y z
-	rayon r
-	reflection ref
-	couleur r g b
+	position x; y; z;
+	rayon r;
+	reflection ref;
+	couleur r; g; b;
+
+
+sphere
+	position x; y; z;
+	rayon r;
+	reflection ref;
+	couleur r; g; b;
