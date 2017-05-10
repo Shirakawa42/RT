@@ -44,11 +44,12 @@ typedef struct	s_color
 	double	b;
 }				t_color;
 
+#define PI 3.14159265359
+
 #define SPHERE 1
 #define PLANE 2
 #define CYLINDER 3
 #define CONE 4
-
 
 #define MARBLE 1
 #define MARBLE2 2
@@ -60,6 +61,7 @@ typedef struct	s_color
 #define PAPER 7
 #define METAL 8
 #define GRASS 9
+#define LAVA 10
 
 typedef struct	s_sphere
 {
@@ -146,6 +148,7 @@ typedef struct	s_texture
 	SDL_Surface *paper;
 	SDL_Surface *metal;
 	SDL_Surface *grass;
+	SDL_Surface *lava;
 }				t_texture;
 
 typedef struct	s_env

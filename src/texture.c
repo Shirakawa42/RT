@@ -45,15 +45,13 @@ Uint32		WhichTexture(t_env e, int i, int w, int h)
 		return (SDL_GetPixel32(e.texture.metal, w, h));
 	if (e.scene.objects[i].texture == GRASS)
 		return (SDL_GetPixel32(e.texture.grass, w, h));
+	if (e.scene.objects[i].texture == LAVA)
+		return (SDL_GetPixel32(e.texture.lava, w, h));
 }
 
 t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i)
 {
-	t_sphere	sphere;
-	t_vec		c;
 	t_vec		N;
-	double		tmp;
-	double		tmp2;
 	double		v;
 	double		u;
 	int			w;
@@ -63,18 +61,12 @@ t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i)
 
 	if (e.scene.objects[i].texture < WOOD)
 		return (create_color(0, 0, 0));
-	sphere = e.scene.objects[i].shape.sphere;
-	c = sphere.c;
-	N.x = p.x - c.x;
-	N.y = p.y - c.y;
-	N.z = p.z - c.z;
+
+	N = sphere_normal(e.scene.objects[i].shape, p, ray.d);
 	normalize(&N);
-	tmp = acos(N.z);
-	tmp2 = atan2(N.y, N.x);
-	v = tmp / 3.141592;
-	if (tmp2 < 0)
-		tmp2 += 2 * 3.141592;
-	u = tmp2 / (2 * 3.141592);
+	u = asin(N.x) / PI + 0.5;
+	v = asin(N.y) / PI + 0.5;
+
 
 	if (e.scene.objects[i].texture == WOOD)
 	{
@@ -95,6 +87,11 @@ t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i)
 	{
 		w = e.texture.grass->w * u;
 		h = e.texture.grass->h * v;
+	}
+	else if (e.scene.objects[i].texture == LAVA)
+	{
+		w = e.texture.lava->w * u;
+		h = e.texture.lava->h * v;
 	}
 
 	rgb = WhichTexture(e, i, w, h);
