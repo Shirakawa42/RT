@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/04/11 18:33:17 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/11 18:51:47 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "SDL.h"
-#include "libft.h"
+#include "../libft/libft.h"
 #define H 720
 #define W 720
 
@@ -81,15 +81,26 @@ typedef struct s_light
 	union u_light light;
 } t_light;
 
-typedef struct t_objparams
+typedef struct s_objparams
 {
 	int obj_mode;
 	int tmp;
 	char **params_obj;
 	int nbr_obj_param;
 	int nbr_objs;
+	int param_mod;
 	
 }			t_objparams;
+
+typedef struct s_objects_args
+{
+	t_vec p;
+	t_vec n;
+	double r; 
+	t_color color;
+	double reflection; 
+	int texture;
+}			t_objects_args;
 
 // vector.c
 double dot(t_vec a, t_vec b);
@@ -109,7 +120,8 @@ t_color create_color(int r, int g, int b);
 int sphere_intersect(union u_shape shape, t_ray ray, double *t);
 
 // normals.c
-t_vec sphere_normal(union u_shape shape, t_vec p);
-int use_values(char **content);
+t_vec	sphere_normal(union u_shape shape, t_vec p);
+int		use_values(char **content);
 int     ft_parsing(int argc, char **argv);
+int		put_in_fcts (char *arg, t_objparams *prms);
 #endif

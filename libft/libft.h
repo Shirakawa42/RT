@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 16:13:55 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/02/23 20:19:11 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/11 15:36:58 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void				ft_putendl_fd(const char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 int					get_next_line(const int fd, char **line);
 void				ft_putenbr(int n);
+char				*ft_strdupzero(const char *src);
 
 typedef struct		s_list
 {

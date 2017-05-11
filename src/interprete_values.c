@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   interprete_values.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yismail <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/11 14:59:07 by yismail           #+#    #+#             */
+/*   Updated: 2017/05/11 18:48:21 by yismail          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "rt.h"
 
 char *ft_cleaned(char *str, char *tmp_params_obj)
@@ -20,14 +33,13 @@ char *ft_cleaned(char *str, char *tmp_params_obj)
 
 int   prepare_for_fcts( t_objparams *prms)
 {
-	int i;
+	int i = 0;
 	char *tmp_params_obj;
 
-	i = 0;
 	while (i < prms->nbr_obj_param)
 	{
-		prms->params_obj[i] = ft_strdup(ft_cleaned(prms->params_obj[i], tmp_params_obj));
-		ft_putstr(prms->params_obj[i]);
+		prms->params_obj[i] = ft_strdupzero(ft_cleaned(prms->params_obj[i], tmp_params_obj));
+		put_in_fcts(prms->params_obj[i], prms);
 		i++;
 	}
 	return (0);
@@ -35,19 +47,19 @@ int   prepare_for_fcts( t_objparams *prms)
 
 int object_type (char **line, t_objparams *prms)
 {
-	if (!(strcmp(*line, "sphere")))
+	if (!(ft_strcmp(*line, "sphere")))
 	{
 		prms->obj_mode = 1;
 		prms->nbr_obj_param = 4;
 		return (0);
 	}
-	if (!(strcmp(*line, "plane")))
+	if (!(ft_strcmp(*line, "plane")))
 	{
 		prms->obj_mode = 2;
 		prms->nbr_obj_param = 4;
 		return (0);
 	}
-	if (!(strcmp(*line, "cylinder")))
+	if (!(ft_strcmp(*line, "cylinder")))
 	{
 		prms->obj_mode = 3;
 		prms->nbr_obj_param = 4;
@@ -91,7 +103,7 @@ int use_values(char **content)
 				cpt++;
 			}
 		}
-		if (cpt >= prms.nbr_obj_param)
+		if (cpt == prms.nbr_obj_param)
 			prepare_for_fcts(&prms);
 		i++;
 	}

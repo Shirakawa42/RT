@@ -1,7 +1,7 @@
 sphere
-	position x; y; z;
+	position 23; 7.0; 4.9;
 	rayon r;
-	reflection ref;
+	reflection refi;
 	couleur r; g; b;
 
 
