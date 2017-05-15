@@ -22,7 +22,7 @@
 #define H 1000
 #define W 1000
 #define NB_THREADS 8 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
-#define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
+#define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
 
 typedef struct	s_vec
 {
@@ -101,6 +101,7 @@ typedef struct	s_object
 	t_color			color;
 	double			reflection;
 	int				texture;
+	int				i;
 	union u_shape	shape;
 }				t_object;
 
@@ -198,6 +199,8 @@ t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec	plane_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec   cone_normal(union u_shape shape, t_vec p, t_vec d);
+t_vec	cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d);
+t_vec	plane_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 
 // perlin.c
 t_vec	text1(t_vec n, int text);

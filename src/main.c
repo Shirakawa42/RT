@@ -21,6 +21,9 @@ t_get_normal get_normal[5] = { NULL, sphere_normal, plane_normal, cylinder_norma
 typedef t_color(*t_texturing)(t_ray ray, t_vec p, t_env e, int tmp_i);
 t_texturing texturing[5] = { NULL, texturing_sphere, texturing_plane, texturing_cylinder, texturing_cone };
 
+typedef t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
+t_get_normal get_normal_sphered[5] = { NULL, sphere_normal, plane_normal_sphered, cylinder_normal_sphered, NULL };
+
 t_color	get_intensity(t_light light, double t)
 {
 	t_color	color;
@@ -141,9 +144,25 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 	if (tmp_i >= 0)
 	{
 		p = get_point(ray, tmp_t);
-		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
-		if (e.scene.objects[tmp_i].texture >= 1 && e.scene.objects[tmp_i].texture <= 5 && e.editmod == 0)
+
+
+
+
+
+		if (e.scene.objects[tmp_i].texture >= NOISE && e.scene.objects[tmp_i].texture <= NOISE2 && e.editmod == 0)
+		{
+			normal = get_normal_sphered[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
 			normal = text1(normal, e.scene.objects[tmp_i].texture);
+		}
+		else if (e.scene.objects[tmp_i].texture == MARBLE || e.scene.objects[tmp_i].texture == MARBLE2)
+		{
+			normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
+			normal = text1(normal, e.scene.objects[tmp_i].texture);
+		}
+		else
+			normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
+
+
 		tmp_color = lightning(ray, p, tmp_i, normal, e, texturing[e.scene.objects[tmp_i].type](ray, p, e, tmp_i));
 		if (e.scene.objects[tmp_i].texture != 4 && e.scene.objects[tmp_i].texture != 5 && e.scene.objects[tmp_i].texture != 2)
 		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
@@ -334,24 +353,26 @@ t_env	init(void)
 	e.scene.objects[0] = create_sphere(0, 0, 8.0, 1.5, create_color(1.0, 0.0, 1.0), 0.0, LAVA);
 	e.scene.objects[1] = create_sphere(2, -2, 9.0, 1.0, create_color(0.0, 1.0, 0), 0.0, PAPER);
 	e.scene.objects[2] = create_sphere(-0.5, 0.5, 4.0, 0.5, create_color(1.0, 1.0, 1.0), 0.0, WOOD);
-	e.scene.objects[3] = create_plane(create_vec(0, -2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
-	e.scene.objects[4] = create_plane(create_vec(0, 2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
-	e.scene.objects[5] = create_plane(create_vec(0, 0, 17), create_vec(0, 0, -1), create_color(1.0, 1.0, 1.0), 0.5, 0);
-	e.scene.objects[6] = create_plane(create_vec(4, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
-	e.scene.objects[7] = create_plane(create_vec(-4, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, 0);
-	e.scene.objects[8] = create_plane(create_vec(0, 0, -1), create_vec(0, 0, 1), create_color(1.0, 1.0, 1.0), 0, 0);
-	e.scene.objects[9] = create_cylinder(create_vec(-2, 0, 6), 0.5, create_color(0, 0, 1.0), 0.0, WOOD);
-	e.scene.objects[10] = create_cylinder(create_vec(2, 0, 10), 0.8, create_color(1.0, 1.0, 1.0), 0.5, MARBLE2);
+	e.scene.objects[3] = create_plane(create_vec(20, -10, 5), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0, GRASS);
+	e.scene.objects[4] = create_plane(create_vec(20, 10, 5), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0, METAL);
+	e.scene.objects[5] = create_plane(create_vec(0, 0, 17), create_vec(0, 0, -1), create_color(1.0, 1.0, 1.0), 0.0, LAVA);
+	e.scene.objects[6] = create_plane(create_vec(4, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0, PAPER);
+	e.scene.objects[7] = create_plane(create_vec(-4, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0, METAL);
+	e.scene.objects[8] = create_plane(create_vec(0, 0, -1), create_vec(0, 0, 1), create_color(1.0, 1.0, 1.0), 0, GRASS);
+	e.scene.objects[9] = create_cylinder(create_vec(-2, 0, 6), 0.5, create_color(0, 0, 1.0), 0.0, PAPER);
+	e.scene.objects[10] = create_cylinder(create_vec(2, 0, 10), 0.1, create_color(1.0, 1.0, 1.0), 0.0, GRASS);
 	e.scene.objects[11] = create_sphere(0.5, 2, 4.0, 0.75, create_color(1.0, 1.0, 1.0), 0.0, METAL);
 	e.scene.objects[12] = create_sphere(-2, 2, 12.0, 1.5, create_color(1.0, 0.0, 1.0), 0.0, GRASS);
 	e.scene.objects[13].type = 0;
 
-	e.scene.lights = (t_light*)malloc(sizeof(t_light) * 3);
+	e.scene.lights = (t_light*)malloc(sizeof(t_light) * 5);
 //	e.scene.lights[0] = create_light_bulb(3, 0, 0, create_color(1.0, 1.0, 1.0), 6);
 //	e.scene.lights[1] = create_light_bulb(-3, 0, 0, create_color(1.0, 1.0, 1.0), 6);
 	e.scene.lights[0] = create_light_bulb(0, 0, 0, create_color(1.0, 1.0, 1.0), 8);
-	e.scene.lights[1] = create_light_bulb(0, 0, 16, create_color(1.0, 1.0, 1.0), 6);
-	e.scene.lights[2].type = 0;
+	e.scene.lights[1] = create_light_bulb(0, 0, 13, create_color(1.0, 1.0, 1.0), 10);
+	e.scene.lights[2] = create_light_bulb(8, 0, 6, create_color(1.0, 1.0, 1.0), 6);
+	e.scene.lights[3] = create_light_bulb(-8, 0, 6, create_color(1.0, 1.0, 1.0), 6);
+	e.scene.lights[4].type = 0;
 	if (!(e.texture.wood = LoadBMP("textures/WOOD.bmp")))
 		exit(0);
 	if (!(e.texture.paper = LoadBMP("textures/PAPER.bmp")))
