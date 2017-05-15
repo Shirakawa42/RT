@@ -25,7 +25,7 @@ SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c \
 	ft_itoa.c get_next_line.c \
 	ft_putchar.c ft_putstr.c ft_putendl.c ft_putnbr.c ft_putchar_fd.c \
 	ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putenbr.c ft_strdupzero.c\
-
+	ft_atof.c
 all: $(NAME)
 
 $(NAME): 

@@ -28,19 +28,31 @@ int do_it(char *values, t_objparams *prms)
 
 	while (tab_arg[i])
 	{
+		printf ("param_mod %d\n", prms->param_mod);
+		printf("i : %d\n", i);
 		if ((prms->param_mod == 1) && (i == 0))
-			args.p.x = ft_atoi(tab_arg[i]);
-		if ((prms->param_mod == 1) && (i == 1))
-            args.p.y = ft_atoi(tab_arg[i]);
-		if ((prms->param_mod == 1) && (i == 2))
-            args.p.z = ft_atoi(tab_arg[i]);
+			args.p.x = ft_atof(tab_arg[i]);
+		else if ((prms->param_mod == 1) && (i == 1))
+            args.p.y = ft_atof(tab_arg[i]);
+		else if ((prms->param_mod == 1) && (i == 2))
+            args.p.z = ft_atof(tab_arg[i]);
+		else if ((prms->param_mod == 2) && (i == 0))
+			args.r = ft_atof(tab_arg[i]);
+		else if ((prms->param_mod == 3) && (i == 0))
+			args.refl = ft_atof(tab_arg[i]);
+		else if ((prms->param_mod == 4) && (i == 0))
+			args.color.r = ft_atoi(tab_arg[i]);
+		else if ((prms->param_mod == 4) && (i == 1))
+			args.color.g = ft_atoi(tab_arg[i]);
+		else if ((prms->param_mod == 4) && (i == 2))
+			args.color.b = ft_atoi(tab_arg[i]);
 		i++;
 	}
 
 	ft_putstr ("numbers");
-	ft_putnbr(args.p.x);
-	ft_putnbr(args.p.y);
-	ft_putnbr(args.p.z);
+	//printf ("ref : %f\n", args.refl);
+	//printf("color r : %i\n", args.color.r);
+	printf("rayon : %f\n", args.r);
 	return (0);
 }
 

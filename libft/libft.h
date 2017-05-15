@@ -76,6 +76,7 @@ void				ft_putnbr_fd(int n, int fd);
 int					get_next_line(const int fd, char **line);
 void				ft_putenbr(int n);
 char				*ft_strdupzero(const char *src);
+double				ft_atof(char *s);
 
 typedef struct		s_list
 {

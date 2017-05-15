@@ -98,7 +98,7 @@ typedef struct s_objects_args
 	t_vec n;
 	double r; 
 	t_color color;
-	double reflection; 
+	double refl; 
 	int texture;
 }			t_objects_args;
 
