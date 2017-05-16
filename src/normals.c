@@ -6,15 +6,15 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:29:36 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:31:07 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/04 17:46:58 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_vec	sphere_normal(union u_shape shape, t_vec p)
+t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d)
 {
-	t_vec	n;
+t_vec	n;
 
 	n.x = (p.x - shape.sphere.c.x) / shape.sphere.r;
 	n.y = (p.y - shape.sphere.c.y) / shape.sphere.r;
@@ -22,12 +22,14 @@ t_vec	sphere_normal(union u_shape shape, t_vec p)
 	return (n);
 }
 
-t_vec	plane_normal(union u_shape shape, t_vec p)
+t_vec	plane_normal(union u_shape shape, t_vec p, t_vec d)
 {
+	if (dot(shape.plane.n, d) > 0)
+		return (create_vec(-shape.plane.n.x, -shape.plane.n.y, -shape.plane.n.z));
 	return (shape.plane.n);
 }
 
-t_vec	cylinder_normal(union u_shape shape, t_vec p)
+t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d)
 {
 	t_vec	n;
 	double	r;
@@ -39,7 +41,7 @@ t_vec	cylinder_normal(union u_shape shape, t_vec p)
 	return (n);
 }
 
-t_vec   cone_normal(union u_shape shape, t_vec p)
+t_vec   cone_normal(union u_shape shape, t_vec p, t_vec d)
 {
 	t_vec	n;
 	double	r;
@@ -49,4 +51,24 @@ t_vec   cone_normal(union u_shape shape, t_vec p)
     n.y = shape.cone.d.y * r;
 	n.z = (p.z - shape.cone.d.z) * r;
     return (n);
+}
+
+t_vec	cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d)
+{
+	t_vec	n;
+
+	n.x = (p.x - shape.cylinder.p.x) / (shape.cylinder.r * 3);
+	n.y = (p.y - shape.cylinder.p.y) / (shape.cylinder.r * 3);
+	n.z = (p.z - shape.cylinder.p.z) / (shape.cylinder.r * 3);
+	return (n);
+}
+
+t_vec	plane_normal_sphered(union u_shape shape, t_vec p, t_vec d)
+{
+	t_vec	n;
+
+	n.x = (p.x - shape.plane.p.x) / 4;
+	n.y = (p.y - shape.plane.p.y) / 4;
+	n.z = (p.z - shape.plane.p.z) / 4;
+	return (n);
 }
