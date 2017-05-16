@@ -22,8 +22,8 @@
 #define H 1000
 #define W 1000
 #define NB_THREADS 8 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
-#define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
-#define NB_REFLEC 5
+#define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
+#define NB_REFLEC 4
 
 typedef struct	s_vec
 {

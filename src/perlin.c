@@ -126,9 +126,6 @@ t_vec	text1(t_vec n, int text)
 	double	fy;
 	double	fz;
 
-//	printf("\n%f\n", n.x);
-//	printf("%f\n", n.y);
-//	printf("%f\n", n.z);
 	f0 = f(n.x, n.y, n.z, text);
 	fx = f(n.x + 0.0001, n.y, n.z, text);
 	fy = f(n.x, n.y + 0.0001, n.z, text);
@@ -137,8 +134,5 @@ t_vec	text1(t_vec n, int text)
 	n.y -= (fy - f0) / 0.0001;
 	n.z -= (fz - f0) / 0.0001;
 	normalize(&n);
-//	printf("%f\n", n.x);
-//	printf("%f\n", n.y);
-//	printf("%f\n", n.z);
 	return (n);
 }
