@@ -6,11 +6,11 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/04 17:44:19 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/16 17:06:53 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 typedef int(*t_intersect)(union u_shape, t_ray, double *);
 t_intersect intersect[5] = { NULL, sphere_intersect, plane_intersect, cylinder_intersect, cone_intersect };

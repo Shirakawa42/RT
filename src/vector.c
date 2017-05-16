@@ -6,11 +6,11 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:15:26 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:30:12 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/16 16:50:11 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 double	dot(t_vec a, t_vec b)
 {

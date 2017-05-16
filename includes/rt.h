@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/04 17:43:46 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/16 17:11:45 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 # define RT_H
 
 #include <math.h>
-#include "SDL2/SDL.h"
+#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
 #include "SDL2/SDL_thread.h"
-#include "SDL2/SDL_image.h"
+#include "/Users/yismail/.brew/Cellar/sdl_image/1.2.12_6/include/SDL/SDL_image.h"
 #include "../libft/libft.h"
 #define H 1000
 #define W 1000
@@ -25,25 +25,50 @@
 #define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
 #define NB_REFLEC 4
 
-typedef struct	s_vec
+typedef union   u_vec
 {
-	double x;
-	double y;
-	double z;
-}				t_vec;
+    struct
+    {
+        double  x;
+        double  y;
+        double  z;
+    };
+    struct
+    {
+        double  phi;
+        double  theta;
+        double  r;
+    };
+    double      t[3];
+}               t_vec;
 
-typedef struct	s_ray
+typedef union u_color
 {
-	t_vec	o;
-	t_vec	d;
-}				t_ray;
+    uint8_t     t[4];
+    uint32_t    total;
+    struct
+    {
+        uint8_t r;
+        uint8_t g;
+        uint8_t b;
+        uint8_t a;
+    };
+}               t_color;
 
-typedef struct	s_color
+typedef enum    e_mode
 {
-	double	r;
-	double	g;
-	double	b;
-}				t_color;
+    ERROR,
+    POSITION,
+    RAYON,
+    REFLEXION,
+    COLOR
+}               t_mode;
+
+typedef		struct	s_ray
+{
+	t_vec			o;
+	t_vec			d;
+}					t_ray;
 
 #define PI 3.14159265359
 
@@ -169,6 +194,29 @@ typedef struct	s_void
 	t_color			colortab[W][H];
 	int				ssaa;
 }				t_void;
+
+typedef struct s_objects_args
+{
+    t_vec p;
+    t_vec n;
+    double r;
+    t_color color;
+    double refl;
+    int texture;
+}           t_objects_args;
+
+
+typedef struct s_objparams
+{
+    int obj_mode;
+    int tmp;
+    char **params_obj;
+    int nbr_obj_param;
+    int nbr_objs;
+    t_mode param_mod;
+    t_objects_args args;
+
+}           t_objparams;
 
 // vector.c
 double		dot(t_vec a, t_vec b);

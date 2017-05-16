@@ -6,11 +6,11 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:11:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:12:26 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/16 16:48:09 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture)
 {

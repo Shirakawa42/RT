@@ -6,11 +6,11 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:13:15 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:13:47 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/16 16:48:26 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 {

@@ -6,11 +6,11 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:07:58 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:08:54 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/16 16:48:00 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_color	create_color(double r, double g, double b)
 {

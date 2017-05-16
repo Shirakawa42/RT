@@ -6,11 +6,11 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:29:36 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/04 17:46:58 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/16 16:49:29 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d)
 {

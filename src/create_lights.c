@@ -6,11 +6,11 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:05:06 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:05:47 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/16 16:47:54 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_light	create_light_bulb(double x, double y, double z, t_color color, double intensity)
 {

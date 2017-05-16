@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/05/04 15:42:29 by lvasseur         ###   ########.fr        #
+#    Updated: 2017/05/16 17:12:54 by yismail          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,26 +20,27 @@ SRC = src/main.c \
 	  src/perlin.c \
 	  src/color.c \
 	  src/matrice.c \
-	  src/texture.c
+      src/parse.c \
+      src/interprete_values.c \
+      src/put_in_fcts.c \
+	  src/texture.c\
+
 OBJ = $(SRC:.c=.o)
-	FLAGS = #-Wall -Wextra -Werror
+		FLAGS = #-Wall -Wextra -Werror
 
 all: $(NAME)
 
 %.o: %.c
-	gcc -c $^ -o $@ -I ./includes
+		gcc -c $^ -o $@ -I ./includes -I /Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/
 
 $(NAME): $(OBJ)
-	@make -C libft/
-	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -lSDL2 -lm -lSDL2_image
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L /Users/yismail/.brew/Cellar/sdl2/2.0.5/lib/ -lSDL2
 
 c clean:
-	rm -f $(OBJ)
-	@make clean -C libft/
+		rm -f $(OBJ)
 
 f fclean: clean
-	rm -f $(NAME)
-	@make fclean -C libft/
+		rm -f $(NAME)
 
 r re: fclean all
 
