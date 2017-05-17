@@ -6,7 +6,7 @@
 /*   By: yismail <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 14:58:55 by yismail           #+#    #+#             */
-/*   Updated: 2017/05/16 16:49:58 by yismail          ###   ########.fr       */
+/*   Updated: 2017/05/17 12:57:04 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,15 @@ int put_in_fcts (char *arg, t_objparams *prms)
 		else
 			return(0);
 		param_mod (param, prms);
-		values = malloc (sizeof(char) * ft_strlen(str) + 1);
+		values = malloc(sizeof(char) * ft_strlen(str) + 1);
 		ft_bzero(values, ft_strlen(str) + 1);
 		while (i < ft_strlen(param))
 			i++;
 		while (str[i] != '\0')
 			values[cpt++] = str[i++];
 		do_it(values, prms);
-		free (values);
-		ft_bzero (param, ft_strlen(param) + 1);
+		free(values);
+		ft_bzero(param, ft_strlen(param) + 1);
 	}
 	return (0);
 }

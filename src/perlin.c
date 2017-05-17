@@ -90,7 +90,7 @@ double	turbulence(double x, double y, double z, double freq)
 	double	t = -0.5;
 	while (freq <= W/12)
 	{
-		t += abs(noise(x, y, z, freq) / freq);
+		t += fabs(noise(x, y, z, freq) / freq);
 		freq *= 2;
 	}
 	return (t);

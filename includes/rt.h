@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/16 17:11:45 by yismail          ###   ########.fr       */
+/*   Updated: 2017/05/17 12:58:10 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 # define RT_H
 
 #include <math.h>
-#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
-#include "SDL2/SDL_thread.h"
-#include "/Users/yismail/.brew/Cellar/sdl_image/1.2.12_6/include/SDL/SDL_image.h"
+#include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
+#include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
 #include "../libft/libft.h"
 #define H 1000
 #define W 1000
-#define NB_THREADS 8 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
+#define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
 #define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
-#define NB_REFLEC 4
+#define NB_REFLEC 2
 
 typedef union   u_vec
 {
@@ -264,5 +263,9 @@ t_color		texturing_plane(t_ray ray, t_vec p, t_env e, int i);
 t_color		texturing_cylinder(t_ray ray, t_vec p, t_env e, int i);
 t_color		texturing_cone(t_ray ray, t_vec p, t_env e, int i);
 SDL_Surface	*LoadBMP(char *fichier);
+
+// parseur
+int			put_in_fcts(char *arg, t_objparams *prms);
+int			use_values(char **content);
 
 #endif
