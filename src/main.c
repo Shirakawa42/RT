@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/17 15:22:33 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/17 15:54:24 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,7 +338,8 @@ t_env	init(void)
 	e.scene.camera.o = create_vec(0, 0, 0);
 	e.scene.camera.d = create_vec(0, 0, 1);
 
-	e.scene.objects = (t_object*)malloc(sizeof(t_object) * 15);
+	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 15)) == 0)
+		exit(0);
 
 
 	e.scene.objects[0] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, METAL);
@@ -362,7 +363,8 @@ t_env	init(void)
 
 	e.scene.objects[14].type = 0;
 
-	e.scene.lights = (t_light*)malloc(sizeof(t_light) * 7);
+	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 7)) == 0)
+		exit(0);
 	e.scene.lights[0] = create_light_bulb(0, 1.84, 1, create_color(0.5, 0.5, 0.5), 10);
 	e.scene.lights[1] = create_light_bulb(0, 1.84, 17, create_color(0.5, 0.5, 0.5), 10);
 	e.scene.lights[2] = create_light_bulb(0, 1.84, 33, create_color(0.5, 0.5, 0.5), 10);

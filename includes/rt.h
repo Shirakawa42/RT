@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/17 15:22:04 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/17 16:00:57 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 #include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
 #include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
 #include "../libft/libft.h"
-#define H 1000
-#define W 1000
+#define H 800
+#define W 800
 #define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
-#define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
-#define NB_REFLEC 4
+#define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
+#define NB_REFLEC 5
 
 typedef struct	s_vec
 {
@@ -165,7 +165,7 @@ typedef struct	s_void
 	SDL_Renderer	*renderer;
 	SDL_mutex		*mutex;
 	int				number;
-	t_color			colortab[W][H];
+	t_color			colortab[W + 1][H + 1];
 	int				ssaa;
 }				t_void;
 
