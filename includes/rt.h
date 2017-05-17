@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/04 17:43:46 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/17 15:22:04 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 # define RT_H
 
 #include <math.h>
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_thread.h"
-#include "SDL2/SDL_image.h"
+#include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
+#include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
 #include "../libft/libft.h"
 #define H 1000
 #define W 1000
-#define NB_THREADS 8 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
+#define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
 #define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
 #define NB_REFLEC 4
 

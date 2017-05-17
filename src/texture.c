@@ -47,6 +47,7 @@ Uint32		WhichTexture(t_env e, int i, int w, int h)
 		return (SDL_GetPixel32(e.texture.grass, w, h));
 	if (e.scene.objects[i].texture == LAVA)
 		return (SDL_GetPixel32(e.texture.lava, w, h));
+	return (0);
 }
 
 t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i)

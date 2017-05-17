@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:15:26 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:30:12 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/17 15:25:26 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ t_vec	bisector(t_vec v, t_vec l)
 	sum.x = v.x + l.x;
 	sum.y = v.y + l.y;
 	sum.z = v.z + l.z;
-	b.x = sum.x / abs(sum.x);
-	b.y = sum.y / abs(sum.y);
-	b.z = sum.z / abs(sum.z);
+	b.x = sum.x / (int)fabs(sum.x);
+	b.y = sum.y / (int)fabs(sum.y);
+	b.z = sum.z / (int)fabs(sum.z);
 	return (b);
 }
 

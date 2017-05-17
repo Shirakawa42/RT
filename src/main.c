@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/04 17:44:19 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/17 15:22:33 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,8 +397,6 @@ int		main(int ac, char **av)
 		exit(0);
 	if (!(renderer = SDL_CreateRenderer(win, -1, 0)))
 		exit(0);
-	if (!IMG_Init(IMG_INIT_JPG))
-		exit(0);
 
 
 	e = init();
@@ -440,7 +438,6 @@ int		main(int ac, char **av)
 	}
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(win);
-	IMG_Quit();
 	SDL_Quit();
 	return (0);
 }
