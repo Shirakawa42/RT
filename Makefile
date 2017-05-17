@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/05/17 15:20:41 by lvasseur         ###   ########.fr        #
+#    Updated: 2017/05/17 16:06:15 by lomeress         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,11 +28,11 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 %.o: %.c
-	gcc -c $^ -o $@ -I ./includes -I /Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/
+	gcc -c $^ -o $@ -I ./includes -I /Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/
 
 $(NAME): $(OBJ)
 	@make -C libft/
-	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L /Users/lvasseur/.brew/Cellar/sdl2/2.0.5/lib/ -lSDL2
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L /Users/lomeress/.brew/Cellar/sdl2/2.0.5/lib/ -lSDL2
 
 c clean:
 	@make clean -C libft/

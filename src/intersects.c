@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:13:15 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:13:47 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/17 18:33:48 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
 	cyl = shape.cylinder;
 	a = ray.d.x * ray.d.x + ray.d.z * ray.d.z;
 	b = (2 * (ray.d.x * (ray.o.x - cyl.p.x))) + (2 *
-		(ray.d.z * (ray.o.z - cyl.p.z)));
+			(ray.d.z * (ray.o.z - cyl.p.z)));
 	c = (ray.o.x - cyl.p.x) * (ray.o.x - cyl.p.x) + (ray.o.z - cyl.p.z) *
 		(ray.o.z - cyl.p.z) - cyl.r * cyl.r;
 	delta = b * b - 4 * a * c;
@@ -99,5 +99,31 @@ int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
 
 int	cone_intersect(union u_shape shape, t_ray ray, double *t)
 {
-	return (0);
+	double      a;
+	double      b;
+	double      c;
+	double      delta;
+	t_cone      co;
+	double      t1;
+	double      t2;
+	double      k;
+	t_vec       ro;
+	
+	co = shape.cone;
+	k = co.aperture / 180 * M_PI;
+	k = k * k;
+	a = ray.d.x * ray.d.x - ray.d.y * ray.d.y * k + ray.d.z * ray.d.z;
+	b = (2 * (ray.d.x * (ray.o.x - co.d.x))) - (2 *
+		(ray.d.y * (ray.o.y - co.d.y)) * k) + (2 * (ray.d.z * (ray.o.z - co.d.z)));
+	c = (ray.o.x - co.d.x) * (ray.o.x - co.d.x) + (ray.o.z - co.d.z) *
+		(ray.o.z - co.d.z) - (ray.o.y - co.d.y) * (ray.o.y - co.d.y) * k;
+	delta = b * b - 4 * a * c;
+	if (delta > 0)
+	{
+		t1 = (-b - sqrt(delta)) / (2 * a);
+		t2 = (-b + sqrt(delta)) / (2 * a);
+		(t1 < t2) ? (*t = t1) : (*t = t2);
+		return (1);
+	}
+			return (0);
 }

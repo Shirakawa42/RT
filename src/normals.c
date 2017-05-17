@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:29:36 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/04 17:46:58 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/17 18:56:47 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,15 @@ t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d)
 
 t_vec   cone_normal(union u_shape shape, t_vec p, t_vec d)
 {
-	t_vec	n;
-	double	r;
-    
-    r = 1 / shape.cone.r;
-	n.x = (p.x - shape.cone.d.x) * r;
-    n.y = shape.cone.d.y * r;
-	n.z = (p.z - shape.cone.d.z) * r;
-    return (n);
+	t_vec   n;
+	double  r;
+	int i = 0;
+	 
+	r = shape.cone.r;
+	n.x = (p.x - shape.cone.d.x);
+	n.y = r;
+	n.z = (p.z - shape.cone.d.z);
+	return (n);
 }
 
 t_vec	cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d)

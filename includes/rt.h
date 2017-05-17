@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/17 16:00:57 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/05/17 18:30:31 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 # define RT_H
 
 #include <math.h>
-#include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
-#include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
+#include "/Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
+#include "/Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
 #include "../libft/libft.h"
 #define H 800
 #define W 800
 #define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
-#define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
+#define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
 #define NB_REFLEC 5
 
 typedef struct	s_vec
@@ -85,6 +85,7 @@ typedef struct	s_cone
 {
 	t_vec	d;
 	double	r;
+	double	aperture;
 }				t_cone;
 
 union	u_shape
@@ -183,7 +184,7 @@ t_light		create_light_bulb(double x, double y, double z, t_color color, double i
 t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture);
 t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture);
 t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture);
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture);
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture);
 
 // color.c
 t_color		create_color(double r, double g, double b);

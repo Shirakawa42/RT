@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:11:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:12:26 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/17 18:33:33 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, in
 	return (ret);
 }
 
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture)
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture)
 {
     t_object ret;
 
@@ -64,5 +64,6 @@ t_object    create_cone(t_vec p, double r, t_color color, double reflection, int
     ret.shape.cone.r = r;
     ret.reflection = reflection;
     ret.texture = texture;
+	ret.shape.cone.aperture = aperture;
     return (ret);
 }
