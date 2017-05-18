@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/18 15:00:19 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/05/18 19:42:13 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # define RT_H
 
 #include <math.h>
-#include "/Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
-#include "/Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
+#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
+#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
 #include "../libft/libft.h"
 #define H 800
 #define W 800
@@ -24,12 +24,44 @@
 #define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
 #define NB_REFLEC 5
 
-typedef struct	s_vec
+typedef union   u_vec
 {
-	double x;
-	double y;
-	double z;
-}				t_vec;
+    struct
+    {
+        double  x;
+        double  y;
+        double  z;
+    };
+    struct
+    {
+        double  phi;
+        double  theta;
+        double  r;
+    };
+    double      t[3];
+}               t_vec;
+
+typedef union u_color
+{
+    uint8_t     t[4];
+    uint32_t    total;
+    struct
+    {
+        double r;
+        double g;
+        double b;
+    };
+}               t_color;
+
+typedef enum    e_mode
+{
+    ERROR,
+    POSITION,
+    RAYON,
+    REFLEXION,
+    COLOR
+}               t_mode;
+
 
 typedef struct	s_ray
 {
@@ -37,12 +69,6 @@ typedef struct	s_ray
 	t_vec	d;
 }				t_ray;
 
-typedef struct	s_color
-{
-	double	r;
-	double	g;
-	double	b;
-}				t_color;
 
 #define PI 3.14159265359
 
@@ -170,6 +196,29 @@ typedef struct	s_void
 	int				ssaa;
 }				t_void;
 
+typedef struct s_objects_args
+{
+    t_vec p;
+    t_vec n;
+    double r;
+    t_color color;
+    double refl;
+    int texture;
+}           t_objects_args;
+
+
+typedef struct s_objparams
+{
+    int obj_mode;
+    int tmp;
+    char **params_obj;
+    int nbr_obj_param;
+    int nbr_objs;
+    int param_mod;
+    t_objects_args args;
+
+}           t_objparams;
+
 // vector.c
 double		dot(t_vec a, t_vec b);
 t_vec		create_vec(double x, double y, double z);
@@ -217,4 +266,9 @@ t_color		texturing_cylinder(t_ray ray, t_vec p, t_env e, int i);
 t_color		texturing_cone(t_ray ray, t_vec p, t_env e, int i);
 SDL_Surface	*LoadBMP(char *fichier);
 
+//parsing
+t_env   init(t_objparams *prms);
+int     use_values(char **content, t_env *e);
+int     ft_parsing(int argc, char **argv, t_env *e);
+int     put_in_struct (char *arg, t_objparams *prms);
 #endif

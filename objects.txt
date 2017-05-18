@@ -1,0 +1,12 @@
+sphere
+	position 23; 7.0; 4.9;
+	rayon 7.99;
+	reflection 0.2;
+	couleur 255; 255; 255;
+
+
+sphere
+	position 55; 98; 0;
+	rayon 5.6;
+	reflection 0.9;
+	couleur 233; 122; 133;

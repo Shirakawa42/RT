@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/18 15:01:21 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/05/18 19:43:58 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,9 +325,13 @@ void	threads(SDL_Renderer *renderer, t_env e)
 }
 
 //init = parsing
-t_env	init(void)
+t_env	init(t_objparams *prms)
 {
 	t_env	e;
+
+
+	printf ("x : %f\n", prms->args.p.x);
+	printf ("r : %f\n", prms->args.r);
 
 	e.editmod = 0;
 
@@ -400,8 +404,8 @@ int		main(int ac, char **av)
 	if (!(renderer = SDL_CreateRenderer(win, -1, 0)))
 		exit(0);
 
-
-	e = init();
+	ft_parsing (ac, av, &e);
+	//e = init();
 	threads(renderer, e);
 	while (SDL_WaitEvent(&event))
 	{

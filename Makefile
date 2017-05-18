@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/05/17 16:06:15 by lomeress         ###   ########.fr        #
+#    Updated: 2017/05/18 18:33:05 by yismail          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,18 +21,20 @@ SRC = src/main.c \
 	  src/color.c \
 	  src/matrice.c \
 	  src/texture.c\
-
+	  src/parse.c \
+	  src/interprete_values.c \
+	  src/put_in_struct.c
 OBJ = $(SRC:.c=.o)
 		FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 %.o: %.c
-	gcc -c $^ -o $@ -I ./includes -I /Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/
+	gcc -c $^ -o $@ -I ./includes -I /Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/
 
 $(NAME): $(OBJ)
 	@make -C libft/
-	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L /Users/lomeress/.brew/Cellar/sdl2/2.0.5/lib/ -lSDL2
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L /Users/yismail/.brew/Cellar/sdl2/2.0.5/lib/ -lSDL2
 
 c clean:
 	@make clean -C libft/
