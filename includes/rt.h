@@ -6,7 +6,11 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2017/05/17 12:58:10 by lvasseur         ###   ########.fr       */
+=======
+/*   Updated: 2017/05/18 15:00:19 by lomeress         ###   ########.fr       */
+>>>>>>> b9aba860b5986e5c6c48e5bdb9f66190da6378ac
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +19,7 @@
 # define RT_H
 
 #include <math.h>
+<<<<<<< HEAD
 #include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
 #include "/Users/lvasseur/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
 #include "../libft/libft.h"
@@ -68,6 +73,36 @@ typedef		struct	s_ray
 	t_vec			o;
 	t_vec			d;
 }					t_ray;
+=======
+#include "/Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
+#include "/Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
+#include "../libft/libft.h"
+#define H 800
+#define W 800
+#define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
+#define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
+#define NB_REFLEC 5
+
+typedef struct	s_vec
+{
+	double x;
+	double y;
+	double z;
+}				t_vec;
+
+typedef struct	s_ray
+{
+	t_vec	o;
+	t_vec	d;
+}				t_ray;
+
+typedef struct	s_color
+{
+	double	r;
+	double	g;
+	double	b;
+}				t_color;
+>>>>>>> b9aba860b5986e5c6c48e5bdb9f66190da6378ac
 
 #define PI 3.14159265359
 
@@ -110,6 +145,10 @@ typedef struct	s_cone
 {
 	t_vec	d;
 	double	r;
+<<<<<<< HEAD
+=======
+	double	aperture;
+>>>>>>> b9aba860b5986e5c6c48e5bdb9f66190da6378ac
 }				t_cone;
 
 union	u_shape
@@ -190,6 +229,7 @@ typedef struct	s_void
 	SDL_Renderer	*renderer;
 	SDL_mutex		*mutex;
 	int				number;
+<<<<<<< HEAD
 	t_color			colortab[W][H];
 	int				ssaa;
 }				t_void;
@@ -217,6 +257,12 @@ typedef struct s_objparams
 
 }           t_objparams;
 
+=======
+	t_color			colortab[W + 1][H + 1];
+	int				ssaa;
+}				t_void;
+
+>>>>>>> b9aba860b5986e5c6c48e5bdb9f66190da6378ac
 // vector.c
 double		dot(t_vec a, t_vec b);
 t_vec		create_vec(double x, double y, double z);
@@ -231,7 +277,11 @@ t_light		create_light_bulb(double x, double y, double z, t_color color, double i
 t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture);
 t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture);
 t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture);
+<<<<<<< HEAD
 t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture);
+=======
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture);
+>>>>>>> b9aba860b5986e5c6c48e5bdb9f66190da6378ac
 
 // color.c
 t_color		create_color(double r, double g, double b);
@@ -264,8 +314,11 @@ t_color		texturing_cylinder(t_ray ray, t_vec p, t_env e, int i);
 t_color		texturing_cone(t_ray ray, t_vec p, t_env e, int i);
 SDL_Surface	*LoadBMP(char *fichier);
 
+<<<<<<< HEAD
 // parseur
 int			put_in_fcts(char *arg, t_objparams *prms);
 int			use_values(char **content);
 
+=======
+>>>>>>> b9aba860b5986e5c6c48e5bdb9f66190da6378ac
 #endif
