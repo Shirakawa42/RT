@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/17 18:57:49 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/05/18 15:01:21 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,15 +342,15 @@ t_env	init(void)
 		exit(0);
 
 
-	e.scene.objects[0] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA);
-	e.scene.objects[1] = create_plane(create_vec(0, -2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0, LAVA);
-	e.scene.objects[2] = create_plane(create_vec(6, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA);
+	e.scene.objects[0] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
+	e.scene.objects[1] = create_plane(create_vec(0, -2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD);
+	e.scene.objects[2] = create_plane(create_vec(6, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
 	e.scene.objects[3] = create_plane(create_vec(-6, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA);
 
 	e.scene.objects[4] = create_cylinder(create_vec(2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 	e.scene.objects[5] = create_cylinder(create_vec(-2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 
-	e.scene.objects[6] = create_cylinder(create_vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
+	e.scene.objects[6] = create_cone(create_vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, 2, 30);
 	e.scene.objects[7] = create_cylinder(create_vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 1, 0);
 	e.scene.objects[8] = create_cylinder(create_vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
 	e.scene.objects[9] = create_cylinder(create_vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
