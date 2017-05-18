@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/18 19:43:58 by yismail          ###   ########.fr       */
+/*   Updated: 2017/05/18 21:32:36 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,45 +328,52 @@ void	threads(SDL_Renderer *renderer, t_env e)
 t_env	init(t_objparams *prms)
 {
 	t_env	e;
+	static int i = 0;
 
 
 	printf ("x : %f\n", prms->args.p.x);
 	printf ("r : %f\n", prms->args.r);
 
 	e.editmod = 0;
-
 	e.scene.rotation.rotx = 0;
 	e.scene.rotation.roty = 0;
 	e.scene.rotation.rotz = 0;
-
 	e.scene.camera.o = create_vec(0, 0, 0);
 	e.scene.camera.d = create_vec(0, 0, 1);
 
 	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 15)) == 0)
 		exit(0);
 
+	t_object (*g_tab[])(t_objparams *) = 
+	{
+		&create_sphere,
+		&create_plane,
+		&create_cylinder,
+		&create_cone
+	};
 
-	e.scene.objects[0] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
+
+	printf ("haha\n");
+	e.scene.objects[i++] = g_tab[prms->obj_mode](prms);
+	printf ("wahou\n");
+/*
+
+e.scene.objects[i] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
 	e.scene.objects[1] = create_plane(create_vec(0, -2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD);
 	e.scene.objects[2] = create_plane(create_vec(6, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
 	e.scene.objects[3] = create_plane(create_vec(-6, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA);
-
 	e.scene.objects[4] = create_cylinder(create_vec(2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 	e.scene.objects[5] = create_cylinder(create_vec(-2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-
 	e.scene.objects[6] = create_cone(create_vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, 2, 30);
 	e.scene.objects[7] = create_cylinder(create_vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 1, 0);
 	e.scene.objects[8] = create_cylinder(create_vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
 	e.scene.objects[9] = create_cylinder(create_vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
-
-
 	e.scene.objects[10] = create_cylinder(create_vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 	e.scene.objects[11] = create_cylinder(create_vec(-2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 	e.scene.objects[12] = create_cylinder(create_vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 	e.scene.objects[13] = create_cylinder(create_vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-
 	e.scene.objects[14].type = 0;
-
+*/
 	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 7)) == 0)
 		exit(0);
 	e.scene.lights[0] = create_light_bulb(0, 1.84, 1, create_color(0.5, 0.5, 0.5), 10);
@@ -386,6 +393,7 @@ t_env	init(t_objparams *prms)
 		exit(0);
 	if (!(e.texture.lava = LoadBMP("textures/LAVA.bmp")))
 		exit(0);
+	printf ("wahou2\n");
 	return (e);
 }
 

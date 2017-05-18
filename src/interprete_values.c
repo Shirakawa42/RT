@@ -6,7 +6,7 @@
 /*   By: yismail <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 14:59:07 by yismail           #+#    #+#             */
-/*   Updated: 2017/05/18 19:41:41 by yismail          ###   ########.fr       */
+/*   Updated: 2017/05/18 21:43:17 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int   prepare_for_fcts( t_objparams *prms, t_env *e)
         i++;
     }
 	*e = init(prms);
+	printf ("wahou4\n");
 	//e = init(prms);
     return (0);
 }
@@ -95,7 +96,7 @@ int use_values(char **content, t_env *e)
         {
             if (newshape == 1)
             {
-                prms.params_obj = malloc (sizeof(char *) * prms.nbr_obj_param);
+                prms.params_obj = malloc (sizeof(char *) * (prms.nbr_obj_param + 1));
                 newshape = 0;
                 cpt = 0;
             }
@@ -105,9 +106,11 @@ int use_values(char **content, t_env *e)
                 cpt++;
             }
         }
-        if (cpt == prms.nbr_obj_param)
+		if (cpt == prms.nbr_obj_param)
             prepare_for_fcts(&prms, e);
+		printf ("ibis : %i\n", i);
         i++;
+		printf("wahou5\n");
     }
     return(0);
 }

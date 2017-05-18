@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/18 19:42:13 by yismail          ###   ########.fr       */
+/*   Updated: 2017/05/18 21:41:01 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ typedef struct s_objects_args
     t_color color;
     double refl;
     int texture;
+	double aperture;
 }           t_objects_args;
 
 
@@ -230,10 +231,10 @@ void		normalize(t_vec *v);
 t_light		create_light_bulb(double x, double y, double z, t_color color, double intensity);
 
 // create_objects.c
-t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture);
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture);
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture);
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture);
+t_object	create_sphere(t_objparams *prms);
+t_object	create_plane(t_objparams *prms);
+t_object	create_cylinder(t_objparams *prms);
+t_object    create_cone(t_objparams *prms);
 
 // color.c
 t_color		create_color(double r, double g, double b);

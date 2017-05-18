@@ -16,7 +16,9 @@ int loop_main(int fd, t_env *e)
 	while ((ret = (get_next_line(fd, &line)) > 0))
 	{
 		content[i] = ft_strdup(line);
+		ft_putstr (content[i]);
 		free(line);
+		printf ("i : %i\n", i);
 		i++;
 	}
 	content[i] = NULL;
