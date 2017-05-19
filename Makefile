@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/05/17 16:06:15 by lomeress         ###   ########.fr        #
+#    Updated: 2017/05/04 15:42:29 by lvasseur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,27 +20,26 @@ SRC = src/main.c \
 	  src/perlin.c \
 	  src/color.c \
 	  src/matrice.c \
-	  src/texture.c\
-
+	  src/texture.c
 OBJ = $(SRC:.c=.o)
-		FLAGS = -Wall -Wextra -Werror
+	FLAGS = #-Wall -Wextra -Werror
 
 all: $(NAME)
 
 %.o: %.c
-	gcc -c $^ -o $@ -I ./includes -I /Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/
+	gcc -c $^ -o $@ -I ./includes
 
 $(NAME): $(OBJ)
 	@make -C libft/
-	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L /Users/lomeress/.brew/Cellar/sdl2/2.0.5/lib/ -lSDL2
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -lSDL2 -lm -lSDL2_image
 
 c clean:
-	@make clean -C libft/
 	rm -f $(OBJ)
+	@make clean -C libft/
 
 f fclean: clean
-	@make fclean -C libft/
 	rm -f $(NAME)
+	@make fclean -C libft/
 
 r re: fclean all
 

@@ -15,13 +15,13 @@
 # define RT_H
 
 #include <math.h>
-#include "/Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
-#include "/Users/lomeress/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_thread.h"
 #include "../libft/libft.h"
-#define H 800
-#define W 800
-#define NB_THREADS 4 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
-#define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
+#define H 1000
+#define W 1000
+#define NB_THREADS 8 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
+#define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
 #define NB_REFLEC 5
 
 typedef struct	s_vec
@@ -202,6 +202,7 @@ t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec   cone_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec	cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec	plane_normal_sphered(union u_shape shape, t_vec p, t_vec d);
+t_vec	cone_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 
 // perlin.c
 t_vec	text1(t_vec n, int text);

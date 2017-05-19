@@ -76,3 +76,13 @@ t_vec	plane_normal_sphered(union u_shape shape, t_vec p, t_vec d)
 	n.z = (p.z - shape.plane.p.z) / 4;
 	return (n);
 }
+
+t_vec	cone_normal_sphered(union u_shape shape, t_vec p, t_vec d)
+{
+	t_vec	n;
+
+	n.x = (p.x - shape.cone.d.x) / 4;
+	n.y = (p.y - shape.cone.d.y) / 4;
+	n.z = (p.z - shape.cone.d.z) / 4;
+	return (n);
+}

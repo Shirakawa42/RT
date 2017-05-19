@@ -22,7 +22,7 @@ typedef t_color(*t_texturing)(t_ray ray, t_vec p, t_env e, int tmp_i);
 t_texturing texturing[5] = { NULL, texturing_sphere, texturing_plane, texturing_cylinder, texturing_cone };
 
 typedef t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
-t_get_normal get_normal_sphered[5] = { NULL, sphere_normal, plane_normal_sphered, cylinder_normal_sphered, NULL };
+t_get_normal get_normal_sphered[5] = { NULL, sphere_normal, plane_normal_sphered, cylinder_normal_sphered, cone_normal_sphered };
 
 t_color	get_intensity(t_light light, double t)
 {
@@ -342,15 +342,15 @@ t_env	init(void)
 	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 15)) == 0)
 		exit(0);
 
-	e.scene.objects[0] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
-	e.scene.objects[1] = create_plane(create_vec(0, -2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD);
+	e.scene.objects[0] = create_plane(create_vec(0, 15, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
+	e.scene.objects[1] = create_plane(create_vec(0, -15, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD);
 	e.scene.objects[2] = create_plane(create_vec(6, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
 	e.scene.objects[3] = create_plane(create_vec(-6, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA);
 
 	e.scene.objects[4] = create_cylinder(create_vec(2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 	e.scene.objects[5] = create_cylinder(create_vec(-2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 
-	e.scene.objects[6] = create_cone(create_vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, 2, 10);
+	e.scene.objects[6] = create_cone(create_vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, WOOD, 25);
 	e.scene.objects[7] = create_cylinder(create_vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 1, 0);
 	e.scene.objects[8] = create_cylinder(create_vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
 	e.scene.objects[9] = create_cylinder(create_vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
