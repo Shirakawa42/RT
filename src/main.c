@@ -16,13 +16,7 @@ typedef int(*t_intersect)(union u_shape, t_ray, double *);
 t_intersect intersect[5] = { NULL, sphere_intersect, plane_intersect, cylinder_intersect, cone_intersect };
 
 typedef t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
-t_get_normal get_normal[5] = { NULL, sphere_normal, plane_normal, cylinder_normal, cone_normal };
-
-typedef t_color(*t_texturing)(t_ray ray, t_vec p, t_env e, int tmp_i);
-t_texturing texturing[5] = { NULL, texturing_sphere, texturing_plane, texturing_cylinder, texturing_cone };
-
-typedef t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
-t_get_normal get_normal_sphered[5] = { NULL, sphere_normal, plane_normal_sphered, cylinder_normal_sphered, cone_normal_sphered };
+t_get_normal get_normal2[5] = { NULL, sphere_normal, plane_normal, cylinder_normal, cone_normal };
 
 t_color	get_intensity(t_light light, double t)
 {
@@ -147,13 +141,13 @@ t_color	ray_trace(t_ray ray, int index, t_env e)
 			e.scene.objects[tmp_i].texture = 0;
 		p = get_point(ray, tmp_t);
 
-		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
+		normal = get_normal2[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
 		if (e.scene.objects[tmp_i].texture >= 1 && e.scene.objects[tmp_i].texture <= 5)
 			normal = text1(normal, e.scene.objects[tmp_i].texture);
 
-		tmp_color = lightning(ray, p, tmp_i, normal, e, texturing[e.scene.objects[tmp_i].type](ray, p, e, tmp_i));
+		tmp_color = lightning(ray, p, tmp_i, normal, e, texturing_all(ray, p, e, tmp_i));
 		if (e.scene.objects[tmp_i].texture != 4 && e.scene.objects[tmp_i].texture != 5 && e.scene.objects[tmp_i].texture != 2)
-		normal = get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
+		normal = get_normal2[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape, p, ray.d);
 		if (e.scene.objects[tmp_i].reflection && index)
 		{
 			ray.o.x = ray.o.x + ray.d.x * tmp_t;
@@ -339,11 +333,11 @@ t_env	init(void)
 	e.scene.camera.d = create_vec(0, 0, 1);
 
 
-	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 15)) == 0)
+	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 16)) == 0)
 		exit(0);
 
-	e.scene.objects[0] = create_plane(create_vec(0, 15, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
-	e.scene.objects[1] = create_plane(create_vec(0, -15, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD);
+	e.scene.objects[0] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
+	e.scene.objects[1] = create_plane(create_vec(0, -2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD);
 	e.scene.objects[2] = create_plane(create_vec(6, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
 	e.scene.objects[3] = create_plane(create_vec(-6, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA);
 
@@ -351,17 +345,19 @@ t_env	init(void)
 	e.scene.objects[5] = create_cylinder(create_vec(-2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 
 	e.scene.objects[6] = create_cone(create_vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, WOOD, 25);
-	e.scene.objects[7] = create_cylinder(create_vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 1, 0);
+	e.scene.objects[7] = create_cylinder(create_vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
 	e.scene.objects[8] = create_cylinder(create_vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
 	e.scene.objects[9] = create_cylinder(create_vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
 
 
-	e.scene.objects[10] = create_cylinder(create_vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[11] = create_cylinder(create_vec(-2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[12] = create_cylinder(create_vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[13] = create_cylinder(create_vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
+	e.scene.objects[10] = create_cylinder(create_vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD);
+	e.scene.objects[11] = create_cylinder(create_vec(-2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.5, PAPER);
+	e.scene.objects[12] = create_cylinder(create_vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, GRASS);
+	e.scene.objects[13] = create_cylinder(create_vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA);
 
-	e.scene.objects[14].type = 0;
+	e.scene.objects[14] = create_sphere(0, 0, 85, 1.5, create_color(1.0, 1.0, 1.0), 0.5, WOOD);
+
+	e.scene.objects[15].type = 0;
 
 	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 7)) == 0)
 		exit(0);

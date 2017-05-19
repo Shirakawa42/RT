@@ -1,5 +1,11 @@
 #include "../includes/rt.h"
 
+typedef t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
+t_get_normal_sphered get_normal_sphered[5] = { NULL, sphere_normal, plane_normal_sphered, cylinder_normal_sphered, cone_normal_sphered };
+
+typedef t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
+t_get_normal get_normal[5] = { NULL, sphere_normal, plane_normal, cylinder_normal, cone_normal };
+
 Uint32		SDL_GetPixel32(SDL_Surface *surface, int x, int y)
 {
 	Uint8 *p;
@@ -50,7 +56,7 @@ Uint32		WhichTexture(t_env e, int i, int w, int h)
 	return (0);
 }
 
-t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i)
+t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i)
 {
 	t_vec		N;
 	double		v;
@@ -59,224 +65,35 @@ t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i)
 	int			h;
 	t_color		color;
 	Uint32		rgb;
+	t_vec		n;
 
-	if (e.scene.objects[i].texture < WOOD)
-		return (create_color(0, 0, 0));
+	N = get_normal_sphered[e.scene.objects[i].type](e.scene.objects[i].shape, p, ray.d);
+	if (e.scene.objects[i].type == PLANE || e.scene.objects[i].type == CYLINDER || e.scene.objects[i].type == CONE)
+	{
+		while (N.y > 1.0)
+			N.y -= 1.999;
+		while (N.y < -1.0)
+			N.y += 1.999;
+		while (N.x > 1.0)
+			N.x -= 1.999;
+		while (N.x < -1.0)
+			N.x += 1.999;
+		while (N.z > 1.0)
+			N.z -= 1.999;
+		while (N.z < -1.0)
+			N.z += 1.999;
+	}
 
-	N = sphere_normal(e.scene.objects[i].shape, p, ray.d);
 	u = asin(N.x) / PI + 0.5;
 	v = asin(N.y) / PI + 0.5;
-
-	if (e.scene.objects[i].texture == WOOD)
+	if (e.scene.objects[i].type == PLANE)
 	{
-		w = e.texture.wood->w * u;
-		h = e.texture.wood->h * v;
+		n = plane_normal(e.scene.objects[i].shape, p, ray.d);
+		if ((dot(n, create_vec(1, 0, 0)) > 0.5 && dot(n, create_vec(1, 0, 0)) < 1.5) || (dot(n, create_vec(-1, 0, 0)) > 0.5 && dot(n, create_vec(-1, 0, 0)) < 1.5))
+			u = asin(N.z) / PI + 0.5;
+		if ((dot(n, create_vec(0, 1, 0)) > 0.5 && dot(n, create_vec(0, 1, 0)) < 1.5) || (dot(n, create_vec(0, -1, 0)) > 0.5 && dot(n, create_vec(0, -1, 0)) < 1.5))
+			v = asin(N.z) / PI + 0.5;
 	}
-	else if (e.scene.objects[i].texture == PAPER)
-	{
-		w = e.texture.paper->w * u;
-		h = e.texture.paper->h * v;
-	}
-	else if (e.scene.objects[i].texture == METAL)
-	{
-		w = e.texture.metal->w * u;
-		h = e.texture.metal->h * v;
-	}
-	else if (e.scene.objects[i].texture == GRASS)
-	{
-		w = e.texture.grass->w * u;
-		h = e.texture.grass->h * v;
-	}
-	else if (e.scene.objects[i].texture == LAVA)
-	{
-		w = e.texture.lava->w * u;
-		h = e.texture.lava->h * v;
-	}
-
-	rgb = WhichTexture(e, i, w, h);
-	color.r = (double)((rgb >> 16) & 255) / 255.0;
-	color.g = (double)((rgb >> 8) & 255) / 255.0;
-	color.b = (double)(rgb & 255) / 255.0;
-	return (color);
-}
-
-t_color		texturing_plane(t_ray ray, t_vec p, t_env e, int i)
-{
-	t_vec		N;
-	double		v;
-	double		u;
-	int			w;
-	int			h;
-	t_color		color;
-	Uint32		rgb;
-	t_plane		plane;
-
-	if (e.scene.objects[i].texture < WOOD)
-		return (create_color(0, 0, 0));
-
-	plane = e.scene.objects[i].shape.plane;
-	N = plane_normal_sphered(e.scene.objects[i].shape, p, ray.d);
-	while (N.y > 1.0)
-		N.y -= 1.999;
-	while (N.y < -1.0)
-		N.y += 1.999;
-	while (N.x > 1.0)
-		N.x -= 1.999;
-	while (N.x < -1.0)
-		N.x += 1.999;
-	while (N.z > 1.0)
-		N.z -= 1.999;
-	while (N.z < -1.0)
-		N.z += 1.999;
-
-
-
-	if ((dot(plane.n, create_vec(1, 0, 0)) > 0.5 && dot(plane.n, create_vec(1, 0, 0)) < 1.5) || (dot(plane.n, create_vec(-1, 0, 0)) > 0.5 && dot(plane.n, create_vec(-1, 0, 0)) < 1.5))
-		u = asin(N.z) / PI + 0.5;
-	else
-		u = asin(N.x) / PI + 0.5;
-
-
-	if ((dot(plane.n, create_vec(0, 1, 0)) > 0.5 && dot(plane.n, create_vec(0, 1, 0)) < 1.5) || (dot(plane.n, create_vec(0, -1, 0)) > 0.5 && dot(plane.n, create_vec(0, -1, 0)) < 1.5))
-		v = asin(N.z) / PI + 0.5;
-	else
-		v = asin(N.y) / PI + 0.5;
-
-
-
-
-	if (e.scene.objects[i].texture == WOOD)
-	{
-		w = e.texture.wood->w * u;
-		h = e.texture.wood->h * v;
-	}
-	else if (e.scene.objects[i].texture == PAPER)
-	{
-		w = e.texture.paper->w * u;
-		h = e.texture.paper->h * v;
-	}
-	else if (e.scene.objects[i].texture == METAL)
-	{
-		w = e.texture.metal->w * u;
-		h = e.texture.metal->h * v;
-	}
-	else if (e.scene.objects[i].texture == GRASS)
-	{
-		w = e.texture.grass->w * u;
-		h = e.texture.grass->h * v;
-	}
-	else if (e.scene.objects[i].texture == LAVA)
-	{
-		w = e.texture.lava->w * u;
-		h = e.texture.lava->h * v;
-	}
-
-	rgb = WhichTexture(e, i, w, h);
-	color.r = (double)((rgb >> 16) & 255) / 255.0;
-	color.g = (double)((rgb >> 8) & 255) / 255.0;
-	color.b = (double)(rgb & 255) / 255.0;
-	return (color);
-}
-
-t_color		texturing_cylinder(t_ray ray, t_vec p, t_env e, int i)
-{
-	t_vec		N;
-	double		v;
-	double		u;
-	int			w;
-	int			h;
-	t_color		color;
-	Uint32		rgb;
-
-	if (e.scene.objects[i].texture < WOOD)
-		return (create_color(0, 0, 0));
-
-	N = cylinder_normal_sphered(e.scene.objects[i].shape, p, ray.d);
-	while (N.y > 1.0)
-		N.y -= 2.0;
-	while (N.y < -1.0)
-		N.y += 2.0;
-	u = asin(N.x) / PI + 0.5;
-	v = asin(N.y) / PI + 0.5;
-
-	if (e.scene.objects[i].texture == WOOD)
-	{
-		w = e.texture.wood->w * u;
-		h = e.texture.wood->h * v;
-	}
-	else if (e.scene.objects[i].texture == PAPER)
-	{
-		w = e.texture.paper->w * u;
-		h = e.texture.paper->h * v;
-	}
-	else if (e.scene.objects[i].texture == METAL)
-	{
-		w = e.texture.metal->w * u;
-		h = e.texture.metal->h * v;
-	}
-	else if (e.scene.objects[i].texture == GRASS)
-	{
-		w = e.texture.grass->w * u;
-		h = e.texture.grass->h * v;
-	}
-	else if (e.scene.objects[i].texture == LAVA)
-	{
-		w = e.texture.lava->w * u;
-		h = e.texture.lava->h * v;
-	}
-
-	rgb = WhichTexture(e, i, w, h);
-	color.r = (double)((rgb >> 16) & 255) / 255.0;
-	color.g = (double)((rgb >> 8) & 255) / 255.0;
-	color.b = (double)(rgb & 255) / 255.0;
-	e.scene.objects[i].i += 1;
-	return (color);
-}
-
-t_color		texturing_cone(t_ray ray, t_vec p, t_env e, int i)
-{
-	t_vec		N;
-	double		v;
-	double		u;
-	int			w;
-	int			h;
-	t_color		color;
-	Uint32		rgb;
-	t_plane		plane;
-
-	if (e.scene.objects[i].texture < WOOD)
-		return (create_color(0, 0, 0));
-
-	plane = e.scene.objects[i].shape.plane;
-	N = cone_normal_sphered(e.scene.objects[i].shape, p, ray.d);
-	while (N.y > 1.0)
-		N.y -= 1.999;
-	while (N.y < -1.0)
-		N.y += 1.999;
-	while (N.x > 1.0)
-		N.x -= 1.999;
-	while (N.x < -1.0)
-		N.x += 1.999;
-	while (N.z > 1.0)
-		N.z -= 1.999;
-	while (N.z < -1.0)
-		N.z += 1.999;
-
-
-
-	if ((dot(plane.n, create_vec(1, 0, 0)) > 0.5 && dot(plane.n, create_vec(1, 0, 0)) < 1.5) || (dot(plane.n, create_vec(-1, 0, 0)) > 0.5 && dot(plane.n, create_vec(-1, 0, 0)) < 1.5))
-		u = asin(N.z) / PI + 0.5;
-	else
-		u = asin(N.x) / PI + 0.5;
-
-
-	if ((dot(plane.n, create_vec(0, 1, 0)) > 0.5 && dot(plane.n, create_vec(0, 1, 0)) < 1.5) || (dot(plane.n, create_vec(0, -1, 0)) > 0.5 && dot(plane.n, create_vec(0, -1, 0)) < 1.5))
-		v = asin(N.z) / PI + 0.5;
-	else
-		v = asin(N.y) / PI + 0.5;
-
-
-
 
 	if (e.scene.objects[i].texture == WOOD)
 	{

@@ -21,8 +21,8 @@
 #define H 1000
 #define W 1000
 #define NB_THREADS 8 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
-#define SSAA 1 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
-#define NB_REFLEC 5
+#define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
+#define NB_REFLEC 10
 
 typedef struct	s_vec
 {
@@ -212,10 +212,7 @@ void	radian(double *rotx, double *roty, double *rotz, t_env e);
 void	matrice(double *x, double *y, double *z, t_env *e);
 
 // texture.c
-t_color		texturing_sphere(t_ray ray, t_vec p, t_env e, int i);
-t_color		texturing_plane(t_ray ray, t_vec p, t_env e, int i);
-t_color		texturing_cylinder(t_ray ray, t_vec p, t_env e, int i);
-t_color		texturing_cone(t_ray ray, t_vec p, t_env e, int i);
+t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i);
 SDL_Surface	*LoadBMP(char *fichier);
 
 #endif
