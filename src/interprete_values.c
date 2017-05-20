@@ -24,18 +24,20 @@ char *ft_cleaned(char *str, char *tmp_params_obj)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '\t' || str[i] == '\n' || str[i] == ' ')
+		if (str[i] == '\t' || str[i] == '\n' || str[i] == ' ' || str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
 			i++;
-		tmp_params_obj[cpt++] = str[i++];
+		else
+			tmp_params_obj[cpt++] = str[i++];
 	}
 	return (tmp_params_obj);
 }
 
 int   prepare_for_fcts( t_objparams *prms, t_env *e)
 {
-    int i = 0;
+    int i;
     char *tmp_params_obj;
 
+	i = 0;
     while (i < prms->nbr_obj_param)
     {
         prms->params_obj[i] = ft_strdupzero(ft_cleaned(prms->params_obj[i], tmp_params_obj));
@@ -43,8 +45,6 @@ int   prepare_for_fcts( t_objparams *prms, t_env *e)
         i++;
     }
 	*e = init(prms);
-	printf ("wahou4\n");
-	//e = init(prms);
     return (0);
 }
 
@@ -107,10 +107,10 @@ int use_values(char **content, t_env *e)
             }
         }
 		if (cpt == prms.nbr_obj_param)
+		{
             prepare_for_fcts(&prms, e);
-		printf ("ibis : %i\n", i);
+		}
         i++;
-		printf("wahou5\n");
     }
     return(0);
 }

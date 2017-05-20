@@ -15,8 +15,9 @@
 # define RT_H
 
 #include <math.h>
-#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
-#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
+#include "SDL.h"
+//#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
+//#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
 #include "../libft/libft.h"
 #define H 800
 #define W 800
@@ -43,7 +44,7 @@ typedef union   u_vec
 
 typedef union u_color
 {
-    uint8_t     t[4];
+    double     t[4];
     uint32_t    total;
     struct
     {

@@ -16,9 +16,7 @@ int loop_main(int fd, t_env *e)
 	while ((ret = (get_next_line(fd, &line)) > 0))
 	{
 		content[i] = ft_strdup(line);
-		ft_putstr (content[i]);
 		free(line);
-		printf ("i : %i\n", i);
 		i++;
 	}
 	content[i] = NULL;
@@ -31,7 +29,6 @@ int ft_parsing(int argc, char **argv, t_env *e)
 {
     int     fd;
     int     ret;
-
     if (argc != 2)
         exit(EXIT_FAILURE);
     fd = open(argv[1], O_RDONLY);

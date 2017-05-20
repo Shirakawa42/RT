@@ -32,7 +32,7 @@ int do_it(char *values, t_objparams *prms)
 		else if ((prms->param_mod == REFLEXION) && (i == 0))
 			prms->args.refl = ft_atof(tab_arg[i]);
 		else if ((prms->param_mod == COLOR) && (i < 3))
-			prms->args.color.t[i] = ft_atoi(tab_arg[i]);
+			prms->args.color.t[i] = ft_atof(tab_arg[i]);
 		i++;
 	}
 	return (0);
@@ -63,17 +63,17 @@ int put_in_struct (char *arg, t_objparams *prms)
     cpt = 0;
     if (arg != NULL)
     {
-		if (str == ft_strstr(arg, "position"))
+		if ((ft_strstr(arg, "position")))
             param = ft_strdup("position");
-        if (str == ft_strstr(arg, "rayon"))
+		if ((ft_strstr(arg, "rayon")))
             param = ft_strdup("rayon");
-        if (str == ft_strstr(arg, "reflection"))
+        if ((ft_strstr(arg, "reflection")))
             param = ft_strdup("reflection");
-        if (str == ft_strstr(arg, "couleur"))
-            param = ft_strdup("couleur");
+		if ((ft_strstr(arg, "couleur")))
+			param = ft_strdup("couleur");
         param_mod (param, prms);
-		values = malloc (sizeof(char) * ft_strlen(str));
-        ft_bzero(values, ft_strlen(str));
+		values = malloc (sizeof(char) * ft_strlen(str) + 1);
+        ft_bzero(values, (ft_strlen(str) + 1));
         while (i < ft_strlen(param))
             i++;
         while (str[i] != '\0')

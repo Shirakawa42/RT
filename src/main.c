@@ -333,7 +333,7 @@ t_env	init(t_objparams *prms)
 
 	printf ("x : %f\n", prms->args.p.x);
 	printf ("r : %f\n", prms->args.r);
-
+	printf ("color : %f\n", prms->args.color.r);
 	e.editmod = 0;
 	e.scene.rotation.rotx = 0;
 	e.scene.rotation.roty = 0;
@@ -344,6 +344,7 @@ t_env	init(t_objparams *prms)
 	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 15)) == 0)
 		exit(0);
 
+	
 	t_object (*g_tab[])(t_objparams *) = 
 	{
 		&create_sphere,
@@ -353,9 +354,8 @@ t_env	init(t_objparams *prms)
 	};
 
 
-	printf ("haha\n");
+	printf ("obj_mode : %i\n", prms->obj_mode);
 	e.scene.objects[i++] = g_tab[prms->obj_mode](prms);
-	printf ("wahou\n");
 /*
 
 e.scene.objects[i] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
@@ -393,7 +393,6 @@ e.scene.objects[i] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), crea
 		exit(0);
 	if (!(e.texture.lava = LoadBMP("textures/LAVA.bmp")))
 		exit(0);
-	printf ("wahou2\n");
 	return (e);
 }
 
@@ -411,7 +410,6 @@ int		main(int ac, char **av)
 		exit(0);
 	if (!(renderer = SDL_CreateRenderer(win, -1, 0)))
 		exit(0);
-
 	ft_parsing (ac, av, &e);
 	//e = init();
 	threads(renderer, e);
