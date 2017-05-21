@@ -6,7 +6,7 @@
 /*   By: yismail <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 14:58:55 by yismail           #+#    #+#             */
-/*   Updated: 2017/05/18 19:11:03 by yismail          ###   ########.fr       */
+/*   Updated: 2017/05/21 18:23:46 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ int param_mod(char *param, t_objparams *prms)
 {
 	if (!(ft_strcmp(param, "position")))
 		prms->param_mod = POSITION;
-	if (!(ft_strcmp(param, "rayon")))    
+	else if (!(ft_strcmp(param, "rayon")))    
 		prms->param_mod = RAYON;
-	if (!(ft_strcmp(param, "reflexion")))
+	else if (!(ft_strcmp(param, "reflexion")))
         prms->param_mod = REFLEXION;
-    if (!(ft_strcmp(param, "couleur")))
+    else if (!(ft_strcmp(param, "couleur")))
 		prms->param_mod = COLOR;
+	else
+		prms->param_mod = 0;
 	return (0);
 }
 
@@ -67,8 +69,8 @@ int put_in_struct (char *arg, t_objparams *prms)
             param = ft_strdup("position");
 		if ((ft_strstr(arg, "rayon")))
             param = ft_strdup("rayon");
-        if ((ft_strstr(arg, "reflection")))
-            param = ft_strdup("reflection");
+        if ((ft_strstr(arg, "reflexion")))
+            param = ft_strdup("reflexion");
 		if ((ft_strstr(arg, "couleur")))
 			param = ft_strdup("couleur");
         param_mod (param, prms);

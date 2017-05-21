@@ -18,9 +18,9 @@ int loop_main(int fd, t_env *e)
 		content[i] = ft_strdup(line);
 		free(line);
 		i++;
-	}
+	} 
 	content[i] = NULL;
-	free(line);
+	//free(line);
 	use_values(content, e);
 	return (0);
 }

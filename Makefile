@@ -11,7 +11,6 @@
 # **************************************************************************** #
 
 NAME = RT
-CC = gcc -Wall -Wextra -Werror
 SRC = src/main.c \
 	  src/vector.c \
 	  src/create_lights.c \
@@ -26,16 +25,16 @@ SRC = src/main.c \
 	  src/interprete_values.c \
 	  src/put_in_struct.c
 OBJ = $(SRC:.c=.o)
-		FLAGS = -I /Library/Frameworks/SDL2.framework/Headers -L./libft -lft
+		FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 %.o: %.c
-	gcc -c $^ -o $@ -I /Library/Frameworks/SDL2.framework/Headers -I ./includes -I ./libft/
+	gcc -c $^ -o $@ -I ./includes -I /Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/
 
 $(NAME): $(OBJ)
 	@make -C libft/
-	gcc $(FLAGS) -o $(NAME) $(OBJ) -lm -F/Library/Frameworks -framework SDL2
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L /Users/yismail/.brew/Cellar/sdl2/2.0.5/lib/ -lSDL2
 
 c clean:
 	@make clean -C libft/

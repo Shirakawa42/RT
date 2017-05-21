@@ -6,7 +6,7 @@
 /*   By: yismail <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 14:59:07 by yismail           #+#    #+#             */
-/*   Updated: 2017/05/18 21:43:17 by yismail          ###   ########.fr       */
+/*   Updated: 2017/05/21 19:55:38 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int use_values(char **content, t_env *e)
 		if (cpt == prms.nbr_obj_param)
 		{
             prepare_for_fcts(&prms, e);
+			cpt = 0;
 		}
         i++;
     }

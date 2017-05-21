@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/18 21:41:01 by yismail          ###   ########.fr       */
+/*   Updated: 2017/05/21 17:26:19 by yismail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 # define RT_H
 
 #include <math.h>
-#include "SDL.h"
-//#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
-//#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
+//#include "SDL.h"
+#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL.h"
+#include "/Users/yismail/.brew/Cellar/sdl2/2.0.5/include/SDL2/SDL_thread.h"
 #include "../libft/libft.h"
 #define H 800
 #define W 800
