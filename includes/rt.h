@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/23 11:35:46 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/23 13:00:04 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include "SDL2/SDL_thread.h"
 # include "../libft/includes/libft.h"
 
-# define H 2000
-# define W 2000
+# define H 500
+# define W 500
 # define NB_THREADS 8
 # define SSAA 2
 # define NB_REFLEC 10
@@ -80,11 +80,13 @@ typedef struct	s_cylinder
 {
 	t_vec	p;
 	double	r;
+	t_vec	rot;
 }				t_cylinder;
 
 typedef struct	s_cone
 {
 	t_vec	d;
+	t_vec	rot;
 	double	r;
 	double	aperture;
 }				t_cone;
@@ -216,6 +218,7 @@ t_vec		text1(t_vec n, int text);
 // matrice.c
 void		radian(double *rotx, double *roty, double *rotz, t_env e);
 void		matrice(double *x, double *y, double *z, t_env *e);
+t_vec		matrice2(t_vec v, const t_vec ang);
 
 // texture.c
 t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i);

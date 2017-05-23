@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:13:15 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/23 07:40:28 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/23 13:08:21 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,19 @@ int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 	return (*t > 0);
 }
 
+t_ray	change_ray(t_ray ray, t_vec *c, t_vec rot)
+{
+	ray.o.x = ray.o.x - c->x;
+	ray.o.y = ray.o.y - c->y;
+	ray.o.z = ray.o.z - c->z;
+	ray.o = matrice2(ray.o, rot);
+	ray.d = matrice2(ray.d, rot);
+	c->x = 0;
+	c->y = 0;
+	c->z = 0;
+	return(ray);
+}
+
 int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
 {
 	t_vec		v;
@@ -67,6 +80,7 @@ int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
 	double		t2;
 
 	cyl = shape.cylinder;
+	ray = change_ray(ray, &cyl.p, cyl.rot);
 	v.x = ray.d.x * ray.d.x + ray.d.z * ray.d.z;
 	v.y = (2 * (ray.d.x * (ray.o.x - cyl.p.x))) + (2 *
 			(ray.d.z * (ray.o.z - cyl.p.z)));
@@ -93,6 +107,7 @@ int	cone_intersect(union u_shape shape, t_ray ray, double *t)
 	co = shape.cone;
 	k = co.aperture / 180 * M_PI;
 	k = k * k;
+	ray = change_ray(ray, &co.d, co.rot);
 	v.x = ray.d.x * ray.d.x - ray.d.y * ray.d.y * k + ray.d.z * ray.d.z;
 	v.y = (2 * (ray.d.x * (ray.o.x - co.d.x))) - (2 * (ray.d.y * (ray.o.y
 					- co.d.y)) * k) + (2 * (ray.d.z * (ray.o.z - co.d.z)));

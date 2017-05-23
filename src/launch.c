@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 09:32:34 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/23 10:24:54 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/23 12:48:19 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ int		launch(void *truc)
 			{
 				ray.d = vec((((double)x + (double)(n % e.ssaa) / (double)(e.ssaa)) / wsave - 0.5),
 						(0.5 - ((double)y + (double)(n / e.ssaa) / (double)(e.ssaa)) / hsave), 1);
-				matrice(&ray.d.x, &ray.d.y, &ray.d.z, &e);
+				t_vec gogol = {e.scene.rotation.tmp1, e.scene.rotation.tmp2, e.scene.rotation.tmp3};
+				ray.d = matrice2(ray.d, gogol);
 				normalize(&ray.d);
 				e.index = NB_REFLEC;
 				e.colorsave[n] = is_color_good(ray_trace(ray, e));
