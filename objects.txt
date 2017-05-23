@@ -1,10 +1,10 @@
 sphere
-position 0.1; 1.0; 0.1;
-rayon 10.00;
-reflection 1.0;
-couleur 255; 255; 255;
-plane
-position 0.1; 1.0; 0.1;
-rayon 10.00;
-reflection 1.0;
-	couleur 255; 255; 255;
+	position 0.1 1.0 0.1
+	rayon 5.00
+	reflection 0.0
+	couleur 1 1 1
+sphere
+	position 0.1 1.0 0.1
+	rayon 3.00
+	reflection 0.0
+	couleur 1 0 0

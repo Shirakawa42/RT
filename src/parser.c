@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RT.h"
+#include "rt.h"
 
 t_env	synthesis(t_env e, t_list *objects, t_list *lights)
 {
@@ -86,9 +86,7 @@ double	parse_float(char *s)
 			break ;
 		i++;
 	}
-	printf("%i\n", d);
 	d = s[0] == '-' ? -d : d;
-	printf("%i\n", d);
 	return (apply_decimal(d, dec_point));
 }
 
@@ -194,3 +192,4 @@ t_env	parser(int fd)
 		exit(0);
 	return (synthesis(e, objects, lights));
 }
+

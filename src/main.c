@@ -324,76 +324,18 @@ void	threads(SDL_Renderer *renderer, t_env e)
 	SDL_DestroyMutex(mutex);
 }
 
-//init = parsing
-t_env	init(t_objparams *prms)
+
+int ft_open (int argc, char **argv)
 {
-	t_env	e;
-	static int i = 0;
-
-
-	printf ("x : %f\n", prms->args.p.x);
-	printf ("r : %f\n", prms->args.r);
-	printf ("color : %f\n", prms->args.color.r);
-	e.editmod = 0;
-	e.scene.rotation.rotx = 0;
-	e.scene.rotation.roty = 0;
-	e.scene.rotation.rotz = 0;
-	e.scene.camera.o = create_vec(0, 0, 0);
-	e.scene.camera.d = create_vec(0, 0, 1);
-
-	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 15)) == 0)
-		exit(0);
-
-	
-	t_object (*g_tab[])(t_objparams *) = 
-	{
-		&create_sphere,
-		&create_plane,
-		&create_cylinder,
-		&create_cone
-	};
-
-
-	printf ("obj_mode : %i\n", prms->obj_mode);
-	e.scene.objects[i++] = g_tab[prms->obj_mode](prms);
-/*
-
-e.scene.objects[i] = create_plane(create_vec(0, 2, 0), create_vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
-	e.scene.objects[1] = create_plane(create_vec(0, -2, 0), create_vec(0, -1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD);
-	e.scene.objects[2] = create_plane(create_vec(6, 0, 0), create_vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER);
-	e.scene.objects[3] = create_plane(create_vec(-6, 0, 0), create_vec(-1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA);
-	e.scene.objects[4] = create_cylinder(create_vec(2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[5] = create_cylinder(create_vec(-2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[6] = create_cone(create_vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, 2, 30);
-	e.scene.objects[7] = create_cylinder(create_vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 1, 0);
-	e.scene.objects[8] = create_cylinder(create_vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
-	e.scene.objects[9] = create_cylinder(create_vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
-	e.scene.objects[10] = create_cylinder(create_vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[11] = create_cylinder(create_vec(-2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[12] = create_cylinder(create_vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[13] = create_cylinder(create_vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[14].type = 0;
-*/
-	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 7)) == 0)
-		exit(0);
-	e.scene.lights[0] = create_light_bulb(0, 1.84, 1, create_color(0.5, 0.5, 0.5), 10);
-	e.scene.lights[1] = create_light_bulb(0, 1.84, 17, create_color(0.5, 0.5, 0.5), 10);
-	e.scene.lights[2] = create_light_bulb(0, 1.84, 33, create_color(0.5, 0.5, 0.5), 10);
-	e.scene.lights[3] = create_light_bulb(0, 1.84, 49, create_color(0.5, 0.5, 0.5), 10);
-	e.scene.lights[4] = create_light_bulb(0, 1.84, 65, create_color(0.5, 0.5, 0.5), 10);
-	e.scene.lights[5] = create_light_bulb(0, 1.84, 81, create_color(0.5, 0.5, 0.5), 10);
-	e.scene.lights[6].type = 0;
-	if (!(e.texture.wood = LoadBMP("textures/WOOD.bmp")))
-		exit(0);
-	if (!(e.texture.paper = LoadBMP("textures/PAPER.bmp")))
-		exit(0);
-	if (!(e.texture.metal = LoadBMP("textures/METAL.bmp")))
-		exit(0);
-	if (!(e.texture.grass = LoadBMP("textures/GRASS.bmp")))
-		exit(0);
-	if (!(e.texture.lava = LoadBMP("textures/LAVA.bmp")))
-		exit(0);
-	return (e);
+		int     fd;
+		int     ret;
+		if (argc != 2)
+			exit(EXIT_FAILURE);
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
+			exit(EXIT_FAILURE);
+		parser (fd);
+		return (0);
 }
 
 int		main(int ac, char **av)
@@ -410,9 +352,11 @@ int		main(int ac, char **av)
 		exit(0);
 	if (!(renderer = SDL_CreateRenderer(win, -1, 0)))
 		exit(0);
-	ft_parsing (ac, av, &e);
+	ft_open(ac, av);
+	printf ("tip\n");
 	//e = init();
-	threads(renderer, e);
+	//threads(renderer, e);
+	printf ("tap\n");
 	while (SDL_WaitEvent(&event))
 	{
 		if (event.type == SDL_QUIT)

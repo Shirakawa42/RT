@@ -20,6 +20,13 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+typedef				struct	s_list
+{
+	void					*content;
+	size_t					content_size;
+	struct s_list			*next;
+}							t_list;
+
 void				*ft_memset(void *s, int c, size_t n);
 void				ft_bzero(void *s, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
@@ -77,12 +84,8 @@ int					get_next_line(const int fd, char **line);
 void				ft_putenbr(int n);
 char				*ft_strdupzero(const char *src);
 double				ft_atof(char *s);
-
-typedef struct		s_list
-{
-	void			*content;
-	size_t			content_size;
-	struct s_list	*next;
-}					t_list;
+void				ft_lstadd(t_list **alst, t_list *new);
+size_t				ft_lstcount(t_list *lst);
+t_list				*ft_lstnew(void const *content, size_t content_size);
 
 #endif

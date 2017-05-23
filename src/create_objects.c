@@ -15,7 +15,7 @@
 t_object	create_sphere(t_objparams *prms)
 {
 	t_object	ret;
-
+	ft_putstr ("efefe\n");
 	ret.type = SPHERE;
 	ret.color = prms->args.color;
 	ret.shape.sphere.c.x = prms->args.p.x;

@@ -221,6 +221,7 @@ typedef struct s_objparams
 
 }           t_objparams;
 
+
 // vector.c
 double		dot(t_vec a, t_vec b);
 t_vec		create_vec(double x, double y, double z);
@@ -269,8 +270,7 @@ t_color		texturing_cone(t_ray ray, t_vec p, t_env e, int i);
 SDL_Surface	*LoadBMP(char *fichier);
 
 //parsing
-t_env   init(t_objparams *prms);
-int     use_values(char **content, t_env *e);
-int     ft_parsing(int argc, char **argv, t_env *e);
-int     put_in_struct (char *arg, t_objparams *prms);
+t_env   parser(int fd);
+
+
 #endif

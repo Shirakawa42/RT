@@ -21,10 +21,8 @@ SRC = src/main.c \
 	  src/perlin.c \
 	  src/color.c \
 	  src/matrice.c \
-	  src/texture.c\
-	  src/parse.c \
-	  src/interprete_values.c \
-	  src/put_in_struct.c
+	  src/texture.c \
+	 src/parser.c
 OBJ = $(SRC:.c=.o)
 		FLAGS = -I /Library/Frameworks/SDL2.framework/Headers -L./libft -lft
 
