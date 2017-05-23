@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 12:24:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/21 19:21:02 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/23 07:50:36 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,8 @@ t_env	parser(int fd)
 	t_list	*lights;
 	t_env	e;
 
-	e.scene.camera.o = create_vec(0.0, 0.0, 0.0);
-	e.scene.camera.d = create_vec(0.0, 0.0, 1.0);
+	e.scene.camera.o = vec(0.0, 0.0, 0.0);
+	e.scene.camera.d = vec(0.0, 0.0, 1.0);
 	e.scene.rotation.rotx = 0.0;
 	e.scene.rotation.roty = 0.0;
 	e.scene.rotation.rotz = 0.0;
@@ -182,15 +182,15 @@ t_env	parser(int fd)
 		if (ft_strequ(buf, "sphere"))
 			ft_lstadd(&objects, parse_sphere(fd));
 	}
-	if (!(e.texture.wood = LoadBMP("textures/WOOD.bmp")))
+	if (!(e.texture.wood = load_bmp("textures/WOOD.bmp")))
 		exit(0);
-	if (!(e.texture.paper = LoadBMP("textures/PAPER.bmp")))
+	if (!(e.texture.paper = load_bmp("textures/PAPER.bmp")))
 		exit(0);
-	if (!(e.texture.metal = LoadBMP("textures/METAL.bmp")))
+	if (!(e.texture.metal = load_bmp("textures/METAL.bmp")))
 		exit(0);
-	if (!(e.texture.grass = LoadBMP("textures/GRASS.bmp")))
+	if (!(e.texture.grass = load_bmp("textures/GRASS.bmp")))
 		exit(0);
-	if (!(e.texture.lava = LoadBMP("textures/LAVA.bmp")))
+	if (!(e.texture.lava = load_bmp("textures/LAVA.bmp")))
 		exit(0);
 	return (synthesis(e, objects, lights));
 }

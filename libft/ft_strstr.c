@@ -3,39 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/10 13:01:33 by lvasseur          #+#    #+#             */
-/*   Updated: 2016/11/11 13:33:34 by lvasseur         ###   ########.fr       */
+/*   Created: 2015/11/25 13:50:15 by rmenegau          #+#    #+#             */
+/*   Updated: 2015/12/07 11:12:35 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strstr(const char *meule, const char *aiguille)
+char	*ft_strstr(const char *s1, const char *s2)
 {
-	char	*s1;
-	char	*s2;
-
-	if (!*meule && !*aiguille)
-		return ((char*)meule);
-	while (*meule && *aiguille)
-	{
-		if (*meule == *aiguille)
-		{
-			s1 = (char*)meule;
-			s2 = (char*)aiguille;
-			while (*s1 && *s2 && *s1 == *s2)
-			{
-				s1++;
-				s2++;
-			}
-			if (*s2 == '\0')
-				return ((char*)meule);
-		}
-		meule++;
-	}
-	if (!*aiguille)
-		return ((char*)meule);
-	return (NULL);
+	if (!*s1 && !*s2)
+		return ((char *)s1);
+	return (ft_strnstr(s1, s2, ft_strlen(s1)));
 }
