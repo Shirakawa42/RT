@@ -55,7 +55,7 @@ t_color	intersection(t_ray ray, t_env e, int tmp_i, double tmp_t)
 		get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape
 				, p, ray.d);
 	if (e.scene.objects[tmp_i].texture)
-		normal = text1(normal, e.scene.objects[tmp_i].texture);
+		normal = text1(normal, e.scene.objects[tmp_i].texture, e.p);
 	tmp_color = lightning(ray, p, tmp_i, normal, e,
 			texturing_all(ray, p, e, tmp_i));
 	if (e.scene.objects[tmp_i].texture != 4
@@ -152,6 +152,7 @@ t_env	init(void)
 
 	e.editmod = 0;
 	e.ssaa = SSAA;
+	init_perlin(&e);
 
 	e.scene.rotation.rotx = 0;
 	e.scene.rotation.roty = 0;
@@ -177,7 +178,7 @@ t_env	init(void)
 	e.scene.objects[4] = create_cylinder(vec(2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 	e.scene.objects[5] = create_cylinder(vec(-2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 
-	e.scene.objects[6] = create_cone(vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, WOOD, 25);
+	e.scene.objects[6] = create_cone(vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, 25);
 	e.scene.objects[7] = create_cylinder(vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
 	e.scene.objects[8] = create_cylinder(vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
 	e.scene.objects[9] = create_cylinder(vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);

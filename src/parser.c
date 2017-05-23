@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RT.h"
+#include "../includes/rt.h"
 
 t_env	synthesis(t_env e, t_list *objects, t_list *lights)
 {

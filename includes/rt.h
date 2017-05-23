@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/23 13:00:04 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/05/23 11:35:46 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 # include "SDL2/SDL_thread.h"
 # include "../libft/includes/libft.h"
 
-# define H 500
-# define W 500
+# define H 1000
+# define W 1000
 # define NB_THREADS 8
-# define SSAA 2
-# define NB_REFLEC 10
+# define SSAA 1
+# define NB_REFLEC 0
 
 typedef struct	s_vec
 {
@@ -167,7 +167,24 @@ typedef struct	s_env
 	int			ssaa;
 	t_intersect	intersect[5];
 	t_color		colorsave[6 * 6];
+	int			p[256];
 }				t_env;
+
+typedef struct	s_perlin
+{
+	int		X;
+	int		Y;
+	int		Z;
+	double	u;
+	double	v;
+	double	w;
+	int		A;
+	int		AA;
+	int		AB;
+	int		B;
+	int		BB;
+	int		BA;
+}				t_perlin;
 
 typedef struct	s_void
 {
@@ -213,12 +230,15 @@ t_vec		plane_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		cone_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 
 // perlin.c
-t_vec		text1(t_vec n, int text);
+t_vec		text1(t_vec n, int text, int permutation[256]);
+void		init_perlin(t_env *e);
+void		init_perlin7(t_env *e);
+void		init_perlin6(t_env *e);
 
 // matrice.c
 void		radian(double *rotx, double *roty, double *rotz, t_env e);
 void		matrice(double *x, double *y, double *z, t_env *e);
-t_vec		matrice2(t_vec v, const t_vec ang);
+t_vec		matrice2(t_vec v, t_vec ang);
 
 // texture.c
 t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i);

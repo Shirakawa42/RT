@@ -15,10 +15,8 @@
 
 void	*ft_memalloc(size_t size)
 {
-	int		i;
 	void	*tab;
 
-	i = 0;
 	tab = (char *)malloc(sizeof(char) * size);
 	if (tab != NULL)
 		ft_memset(tab, 0, size);
