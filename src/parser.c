@@ -156,6 +156,70 @@ t_list	*parse_sphere(int fd)
 	return (ft_lstnew(&obj, sizeof(t_object)));
 }
 
+t_list  *parse_plane(int fd)
+{
+	char        *buf;
+	char        **cmd;
+	t_object    obj;
+
+	ft_bzero(&obj, sizeof(t_object));
+	obj.type = SPHERE;
+	while (get_next_line(fd, &buf) == 1)
+	{
+		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+			break ;
+		if (ft_strequ(cmd[0], "position"))
+			obj.shape.plane.p = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "color"))
+			obj.color = parse_color(cmd);
+	}
+	return (ft_lstnew(&obj, sizeof(t_object)));
+}
+
+t_list  *parse_cone(int fd)
+{
+	char        *buf;
+	char        **cmd;
+	t_object    obj;
+
+	ft_bzero(&obj, sizeof(t_object));
+	obj.type = SPHERE;
+	while (get_next_line(fd, &buf) == 1)
+	{
+		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+			break ;
+		if (ft_strequ(cmd[0], "position"))
+			obj.shape.cone.d = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "radius"))
+			obj.shape.cone.r = parse_float(cmd[1]);
+		if (ft_strequ(cmd[0], "color"))
+			obj.color = parse_color(cmd);
+	}
+	return (ft_lstnew(&obj, sizeof(t_object)));
+}
+
+t_list  *parse_cylinder(int fd)
+{
+	char        *buf;
+	char        **cmd;
+	t_object    obj;
+
+	ft_bzero(&obj, sizeof(t_object));
+	obj.type = SPHERE;
+	while (get_next_line(fd, &buf) == 1)
+	{
+		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+			break ;
+		if (ft_strequ(cmd[0], "position"))
+			obj.shape.cylinder.p = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "radius"))
+			obj.shape.cylinder.r = parse_float(cmd[1]);
+		if (ft_strequ(cmd[0], "color"))
+			obj.color = parse_color(cmd);
+	}
+	return (ft_lstnew(&obj, sizeof(t_object)));
+}
+
 t_env	parser(int fd)
 {
 	char	*buf;
@@ -179,6 +243,12 @@ t_env	parser(int fd)
 	{
 		if (ft_strequ(buf, "sphere"))
 			ft_lstadd(&objects, parse_sphere(fd));
+		if (ft_strequ(buf, "plane"))
+			ft_lstadd(&objects, parse_plane(fd));
+		if (ft_strequ(buf, "cone"))
+			ft_lstadd(&objects, parse_cone(fd));
+		if (ft_strequ(buf, "cylinder"))
+			ft_lstadd(&objects, parse_cylinder(fd));
 	}
 	if (!(e.texture.wood = LoadBMP("textures/WOOD.bmp")))
 		exit(0);
