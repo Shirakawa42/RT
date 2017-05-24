@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/23 11:35:46 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/24 14:43:48 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,18 @@ typedef struct	s_plane
 typedef struct	s_cylinder
 {
 	t_vec	p;
-	double	r;
 	t_vec	rot;
+	t_vec	sin;
+	t_vec	cos;
+	double	r;
 }				t_cylinder;
 
 typedef struct	s_cone
 {
 	t_vec	d;
 	t_vec	rot;
+	t_vec	cos;
+	t_vec	sin;
 	double	r;
 	double	aperture;
 }				t_cone;
@@ -237,7 +241,7 @@ void		init_perlin6(t_env *e);
 
 // matrice.c
 void		radian(double *rotx, double *roty, double *rotz, t_env e);
-void		matrice(double *x, double *y, double *z, t_env *e);
+t_vec		matrice_o(t_vec v, const t_vec sin, const t_vec cos);
 t_vec		matrice2(t_vec v, t_vec ang);
 
 // texture.c

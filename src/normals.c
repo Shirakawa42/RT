@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:29:36 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/23 07:03:52 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/24 14:50:09 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,18 @@ t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d)
 	double	r;
 
 	r = 1 / shape.cylinder.r;
-	n.x = (p.x - shape.cylinder.p.x) * r;
-	n.y = 0;
-	n.z = (p.z - shape.cylinder.p.z) * r;
+	if (shape.cylinder.rot.x == 0 && shape.cylinder.rot.y == 0)
+	{
+		n.x = (p.x - shape.cylinder.p.x) * r;
+		n.y = 0;
+		n.z = (p.z - shape.cylinder.p.z) * r;	
+	}
+	else
+	{
+		n.x = (p.x - shape.cylinder.p.x) * shape.cylinder.rot.x * r;
+		n.y = 0;
+		n.z = (p.z - shape.cylinder.p.z) * shape.cylinder.rot.z * r;
+	}
 	return (n);
 }
 
@@ -49,11 +58,18 @@ t_vec	cone_normal(union u_shape shape, t_vec p, t_vec d)
 
 	i = 0;
 	r = shape.cone.r;
-	if (dot(shape.cone.d, n) > 0.000001)
+	if (shape.cone.rot.x == 0 && shape.cone.rot.y == 0)
 	{
 		n.x = (p.x - shape.cone.d.x) / r;
 		n.y = 0;
 		n.z = (p.z - shape.cone.d.z) / r;
 	}
+	else if (dot(shape.cone.d, n) > 0.000001)
+	{
+		n.x = (p.x - shape.cone.d.x) / r * shape.cone.rot.x;
+		n.y = 0;
+		n.z = (p.z - shape.cone.d.z) / r * shape.cone.rot.z;
+	}
+	normalize(&n);
 	return (n);
 }
