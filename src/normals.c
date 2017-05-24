@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:29:36 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/24 14:50:09 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/05/24 15:58:28 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d)
 	double	r;
 
 	r = 1 / shape.cylinder.r;
-	if (shape.cylinder.rot.x == 0 && shape.cylinder.rot.y == 0)
+	if (shape.cylinder.rot.x == 0 && shape.cylinder.rot.z == 0)
 	{
 		n.x = (p.x - shape.cylinder.p.x) * r;
 		n.y = 0;
@@ -58,7 +58,7 @@ t_vec	cone_normal(union u_shape shape, t_vec p, t_vec d)
 
 	i = 0;
 	r = shape.cone.r;
-	if (shape.cone.rot.x == 0 && shape.cone.rot.y == 0)
+	if (shape.cone.rot.x == 0 && shape.cone.rot.z == 0)
 	{
 		n.x = (p.x - shape.cone.d.x) / r;
 		n.y = 0;

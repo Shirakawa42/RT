@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/24 14:49:25 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/05/24 15:45:40 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,23 +175,23 @@ t_env	init(void)
 	e.scene.objects[2] = create_plane(vec(6, 0, 0), vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.9, PAPER);
 	e.scene.objects[3] = create_plane(vec(-6, 0, 0), vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA);
 
-	e.scene.objects[4] = create_cylinder(vec(2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
-	e.scene.objects[5] = create_cylinder(vec(-2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
+//	e.scene.objects[4] = create_cylinder(vec(2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
+//	e.scene.objects[5] = create_cylinder(vec(-2, 0, 3), 0.6, create_color(1.0, 1.0, 1.0), 0.5, 2);
 
-	e.scene.objects[6] = create_cone(vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, 25);
-	e.scene.objects[7] = create_cylinder(vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
-	e.scene.objects[8] = create_cylinder(vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
-	e.scene.objects[9] = create_cylinder(vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
+	e.scene.objects[4] = create_cone(vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, 25);
+	e.scene.objects[5] = create_cylinder(vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
+	e.scene.objects[6] = create_cylinder(vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
+	e.scene.objects[7] = create_cylinder(vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 1, 2);
 
 
-	e.scene.objects[10] = create_cylinder(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD);
-	e.scene.objects[11] = create_cylinder(vec(-2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.5, PAPER);
-	e.scene.objects[12] = create_cylinder(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, GRASS);
-	e.scene.objects[13] = create_cylinder(vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA);
+	e.scene.objects[8] = create_cylinder(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD);
+	e.scene.objects[9] = create_cylinder(vec(-2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.5, PAPER);
+	e.scene.objects[10] = create_cylinder(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, GRASS);
+	e.scene.objects[11] = create_cylinder(vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA);
 
-	e.scene.objects[14] = create_sphere(0, 0, 85, 1.5, create_color(1.0, 1.0, 1.0), 0.5, WOOD);
+	e.scene.objects[12] = create_sphere(0, 0, 85, 1.5, create_color(1.0, 1.0, 1.0), 0.5, WOOD);
 
-	e.scene.objects[15].type = 0;
+	e.scene.objects[13].type = 0;
 
 	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 7)) == 0)
 		exit(0);
