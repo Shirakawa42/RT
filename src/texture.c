@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   texture.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/23 07:40:48 by rmenegau          #+#    #+#             */
+/*   Updated: 2017/05/23 07:52:26 by rmenegau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/rt.h"
 
 typedef t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
-t_get_normal_sphered get_normal_sphered[5] = { NULL, sphere_normal, plane_normal_sphered, cylinder_normal_sphered, cone_normal_sphered };
+t_get_normal_sphered g_get_normal_sphered[5] = { NULL,
+	sphere_normal,
+	plane_normal_sphered,
+	cylinder_normal_sphered,
+	cone_normal_sphered };
 
-typedef t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
-t_get_normal get_normal[5] = { NULL, sphere_normal, plane_normal, cylinder_normal, cone_normal };
-
-Uint32		SDL_GetPixel32(SDL_Surface *surface, int x, int y)
+Uint32		get_pixel(SDL_Surface *surface, int x, int y)
 {
 	Uint8 *p;
 
@@ -14,7 +27,7 @@ Uint32		SDL_GetPixel32(SDL_Surface *surface, int x, int y)
 	return (*(Uint32*)p);
 }
 
-SDL_Rect	Rect(int x, int y, int w, int h)
+SDL_Rect	rect(int x, int y, int w, int h)
 {
 	SDL_Rect r;
 
@@ -25,9 +38,9 @@ SDL_Rect	Rect(int x, int y, int w, int h)
 	return (r);
 }
 
-SDL_Surface	*LoadBMP(char *fichier)
+SDL_Surface	*load_bmp(char *fichier)
 {
-	SDL_Rect	R;
+	SDL_Rect	re;
 	SDL_Surface *r;
 	SDL_Surface *f;
 
@@ -35,24 +48,24 @@ SDL_Surface	*LoadBMP(char *fichier)
 	if (!f)
 		exit(0);
 	r = SDL_CreateRGBSurface(SDL_SWSURFACE, f->w, f->h, 32, 0, 0, 0, 0);
-	R = Rect(0, 0, f->w, f->h);
-	SDL_BlitSurface(f, NULL, r, &R);
+	re = rect(0, 0, f->w, f->h);
+	SDL_BlitSurface(f, NULL, r, &re);
 	SDL_FreeSurface(f);
 	return (r);
 }
 
-Uint32		WhichTexture(t_env e, int i, int w, int h)
+Uint32		which_texture(t_env e, int i, int w, int h)
 {
 	if (e.scene.objects[i].texture == WOOD)
-		return (SDL_GetPixel32(e.texture.wood, w, h));
+		return (get_pixel(e.texture.wood, w, h));
 	if (e.scene.objects[i].texture == PAPER)
-		return (SDL_GetPixel32(e.texture.paper, w, h));
+		return (get_pixel(e.texture.paper, w, h));
 	if (e.scene.objects[i].texture == METAL)
-		return (SDL_GetPixel32(e.texture.metal, w, h));
+		return (get_pixel(e.texture.metal, w, h));
 	if (e.scene.objects[i].texture == GRASS)
-		return (SDL_GetPixel32(e.texture.grass, w, h));
+		return (get_pixel(e.texture.grass, w, h));
 	if (e.scene.objects[i].texture == LAVA)
-		return (SDL_GetPixel32(e.texture.lava, w, h));
+		return (get_pixel(e.texture.lava, w, h));
 	return (0);
 }
 
@@ -67,7 +80,7 @@ t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i)
 	Uint32		rgb;
 	t_vec		n;
 
-	N = get_normal_sphered[e.scene.objects[i].type](e.scene.objects[i].shape, p, ray.d);
+	N = g_get_normal_sphered[e.scene.objects[i].type](e.scene.objects[i].shape, p, ray.d);
 	if (e.scene.objects[i].type == PLANE || e.scene.objects[i].type == CYLINDER || e.scene.objects[i].type == CONE)
 	{
 		while (N.y > 1.0)
@@ -89,9 +102,9 @@ t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i)
 	if (e.scene.objects[i].type == PLANE)
 	{
 		n = plane_normal(e.scene.objects[i].shape, p, ray.d);
-		if ((dot(n, create_vec(1, 0, 0)) > 0.5 && dot(n, create_vec(1, 0, 0)) < 1.5) || (dot(n, create_vec(-1, 0, 0)) > 0.5 && dot(n, create_vec(-1, 0, 0)) < 1.5))
+		if ((dot(n, vec(1, 0, 0)) > 0.5 && dot(n, vec(1, 0, 0)) < 1.5) || (dot(n, vec(-1, 0, 0)) > 0.5 && dot(n, vec(-1, 0, 0)) < 1.5))
 			u = asin(N.z) / PI + 0.5;
-		if ((dot(n, create_vec(0, 1, 0)) > 0.5 && dot(n, create_vec(0, 1, 0)) < 1.5) || (dot(n, create_vec(0, -1, 0)) > 0.5 && dot(n, create_vec(0, -1, 0)) < 1.5))
+		if ((dot(n, vec(0, 1, 0)) > 0.5 && dot(n, vec(0, 1, 0)) < 1.5) || (dot(n, vec(0, -1, 0)) > 0.5 && dot(n, vec(0, -1, 0)) < 1.5))
 			v = asin(N.z) / PI + 0.5;
 	}
 
@@ -121,7 +134,7 @@ t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i)
 		h = e.texture.lava->h * v;
 	}
 
-	rgb = WhichTexture(e, i, w, h);
+	rgb = which_texture(e, i, w, h);
 	color.r = (double)((rgb >> 16) & 255) / 255.0;
 	color.g = (double)((rgb >> 8) & 255) / 255.0;
 	color.b = (double)(rgb & 255) / 255.0;

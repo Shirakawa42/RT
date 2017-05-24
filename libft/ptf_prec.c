@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putenbr.c                                       :+:      :+:    :+:   */
+/*   ptf_prec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/23 20:12:52 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/02/23 20:18:59 by lvasseur         ###   ########.fr       */
+/*   Created: 2016/04/14 16:11:41 by rmenegau          #+#    #+#             */
+/*   Updated: 2016/05/10 16:42:04 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putenbr(int n)
+void	ptf_prec_nbr(char **ret, t_flag flag, int len, int sign)
 {
-	if (n == -2147483648)
-	{
-		write(1, "-2147483648", 11);
-		return ;
-	}
-	if (n < 0)
-	{
-		write(1, "-", 1);
-		n = -n;
-	}
-	if (n >= 10)
-	{
-		ft_putenbr(n / 10);
-		ft_putenbr(n % 10);
-	}
-	else
-		ft_putchar(n + 48);
-	ft_putchar('\n');
+	ft_realloc_p(ret, flag.prec - len);
+	ft_memmove(*ret + sign + flag.prec - len, *ret + sign, len);
+	ft_memset(*ret + sign, '0', flag.prec - len);
 }

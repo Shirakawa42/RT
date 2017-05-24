@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/11 18:15:26 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/17 15:38:03 by lvasseur         ###   ########.fr       */
+/*   Created: 2017/05/23 06:39:30 by rmenegau          #+#    #+#             */
+/*   Updated: 2017/05/23 06:59:37 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ t_vec	bisector(t_vec v, t_vec l)
 	return (b);
 }
 
-t_vec	create_vec(double x, double y, double z)
+t_vec	vec(double x, double y, double z)
 {
-	t_vec ret;
+	t_vec	ret;
 
 	ret.x = x;
 	ret.y = y;
@@ -53,7 +53,9 @@ t_vec	create_vec(double x, double y, double z)
 
 void	normalize(t_vec *v)
 {
-	double len = v->x * v->x + v->y * v->y + v->z * v->z;
+	double	len;
+
+	len = v->x * v->x + v->y * v->y + v->z * v->z;
 	len = sqrt(len);
 	v->x /= len;
 	v->y /= len;

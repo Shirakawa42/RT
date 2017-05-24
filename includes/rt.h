@@ -6,23 +6,24 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/18 15:00:19 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/05/23 16:50:38 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
-
 # define RT_H
 
-#include <math.h>
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_thread.h"
-#include "../libft/libft.h"
-#define H 1000
-#define W 1000
-#define NB_THREADS 8 // en raison de calculs vraiment stylés de ma part, veuillez mettre un chiffre pair, 2 étant le minimum
-#define SSAA 2 // 1 pour desactiver, 2 pour SSAA x4, 3 pour x9, 4 pour x16, etc.
-#define NB_REFLEC 10
+# include <math.h>
+# include <fcntl.h>
+# include "SDL2/SDL.h"
+# include "SDL2/SDL_thread.h"
+# include "../libft/includes/libft.h"
+
+# define H 500
+# define W 500
+# define NB_THREADS 8
+# define SSAA 2
+# define NB_REFLEC 10
 
 typedef struct	s_vec
 {
@@ -44,24 +45,24 @@ typedef struct	s_color
 	double	b;
 }				t_color;
 
-#define PI 3.14159265359
+# define PI 3.14159265359
 
-#define SPHERE 1
-#define PLANE 2
-#define CYLINDER 3
-#define CONE 4
+# define SPHERE 1
+# define PLANE 2
+# define CYLINDER 3
+# define CONE 4
 
-#define MARBLE 1
-#define MARBLE2 2
-#define MARBLE3 3
-#define NOISE 4
-#define NOISE2 5
+# define MARBLE 1
+# define MARBLE2 2
+# define MARBLE3 3
+# define NOISE 4
+# define NOISE2 5
 
-#define WOOD 6
-#define PAPER 7
-#define METAL 8
-#define GRASS 9
-#define LAVA 10
+# define WOOD 6
+# define PAPER 7
+# define METAL 8
+# define GRASS 9
+# define LAVA 10
 
 typedef struct	s_sphere
 {
@@ -79,11 +80,13 @@ typedef struct	s_cylinder
 {
 	t_vec	p;
 	double	r;
+	t_vec	rot;
 }				t_cylinder;
 
 typedef struct	s_cone
 {
 	t_vec	d;
+	t_vec	rot;
 	double	r;
 	double	aperture;
 }				t_cone;
@@ -106,14 +109,14 @@ typedef struct	s_object
 	union u_shape	shape;
 }				t_object;
 
-#define LIGHT_BULB 1
+# define LIGHT_BULB 1
 
 typedef struct	s_light_bulb
 {
 	t_vec	p;
 }				t_light_bulb;
 
-union u_light
+union	u_light
 {
 	t_light_bulb	light_bulb;
 };
@@ -136,7 +139,7 @@ typedef struct	s_rot
 	double	tmp3;
 }				t_rot;
 
-typedef struct s_scene
+typedef struct	s_scene
 {
 	t_ray		camera;
 	t_rot		rotation;
@@ -153,26 +156,31 @@ typedef struct	s_texture
 	SDL_Surface *lava;
 }				t_texture;
 
+typedef int(*t_intersect)(union u_shape, t_ray, double *);
+
 typedef struct	s_env
 {
-	t_scene	scene;
-	t_texture texture;
-	int		editmod;
+	t_scene		scene;
+	t_texture	texture;
+	int			editmod;
+	int			index;
+	int			ssaa;
+	t_intersect	intersect[5];
+	t_color		colorsave[6 * 6];
 }				t_env;
 
 typedef struct	s_void
 {
-	t_env	e;
+	t_env			e;
 	SDL_Renderer	*renderer;
 	SDL_mutex		*mutex;
 	int				number;
 	t_color			colortab[W + 1][H + 1];
-	int				ssaa;
 }				t_void;
 
 // vector.c
 double		dot(t_vec a, t_vec b);
-t_vec		create_vec(double x, double y, double z);
+t_vec		vec(double x, double y, double z);
 t_vec		get_point(t_ray ray, double t);
 t_vec		bisector(t_vec v, t_vec l);
 void		normalize(t_vec *v);
@@ -196,23 +204,31 @@ int			cylinder_intersect(union u_shape shape, t_ray ray, double *t);
 int			cone_intersect(union u_shape shape, t_ray ray, double *t);
 
 // normals.c
-t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d);
-t_vec	plane_normal(union u_shape shape, t_vec p, t_vec d);
-t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d);
-t_vec   cone_normal(union u_shape shape, t_vec p, t_vec d);
-t_vec	cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d);
-t_vec	plane_normal_sphered(union u_shape shape, t_vec p, t_vec d);
-t_vec	cone_normal_sphered(union u_shape shape, t_vec p, t_vec d);
+t_vec		sphere_normal(union u_shape shape, t_vec p, t_vec d);
+t_vec		plane_normal(union u_shape shape, t_vec p, t_vec d);
+t_vec		cylinder_normal(union u_shape shape, t_vec p, t_vec d);
+t_vec   	cone_normal(union u_shape shape, t_vec p, t_vec d);
+t_vec		cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d);
+t_vec		plane_normal_sphered(union u_shape shape, t_vec p, t_vec d);
+t_vec		cone_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 
 // perlin.c
-t_vec	text1(t_vec n, int text);
+t_vec		text1(t_vec n, int text);
 
 // matrice.c
-void	radian(double *rotx, double *roty, double *rotz, t_env e);
-void	matrice(double *x, double *y, double *z, t_env *e);
+void		radian(double *rotx, double *roty, double *rotz, t_env e);
+void		matrice(double *x, double *y, double *z, t_env *e);
+t_vec		matrice2(t_vec v, const t_vec ang);
 
 // texture.c
 t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i);
-SDL_Surface	*LoadBMP(char *fichier);
+SDL_Surface	*load_bmp(char *fichier);
+
+// parser.c
+t_env	parser(int fd);
+
+t_color	lightning(t_vec p, int obj, t_vec normal, t_env e, t_color text);
+t_color	ray_trace(t_ray ray, t_env e);
+int		launch(void *truc);
 
 #endif

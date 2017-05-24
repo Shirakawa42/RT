@@ -1,28 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   matrice.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/23 06:54:10 by rmenegau          #+#    #+#             */
+/*   Updated: 2017/05/23 12:55:54 by lomeress         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/rt.h"
 
-void	matrice(double *x, double *y, double *z, t_env *e)
+t_vec	matrice2(t_vec v, const t_vec ang)
 {
-	double	tmpx;
-	double	tmpy;
-	double	tmpz;
+	t_vec tmp;
 
-	tmpx = *x;
-	tmpy = *y * cos(e->scene.rotation.rotx) + *z * -sin(e->scene.rotation.rotx);
-	tmpz = *y * sin(e->scene.rotation.rotx) + *z * cos(e->scene.rotation.rotx);
-	*x = tmpx * cos(e->scene.rotation.roty) + tmpz * sin(e->scene.rotation.roty);
-	*y = tmpy;
-	*z = tmpx * -sin(e->scene.rotation.roty) + tmpz * cos(e->scene.rotation.roty);
-	tmpx = *x * cos(e->scene.rotation.rotz) + *y * -sin(e->scene.rotation.rotz);
-	tmpy = *x * sin(e->scene.rotation.rotz) + *y * cos(e->scene.rotation.rotz);
-	tmpz = *z;
-	*x = tmpx;
-	*y = tmpy;
-	*z = tmpz;
+	tmp.x = v.x;
+	tmp.y = v.y * cos(ang.x) - v.z * sin(ang.x);
+	tmp.z = v.y * sin(ang.x) + v.z * cos(ang.x);
+	v.x = tmp.x * cos(ang.y) + tmp.z * sin(ang.y);
+	v.y = tmp.y;
+	v.z = tmp.x * -sin(ang.y) + tmp.z * cos(ang.y);
+	tmp.x = v.x * cos(ang.z) + v.y * -sin(ang.z);
+	tmp.y = v.x * sin(ang.z) + v.y * cos(ang.z);
+	tmp.z = v.z;
+	return(tmp);
 }
 
 void	radian(double *rotx, double *roty, double *rotz, t_env e)
 {
-	*rotx = e.scene.rotation.rotx * 0.0174533;
-	*roty = e.scene.rotation.roty * 0.0174533;
-	*rotz = e.scene.rotation.rotz * 0.0174533;
+	*rotx = e.scene.rotation.rotx * M_PI / 180;
+	*roty = e.scene.rotation.roty * M_PI / 180;
+	*rotz = e.scene.rotation.rotz * M_PI / 180;
 }

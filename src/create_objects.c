@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:11:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/17 18:33:33 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/05/23 13:01:28 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int te
 	ret.color = color;
 	ret.shape.plane.p = p;
 	ret.shape.plane.n = n;
-	//	normalize(&ret.shape.plane.n);
+	normalize(&ret.shape.plane.n);
 	ret.reflection = reflection;
 	ret.texture = texture;
 	return (ret);
@@ -49,6 +49,9 @@ t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, in
 	ret.color = color;
 	ret.shape.cylinder.p = p;
 	ret.shape.cylinder.r = r;
+	ret.shape.cylinder.rot.x = 0.5;
+	ret.shape.cylinder.rot.y = 0;
+	ret.shape.cylinder.rot.z = 0;
 	ret.reflection = reflection;
 	ret.texture = texture;
 	return (ret);
@@ -62,6 +65,9 @@ t_object    create_cone(t_vec p, double r, t_color color, double reflection, int
     ret.color = color;
     ret.shape.cone.d = p;
     ret.shape.cone.r = r;
+	ret.shape.cone.rot.x = 0.5;
+	ret.shape.cone.rot.y = 0;
+	ret.shape.cone.rot.z = 0;
     ret.reflection = reflection;
     ret.texture = texture;
 	ret.shape.cone.aperture = aperture;

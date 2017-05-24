@@ -3,98 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/22 15:27:03 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/02/02 12:09:31 by lvasseur         ###   ########.fr       */
+/*   Created: 2016/01/12 13:09:40 by rmenegau          #+#    #+#             */
+/*   Updated: 2016/05/10 06:46:38 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_setline(char *str)
+static char	*a_find(t_list **b, int const fd)
 {
-	char	*line;
-	int		i;
+	t_list	*lst;
 
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if ((line = (char*)malloc(sizeof(char) * (i + 1))) == 0)
-		return (NULL);
-	line = ft_strncpy(line, str, i + 1);
-	line[i] = '\0';
-	return (line);
-}
-
-char	*ft_deleten(char *str)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-		i++;
-	tmp = ft_strdup(&str[i]);
-	free(str);
-	str = ft_strdup(tmp);
-	free(tmp);
-	return (str);
-}
-
-char	*ft_inwhile(char *str, char *buf)
-{
-	char	*tmp;
-
-	tmp = ft_strdup(str);
-	free(str);
-	if ((str = (char*)malloc(sizeof(char) * (ft_strlen(tmp) + ft_strlen(buf)
-						+ 1))) == 0)
-		return (NULL);
-	ft_bzero(str, (ft_strlen(tmp) + ft_strlen(buf)));
-	str = ft_strcat(str, tmp);
-	str = ft_strcat(str, buf);
-	free(tmp);
-	return (str);
-}
-
-int		ft_isn(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-		return (1);
-	return (0);
-}
-
-int		get_next_line(const int fd, char **line)
-{
-	static char		*str = NULL;
-	char			*buf;
-	int				error;
-
-	buf = ft_strnew(BUFF_SIZE);
-	if (str == NULL)
-		if ((str = (char*)malloc(sizeof(char))) == 0)
-			return (-1);
-	while ((error = read(fd, buf, BUFF_SIZE)) != 0)
+	lst = *b;
+	while (lst)
 	{
-		if (error == -1 || (str = ft_inwhile(str, buf)) == NULL)
-			return (-1);
-		ft_bzero(buf, BUFF_SIZE + 1);
-		if (ft_isn(str) == 1)
-			break ;
+		if ((int)(lst->content_size) == fd)
+			return (lst->content);
+		lst = lst->next;
 	}
-	free(buf);
-	if ((*line = ft_setline(str)) == NULL)
+	ft_lstadd(b, ft_lstnew(NULL, 0));
+	(*b)->content = ft_strnew(BUFF_SIZE);
+	(*b)->content_size = fd;
+	return ((*b)->content);
+}
+
+static void	a_residu(char *buf, char *temp, char **line)
+{
+	if (temp)
+	{
+		ft_realloc_p(line, temp - buf);
+		ft_strncat(*line, buf, temp - buf);
+		if (temp[1])
+			ft_strcpy(buf, temp + 1);
+		else
+			ft_bzero(buf, BUFF_SIZE);
+	}
+	else
+	{
+		ft_realloc_p(line, ft_strlen(buf));
+		ft_strcat(*line, buf);
+		ft_bzero(buf, BUFF_SIZE);
+	}
+}
+
+int			get_next_line(int const fd, char **line)
+{
+	static t_list	*b = NULL;
+	char			*temp;
+	char			*buf;
+	int				mem;
+
+	if (!line || BUFF_SIZE <= 0)
 		return (-1);
-	if (!*str)
-		return (0);
-	str = ft_deleten(str);
-	return (1);
+	buf = a_find(&b, fd);
+	*line = ft_strnew(0);
+	mem = BUFF_SIZE;
+	while ((temp = ft_strchr(buf, '\n')) == NULL && mem == BUFF_SIZE)
+	{
+		ft_realloc_p(line, ft_strlen(buf));
+		ft_strcat(*line, buf);
+		ft_bzero(buf, BUFF_SIZE);
+		mem = read(fd, buf, BUFF_SIZE);
+		if (mem == -1)
+			return (-1);
+	}
+	mem = ft_strlen(buf);
+	a_residu(buf, temp, line);
+	return (mem == 0 && **line == '\0' ? 0 : 1);
 }

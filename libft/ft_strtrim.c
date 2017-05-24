@@ -3,40 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/07 14:56:07 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/02/23 20:13:13 by lvasseur         ###   ########.fr       */
+/*   Created: 2015/11/26 17:49:22 by rmenegau          #+#    #+#             */
+/*   Updated: 2015/12/07 10:56:00 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtrim(const char *s)
+static int	aux_espace(char c)
 {
-	char	*str;
-	int		i;
-	int		j;
-	int		k;
+	return (c == ' ' || c == '\n' || c == '\t');
+}
 
-	if (s)
-	{
-		i = 0;
-		j = ft_strlen(s) - 1;
-		if (!(*s))
-			return ((char*)s);
-		while ((s[i] == ' ' || s[i] == '\n' || s[i] == '\t') && s[i])
-			i++;
-		while ((s[j] == ' ' || s[j] == '\n' || s[j] == '\t') && s[i])
-			j--;
-		if ((str = (char*)malloc(sizeof(char) * (j - i + 2))) == 0)
-			return (NULL);
-		k = 0;
-		while (i < j + 1)
-			str[k++] = s[i++];
-		str[k] = '\0';
-		return (str);
-	}
-	else
+char		*ft_strtrim(char const *s)
+{
+	size_t	len;
+	size_t	start;
+
+	if (!s)
 		return (NULL);
+	start = 0;
+	while (aux_espace(s[start]))
+		start++;
+	len = ft_strlen(s + start);
+	while (aux_espace(s[start + len - 1]) && len)
+		len--;
+	return (ft_strsub(s, start, len));
 }
