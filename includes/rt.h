@@ -17,10 +17,10 @@
 # include <fcntl.h>
 # include "SDL2/SDL.h"
 # include "SDL2/SDL_thread.h"
-# include "../libft/includes/libft.h"
+//# include "libft.h"
 
-# define H 1000
-# define W 1000
+# define H 300
+# define W 300
 # define NB_THREADS 8
 # define SSAA 1
 # define NB_REFLEC 0
@@ -79,18 +79,12 @@ typedef struct	s_plane
 typedef struct	s_cylinder
 {
 	t_vec	p;
-	t_vec	rot;
-	t_vec	sin;
-	t_vec	cos;
 	double	r;
 }				t_cylinder;
 
 typedef struct	s_cone
 {
 	t_vec	d;
-	t_vec	rot;
-	t_vec	cos;
-	t_vec	sin;
 	double	r;
 	double	aperture;
 }				t_cone;
@@ -109,6 +103,10 @@ typedef struct	s_object
 	t_color			color;
 	double			reflection;
 	int				texture;
+	t_vec			c;
+	t_vec			rot;
+	t_vec			cos;
+	t_vec			sin;
 	int				i;
 	union u_shape	shape;
 }				t_object;
@@ -210,10 +208,10 @@ void		normalize(t_vec *v);
 t_light		create_light_bulb(double x, double y, double z, t_color color, double intensity);
 
 // create_objects.c
-t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture);
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture);
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture);
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture);
+t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot);
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, t_vec rot);
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot);
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot);
 
 // color.c
 t_color		create_color(double r, double g, double b);
@@ -251,6 +249,7 @@ SDL_Surface	*load_bmp(char *fichier);
 // parser.c
 t_env	parser(int fd);
 
+t_ray	change_ray(t_ray ray, t_object obj);
 t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color text);
 t_color	ray_trace(t_ray ray, t_env e);
 int		launch(void *truc);
