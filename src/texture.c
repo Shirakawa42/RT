@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
 typedef t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
 t_get_normal_sphered g_get_normal_sphered[5] = { NULL,
-	sphere_normal,
-	plane_normal_sphered,
-	cylinder_normal_sphered,
-	cone_normal_sphered };
+sphere_normal,
+plane_normal_sphered,
+cylinder_normal_sphered,
+cone_normal_sphered };
 
 Uint32		get_pixel(SDL_Surface *surface, int x, int y)
 {
@@ -138,9 +138,9 @@ t_color	texturing_all(t_ray ray, t_vec p, t_env e, int i)
 	t_vec		n;
 
 	N = g_get_normal_sphered[e.scene.objects[i].type]
-			(e.scene.objects[i].shape, p, ray.d);
+	(e.scene.objects[i].shape, p, ray.d);
 	if (e.scene.objects[i].type == PLANE || e.scene.objects[i].type ==
-			CYLINDER || e.scene.objects[i].type == CONE)
+		CYLINDER || e.scene.objects[i].type == CONE)
 		N = infinite(N);
 	u = asin(N.x) / PI + 0.5;
 	v = asin(N.y) / PI + 0.5;
