@@ -12,77 +12,97 @@
 
 #include "rt.h"
 
-t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture)
+t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot)
 {
 	t_object	ret;
 
 	ret.type = SPHERE;
 	ret.color = color;
-	ret.shape.sphere.c.x = x;
-	ret.shape.sphere.c.y = y;
-	ret.shape.sphere.c.z = z;
+	ret.shape.sphere.c = c;
+	ret.c = c;
 	ret.shape.sphere.r = r;
+	ret.rot.x = rot.x;
+	ret.rot.y = rot.y;
+	ret.rot.z = rot.z;
+	ret.cos.x = cos(rot.x);
+	ret.cos.y = cos(rot.y);
+	ret.cos.z = cos(rot.z);
+	ret.sin.x = sin(rot.x);
+	ret.sin.y = sin(rot.y);
+	ret.sin.z = sin(rot.z);
 	ret.reflection = reflection;
 	ret.texture = texture;
 	return (ret);
 }
 
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture)
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, t_vec rot)
 {
 	t_object	ret;
 
 	ret.type = PLANE;
 	ret.color = color;
 	ret.shape.plane.p = p;
-	ret.shape.plane.n = n;
+	ret.c = p;
+	ret.rot.x = rot.x;
+	ret.rot.y = rot.y;
+	ret.rot.z = rot.z;
+	ret.cos.x = cos(rot.x);
+	ret.cos.y = cos(rot.y);
+	ret.cos.z = cos(rot.z);
+	ret.sin.x = sin(rot.x);
+	ret.sin.y = sin(rot.y);
+	ret.sin.z = sin(rot.z);
+	ret.shape.plane.n = matrice_o(vec(0, 1, 0), ret.sin, ret.cos);
 	normalize(&ret.shape.plane.n);
 	ret.reflection = reflection;
 	ret.texture = texture;
 	return (ret);
 }
 
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture)
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot)
 {
 	t_object	ret;
 
 	ret.type = CYLINDER;
 	ret.color = color;
 	ret.shape.cylinder.p = p;
+	ret.c = p;
 	ret.shape.cylinder.r = r;
-	ret.shape.cylinder.rot.x = 0;
-	ret.shape.cylinder.rot.y = 0;
-	ret.shape.cylinder.rot.z = 1;
-	ret.shape.cylinder.cos.x = cos(0);
-	ret.shape.cylinder.cos.y = cos(0);
-	ret.shape.cylinder.cos.z = cos(1);
-	ret.shape.cylinder.sin.x = sin(0);
-	ret.shape.cylinder.sin.y = sin(0);
-	ret.shape.cylinder.sin.z = sin(1);
+	ret.rot.x = rot.x;
+	ret.rot.y = rot.y;
+	ret.rot.z = rot.z;
+	ret.cos.x = cos(rot.x);
+	ret.cos.y = cos(rot.y);
+	ret.cos.z = cos(rot.z);
+	ret.sin.x = sin(rot.x);
+	ret.sin.y = sin(rot.y);
+	ret.sin.z = sin(rot.z);
 	ret.reflection = reflection;
 	ret.texture = texture;
 	return (ret);
 }
 
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture)
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot)
 {
-    t_object ret;
+	t_object ret;
 
-    ret.type = CONE;
-    ret.color = color;
-    ret.shape.cone.d = p;
-    ret.shape.cone.r = r;
-	ret.shape.cone.rot.x = 0;
-	ret.shape.cone.rot.y = 0;
-	ret.shape.cone.rot.z = 1;
-	ret.shape.cone.cos.x = cos(0);
-	ret.shape.cone.cos.y = cos(0);
-	ret.shape.cone.cos.z = cos(1);
-	ret.shape.cone.sin.x = sin(0);
-	ret.shape.cone.sin.y = sin(0);
-	ret.shape.cone.sin.z = sin(1);
+	ret.type = CONE;
+	ret.color = color;
+	ret.shape.cone.d = p;
+	ret.c = p;
+	ret.shape.cone.r = r;
+	ret.rot.x = rot.x;
+	ret.rot.y = rot.y;
+	ret.rot.z = rot.z;
+	ret.cos.x = cos(rot.x);
+	ret.cos.y = cos(rot.y);
+	ret.cos.z = cos(rot.z);
+	ret.sin.x = sin(rot.x);
+	ret.sin.y = sin(rot.y);
+	ret.sin.z = sin(rot.z);
 	ret.reflection = reflection;
-    ret.reflection = reflection;
-    ret.texture = texture;
+	ret.reflection = reflection;
+	ret.texture = texture;
 	ret.shape.cone.aperture = aperture;
-    return (ret);
+	return (ret);
 }
