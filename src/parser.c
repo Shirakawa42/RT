@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+/*
+#include "rt.h"
 
 t_env	synthesis(t_env e, t_list *objects, t_list *lights)
 {
@@ -83,7 +84,7 @@ double	parse_float(char *s)
 			dec_point += comma;
 		}
 		else
-			break ;
+			break;
 		i++;
 	}
 	printf("%i\n", d);
@@ -147,7 +148,7 @@ t_list	*parse_sphere(int fd)
 	while (get_next_line(fd, &buf) == 1)
 	{
 		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
-			break ;
+			break;
 		if (ft_strequ(cmd[0], "position"))
 			obj.shape.sphere.c = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "radius"))
@@ -193,4 +194,4 @@ t_env	parser(int fd)
 	if (!(e.texture.lava = load_bmp("textures/LAVA.bmp")))
 		exit(0);
 	return (synthesis(e, objects, lights));
-}
+}*/

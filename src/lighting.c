@@ -55,7 +55,8 @@ t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color
 		ray.d.z = e.scene.lights[i].light.light_bulb.p.z - ray.o.z;
 		j = -1;
 		while (e.scene.objects[++j].type)
-			if (j != obj && e.intersect[e.scene.objects[j].type](e.scene.objects[j].shape, ray, &tmp) && tmp > 0 && tmp < 1)
+			if (j != obj && e.intersect[e.scene.objects[j].type](e.scene.objects[j].shape,
+				change_ray(ray, e.scene.objects[j]), &tmp) && tmp > 0 && tmp < 1)
 			{
 				j = -1;
 				break;

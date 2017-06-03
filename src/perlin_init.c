@@ -1,4 +1,4 @@
-#include "../includes/rt.h"
+#include "rt.h"
 
 static void	init_perlin5(t_env *e)
 {

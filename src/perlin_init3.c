@@ -1,4 +1,4 @@
-#include "../includes/rt.h"
+#include "rt.h"
 
 void	init_perlin6(t_env *e)
 {

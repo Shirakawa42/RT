@@ -35,18 +35,9 @@ t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d)
 	double	r;
 
 	r = 1 / shape.cylinder.r;
-	if (shape.cylinder.rot.x == 0 && shape.cylinder.rot.z == 0)
-	{
-		n.x = (p.x - shape.cylinder.p.x) * r;
-		n.y = 0;
-		n.z = (p.z - shape.cylinder.p.z) * r;	
-	}
-	else
-	{
-		n.x = (p.x - shape.cylinder.p.x) * shape.cylinder.rot.x * r;
-		n.y = 0;
-		n.z = (p.z - shape.cylinder.p.z) * shape.cylinder.rot.z * r;
-	}
+	n.x = (p.x - shape.cylinder.p.x) * r;
+	n.y = 0;
+	n.z = (p.z - shape.cylinder.p.z) * r;
 	return (n);
 }
 
@@ -58,18 +49,9 @@ t_vec	cone_normal(union u_shape shape, t_vec p, t_vec d)
 
 	i = 0;
 	r = shape.cone.r;
-	if (shape.cone.rot.x == 0 && shape.cone.rot.z == 0)
-	{
-		n.x = (p.x - shape.cone.d.x) / r;
-		n.y = 0;
-		n.z = (p.z - shape.cone.d.z) / r;
-	}
-	else if (dot(shape.cone.d, n) > 0.000001)
-	{
-		n.x = (p.x - shape.cone.d.x) / r * shape.cone.rot.x;
-		n.y = 0;
-		n.z = (p.z - shape.cone.d.z) / r * shape.cone.rot.z;
-	}
+	n.x = (p.x - shape.cone.d.x) / r;
+	n.y = 0;
+	n.z = (p.z - shape.cone.d.z) / r;
 	normalize(&n);
 	return (n);
 }
