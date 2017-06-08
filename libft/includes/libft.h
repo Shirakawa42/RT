@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
+# include <inttypes.h>
 
 # define BUFF_SIZE 64
 

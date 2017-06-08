@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/23 16:50:38 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/24 14:43:48 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 # include <fcntl.h>
 # include "SDL2/SDL.h"
 # include "SDL2/SDL_thread.h"
-# include "../libft/includes/libft.h"
+//# include "libft.h"
 
-# define H 500
-# define W 500
+# define H 700
+# define W 700
 # define NB_THREADS 8
-# define SSAA 2
-# define NB_REFLEC 10
+# define SSAA 1
+# define NB_REFLEC 0
 
 typedef struct	s_vec
 {
@@ -68,27 +68,29 @@ typedef struct	s_sphere
 {
 	t_vec	c;
 	double	r;
+	double	texture_scale;
 }				t_sphere;
 
 typedef struct	s_plane
 {
 	t_vec	n;
 	t_vec	p;
+	double	texture_scale;
 }				t_plane;
 
 typedef struct	s_cylinder
 {
 	t_vec	p;
 	double	r;
-	t_vec	rot;
+	double	texture_scale;
 }				t_cylinder;
 
 typedef struct	s_cone
 {
 	t_vec	d;
-	t_vec	rot;
 	double	r;
 	double	aperture;
+	double	texture_scale;
 }				t_cone;
 
 union	u_shape
@@ -105,6 +107,10 @@ typedef struct	s_object
 	t_color			color;
 	double			reflection;
 	int				texture;
+	t_vec			c;
+	t_vec			rot;
+	t_vec			cos;
+	t_vec			sin;
 	int				i;
 	union u_shape	shape;
 }				t_object;
@@ -167,7 +173,24 @@ typedef struct	s_env
 	int			ssaa;
 	t_intersect	intersect[5];
 	t_color		colorsave[6 * 6];
+	int			p[256];
 }				t_env;
+
+typedef struct	s_perlin
+{
+	int		X;
+	int		Y;
+	int		Z;
+	double	u;
+	double	v;
+	double	w;
+	int		A;
+	int		AA;
+	int		AB;
+	int		B;
+	int		BB;
+	int		BA;
+}				t_perlin;
 
 typedef struct	s_void
 {
@@ -189,10 +212,10 @@ void		normalize(t_vec *v);
 t_light		create_light_bulb(double x, double y, double z, t_color color, double intensity);
 
 // create_objects.c
-t_object	create_sphere(double x, double y, double z, double r, t_color color, double reflection, int texture);
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture);
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture);
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture);
+t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, double texture_scale);
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, double texture_scale);
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, double texture_scale);
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, double texture_scale);
 
 // color.c
 t_color		create_color(double r, double g, double b);
@@ -213,12 +236,15 @@ t_vec		plane_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		cone_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 
 // perlin.c
-t_vec		text1(t_vec n, int text);
+t_vec		text1(t_vec n, int text, int permutation[256]);
+void		init_perlin(t_env *e);
+void		init_perlin7(t_env *e);
+void		init_perlin6(t_env *e);
 
 // matrice.c
 void		radian(double *rotx, double *roty, double *rotz, t_env e);
-void		matrice(double *x, double *y, double *z, t_env *e);
-t_vec		matrice2(t_vec v, const t_vec ang);
+t_vec		matrice_o(t_vec v, const t_vec sin, const t_vec cos);
+t_vec		matrice2(t_vec v, t_vec ang);
 
 // texture.c
 t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i);
@@ -227,7 +253,8 @@ SDL_Surface	*load_bmp(char *fichier);
 // parser.c
 t_env	parser(int fd);
 
-t_color	lightning(t_vec p, int obj, t_vec normal, t_env e, t_color text);
+t_ray	change_ray(t_ray ray, t_object obj);
+t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color text);
 t_color	ray_trace(t_ray ray, t_env e);
 int		launch(void *truc);
 

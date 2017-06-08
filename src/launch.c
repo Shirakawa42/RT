@@ -101,8 +101,8 @@ int		launch(void *truc)
 			while (n < ssaa_squared)
 			{
 				ray.d = vec((((double)x + (double)(n % e.ssaa) / (double)(e.ssaa)) / wsave - 0.5),
-						(0.5 - ((double)y + (double)(n / e.ssaa) / (double)(e.ssaa)) / hsave), 1);
-				t_vec gogol = {e.scene.rotation.tmp1, e.scene.rotation.tmp2, e.scene.rotation.tmp3};
+					(0.5 - ((double)y + (double)(n / e.ssaa) / (double)(e.ssaa)) / hsave), 1);
+				t_vec gogol = { e.scene.rotation.tmp1, e.scene.rotation.tmp2, e.scene.rotation.tmp3 };
 				ray.d = matrice2(ray.d, gogol);
 				normalize(&ray.d);
 				e.index = NB_REFLEC;

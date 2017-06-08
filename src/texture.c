@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
 typedef t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
 t_get_normal_sphered g_get_normal_sphered[5] = { NULL,
-	sphere_normal,
-	plane_normal_sphered,
-	cylinder_normal_sphered,
-	cone_normal_sphered };
+sphere_normal,
+plane_normal_sphered,
+cylinder_normal_sphered,
+cone_normal_sphered };
 
 Uint32		get_pixel(SDL_Surface *surface, int x, int y)
 {
@@ -69,7 +69,64 @@ Uint32		which_texture(t_env e, int i, int w, int h)
 	return (0);
 }
 
-t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i)
+t_vec	infinite(t_vec N)
+{
+	while (N.y > 1.0)
+		N.y -= 1.999;
+	while (N.y < -1.0)
+		N.y += 1.999;
+	while (N.x > 1.0)
+		N.x -= 1.999;
+	while (N.x < -1.0)
+		N.x += 1.999;
+	while (N.z > 1.0)
+		N.z -= 1.999;
+	while (N.z < -1.0)
+		N.z += 1.999;
+	return (N);
+}
+
+void	plane_facing(double *u, double *v, t_env e, t_vec p, t_ray ray, t_vec N, int i)
+{
+	t_vec	n;
+
+	n = plane_normal(e.scene.objects[i].shape, p, ray.d);
+	if ((dot(n, vec(1, 0, 0)) > 0.5 && dot(n, vec(1, 0, 0)) < 1.5) || (dot(n, vec(-1, 0, 0)) > 0.5 && dot(n, vec(-1, 0, 0)) < 1.5))
+		*u = asin(N.z) / PI + 0.5;
+	if ((dot(n, vec(0, 1, 0)) > 0.5 && dot(n, vec(0, 1, 0)) < 1.5) || (dot(n, vec(0, -1, 0)) > 0.5 && dot(n, vec(0, -1, 0)) < 1.5))
+		*v = asin(N.z) / PI + 0.5;
+}
+
+void	w_and_h(int *w, int *h, t_env e, double u, double v, int i)
+{
+	if (e.scene.objects[i].texture == WOOD)
+	{
+		*w = e.texture.wood->w * u;
+		*h = e.texture.wood->h * v;
+	}
+	else if (e.scene.objects[i].texture == PAPER)
+	{
+		*w = e.texture.paper->w * u;
+		*h = e.texture.paper->h * v;
+	}
+	else if (e.scene.objects[i].texture == METAL)
+	{
+		*w = e.texture.metal->w * u;
+		*h = e.texture.metal->h * v;
+	}
+	else if (e.scene.objects[i].texture == GRASS)
+	{
+		*w = e.texture.grass->w * u;
+		*h = e.texture.grass->h * v;
+	}
+	else if (e.scene.objects[i].texture == LAVA)
+	{
+		*w = e.texture.lava->w * u;
+		*h = e.texture.lava->h * v;
+	}
+}
+
+t_color	texturing_all(t_ray ray, t_vec p, t_env e, int i)
 {
 	t_vec		N;
 	double		v;
@@ -80,60 +137,16 @@ t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i)
 	Uint32		rgb;
 	t_vec		n;
 
-	N = g_get_normal_sphered[e.scene.objects[i].type](e.scene.objects[i].shape, p, ray.d);
-	if (e.scene.objects[i].type == PLANE || e.scene.objects[i].type == CYLINDER || e.scene.objects[i].type == CONE)
-	{
-		while (N.y > 1.0)
-			N.y -= 1.999;
-		while (N.y < -1.0)
-			N.y += 1.999;
-		while (N.x > 1.0)
-			N.x -= 1.999;
-		while (N.x < -1.0)
-			N.x += 1.999;
-		while (N.z > 1.0)
-			N.z -= 1.999;
-		while (N.z < -1.0)
-			N.z += 1.999;
-	}
-
+	N = g_get_normal_sphered[e.scene.objects[i].type]
+	(e.scene.objects[i].shape, p, ray.d);
+	if (e.scene.objects[i].type == PLANE || e.scene.objects[i].type ==
+		CYLINDER || e.scene.objects[i].type == CONE)
+		N = infinite(N);
 	u = asin(N.x) / PI + 0.5;
 	v = asin(N.y) / PI + 0.5;
 	if (e.scene.objects[i].type == PLANE)
-	{
-		n = plane_normal(e.scene.objects[i].shape, p, ray.d);
-		if ((dot(n, vec(1, 0, 0)) > 0.5 && dot(n, vec(1, 0, 0)) < 1.5) || (dot(n, vec(-1, 0, 0)) > 0.5 && dot(n, vec(-1, 0, 0)) < 1.5))
-			u = asin(N.z) / PI + 0.5;
-		if ((dot(n, vec(0, 1, 0)) > 0.5 && dot(n, vec(0, 1, 0)) < 1.5) || (dot(n, vec(0, -1, 0)) > 0.5 && dot(n, vec(0, -1, 0)) < 1.5))
-			v = asin(N.z) / PI + 0.5;
-	}
-
-	if (e.scene.objects[i].texture == WOOD)
-	{
-		w = e.texture.wood->w * u;
-		h = e.texture.wood->h * v;
-	}
-	else if (e.scene.objects[i].texture == PAPER)
-	{
-		w = e.texture.paper->w * u;
-		h = e.texture.paper->h * v;
-	}
-	else if (e.scene.objects[i].texture == METAL)
-	{
-		w = e.texture.metal->w * u;
-		h = e.texture.metal->h * v;
-	}
-	else if (e.scene.objects[i].texture == GRASS)
-	{
-		w = e.texture.grass->w * u;
-		h = e.texture.grass->h * v;
-	}
-	else if (e.scene.objects[i].texture == LAVA)
-	{
-		w = e.texture.lava->w * u;
-		h = e.texture.lava->h * v;
-	}
-
+		plane_facing(&u, &v, e, p, ray, N, i);
+	w_and_h(&w, &h, e, u, v, i);
 	rgb = which_texture(e, i, w, h);
 	color.r = (double)((rgb >> 16) & 255) / 255.0;
 	color.g = (double)((rgb >> 8) & 255) / 255.0;

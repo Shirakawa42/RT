@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:29:36 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/23 07:03:52 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/24 15:58:28 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d)
 {
 	t_vec	n;
 
-	n.x = (p.x - shape.sphere.c.x) / shape.sphere.r;
-	n.y = (p.y - shape.sphere.c.y) / shape.sphere.r;
-	n.z = (p.z - shape.sphere.c.z) / shape.sphere.r;
+	n.x = (p.x - shape.sphere.c.x) / (shape.sphere.r * shape.sphere.texture_scale);
+	n.y = (p.y - shape.sphere.c.y) / (shape.sphere.r * shape.sphere.texture_scale);
+	n.z = (p.z - shape.sphere.c.z) / (shape.sphere.r * shape.sphere.texture_scale);
 	return (n);
 }
 
@@ -49,11 +49,9 @@ t_vec	cone_normal(union u_shape shape, t_vec p, t_vec d)
 
 	i = 0;
 	r = shape.cone.r;
-	if (dot(shape.cone.d, n) > 0.000001)
-	{
-		n.x = (p.x - shape.cone.d.x) / r;
-		n.y = 0;
-		n.z = (p.z - shape.cone.d.z) / r;
-	}
+	n.x = (p.x - shape.cone.d.x) / r;
+	n.y = 0;
+	n.z = (p.z - shape.cone.d.z) / r;
+	normalize(&n);
 	return (n);
 }

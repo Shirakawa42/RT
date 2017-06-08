@@ -6,11 +6,12 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 12:24:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/23 16:17:08 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/05/23 07:50:36 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RT.h"
+/*
+#include "rt.h"
 
 t_env	synthesis(t_env e, t_list *objects, t_list *lights)
 {
@@ -30,7 +31,7 @@ t_env	synthesis(t_env e, t_list *objects, t_list *lights)
 			free(objects);
 			objects = tmp;
 		}
-		e.scene.objects[i].type = 0;
+		e.scene.objects[i++].type = 0;
 	}
 	if ((n = ft_lstcount(lights)) > 0)
 	{
@@ -44,7 +45,7 @@ t_env	synthesis(t_env e, t_list *objects, t_list *lights)
 			free(lights);
 			lights = tmp;
 		}
-		e.scene.lights[i].type = 0;
+		e.scene.lights[i++].type = 0;
 	}
 	return (e);
 }
@@ -83,10 +84,12 @@ double	parse_float(char *s)
 			dec_point += comma;
 		}
 		else
-			break ;
+			break;
 		i++;
 	}
+	printf("%i\n", d);
 	d = s[0] == '-' ? -d : d;
+	printf("%i\n", d);
 	return (apply_decimal(d, dec_point));
 }
 
@@ -112,18 +115,6 @@ t_vec	parse_vec(char **cmd)
 	return (v);
 }
 
-t_vec	parse_normale(char **cmd)
-{
-	t_vec	n;
-	t_vec	rot;
-
-	n.x = 0.0;
-	n.y = 1.0;
-	n.z = 0.0;
-	rot = parse_vec(cmd);
-	return (matrice2(n, rot));
-}
-
 t_color	parse_color(char **cmd)
 {
 	t_color	c;
@@ -146,31 +137,6 @@ t_color	parse_color(char **cmd)
 	return (c);
 }
 
-int		parse_texture(char *cmd)
-{
-	if (ft_strequ("marble", cmd))
-		return (MARBLE);
-	if (ft_strequ("marble2", cmd))
-		return (MARBLE2);
-	if (ft_strequ("marble3", cmd))
-		return (MARBLE3);
-	if (ft_strequ("noise", cmd))
-		return (NOISE);
-	if (ft_strequ("noise2", cmd))
-		return (NOISE2);
-	if (ft_strequ("WOOD", cmd))
-		return (WOOD);
-	if (ft_strequ("PAPER", cmd))
-		return (PAPER);
-	if (ft_strequ("metal", cmd))
-		return (METAL);
-	if (ft_strequ("grass", cmd))
-		return (GRASS);
-	if (ft_strequ("lava", cmd))
-		return (LAVA);
-	return (0);
-}
-
 t_list	*parse_sphere(int fd)
 {
 	char		*buf;
@@ -182,46 +148,13 @@ t_list	*parse_sphere(int fd)
 	while (get_next_line(fd, &buf) == 1)
 	{
 		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
-			break ;
+			break;
 		if (ft_strequ(cmd[0], "position"))
 			obj.shape.sphere.c = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "radius"))
 			obj.shape.sphere.r = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "color"))
 			obj.color = parse_color(cmd);
-		if (ft_strequ(cmd[0], "reflexion"))
-			obj.reflection = parse_float(cmd[1]);
-		if (ft_strequ(cmd[0], "texture"))
-			obj.texture = parse_texture(cmd[1]);
-	}
-	return (ft_lstnew(&obj, sizeof(t_object)));
-}
-
-t_list	*parse_plane(int fd)
-{
-	char		*buf;
-	char		**cmd;
-	t_object	obj;
-
-	ft_bzero(&obj, sizeof(t_object));
-	obj.type = PLANE;
-	obj.shape.plane.n.x = 0.0;
-	obj.shape.plane.n.y = 1.0;
-	obj.shape.plane.n.z = 0.0;
-	while (get_next_line(fd, &buf) == 1)
-	{
-		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
-			break ;
-		if (ft_strequ(cmd[0], "position"))
-			obj.shape.plane.p = parse_vec(cmd);
-		if (ft_strequ(cmd[0], "normale"))
-			obj.shape.plane.n = parse_normale(cmd);
-		if (ft_strequ(cmd[0], "color"))
-			obj.color = parse_color(cmd);
-		if (ft_strequ(cmd[0], "reflexion"))
-			obj.reflection = parse_float(cmd[1]);
-		if (ft_strequ(cmd[0], "texture"))
-			obj.texture = parse_texture(cmd[1]);
 	}
 	return (ft_lstnew(&obj, sizeof(t_object)));
 }
@@ -233,8 +166,6 @@ t_env	parser(int fd)
 	t_list	*lights;
 	t_env	e;
 
-	e.editmod = 0;
-	e.ssaa = SSAA;
 	e.scene.camera.o = vec(0.0, 0.0, 0.0);
 	e.scene.camera.d = vec(0.0, 0.0, 1.0);
 	e.scene.rotation.rotx = 0.0;
@@ -245,19 +176,12 @@ t_env	parser(int fd)
 	e.scene.rotation.tmp3 = 0.0;
 	e.scene.objects = NULL;
 	e.scene.lights = NULL;
-	e.intersect[0] = NULL;
-	e.intersect[1] = sphere_intersect;
-	e.intersect[2] = plane_intersect;
-	e.intersect[3] = cylinder_intersect;
-	e.intersect[4] = cone_intersect;
 	objects = NULL;
 	lights = NULL;
-	while (get_next_line(fd, &buf) == 1 && buf[0])
+	while (get_next_line(fd, &buf) == 1)
 	{
 		if (ft_strequ(buf, "sphere"))
 			ft_lstadd(&objects, parse_sphere(fd));
-		if (ft_strequ(buf, "plane"))
-			ft_lstadd(&objects, parse_plane(fd));
 	}
 	if (!(e.texture.wood = load_bmp("textures/WOOD.bmp")))
 		exit(0);
@@ -269,6 +193,5 @@ t_env	parser(int fd)
 		exit(0);
 	if (!(e.texture.lava = load_bmp("textures/LAVA.bmp")))
 		exit(0);
-	write(1, "lolipop\n", 8);
 	return (synthesis(e, objects, lights));
-}
+}*/
