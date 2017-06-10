@@ -24,9 +24,9 @@ t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d)
 
 t_vec	plane_normal(union u_shape shape, t_vec p, t_vec d)
 {
-	if (dot(shape.plane.n, d) > 0)
-		return (vec(-shape.plane.n.x, -shape.plane.n.y, -shape.plane.n.z));
-	return (shape.plane.n);
+	if (d.y > 0)
+		return (vec(0, -1, 0));
+	return (vec(0, 1, 0));
 }
 
 t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d)
@@ -52,6 +52,5 @@ t_vec	cone_normal(union u_shape shape, t_vec p, t_vec d)
 	n.x = (p.x - shape.cone.d.x) / r;
 	n.y = 0;
 	n.z = (p.z - shape.cone.d.z) / r;
-	normalize(&n);
 	return (n);
 }

@@ -15,15 +15,11 @@
 int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 {
 	t_sphere	sphere;
-//	t_vec		oc;
 	t_vec		v;
 	double		disc;
 	double		tmp[2];
 
 	sphere = shape.sphere;
-/*	oc.x = ray.o.x - sphere.c.x;
-	oc.y = ray.o.y - sphere.c.y;
-	oc.z = ray.o.z - sphere.c.z;*/
 	v.x = dot(ray.d, ray.d);
 	v.y = 2 * dot(ray.d, ray.o);
 	disc = v.y * v.y - 4 * v.x * (dot(ray.o, ray.o) - sphere.r * sphere.r);
@@ -43,19 +39,9 @@ int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 
 int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 {
-//	t_vec	point;
-	double	d;
-	double	tmp;
-
-/*	point.x = ray.o.x - shape.plane.p.x;
-	point.y = ray.o.y - shape.plane.p.y;
-	point.z = ray.o.z - shape.plane.p.z;*/
-	if ((tmp = dot(ray.d, shape.plane.n)) == 0)
+	if (ray.d.y == 0)
 		return (0);
-	d = dot(ray.o, shape.plane.n);
-	d /= -tmp;
-	*t = d;
-	return (*t > 0);
+	return ((*t = ray.o.y / -ray.d.y) > 0);
 }
 
 int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
