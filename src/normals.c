@@ -16,9 +16,9 @@ t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d)
 {
 	t_vec	n;
 
-	n.x = (p.x - shape.sphere.c.x) / shape.sphere.r;
-	n.y = (p.y - shape.sphere.c.y) / shape.sphere.r;
-	n.z = (p.z - shape.sphere.c.z) / shape.sphere.r;
+	n.x = (p.x - shape.sphere.c.x) / (shape.sphere.r * shape.sphere.texture_scale);
+	n.y = (p.y - shape.sphere.c.y) / (shape.sphere.r * shape.sphere.texture_scale);
+	n.z = (p.z - shape.sphere.c.z) / (shape.sphere.r * shape.sphere.texture_scale);
 	return (n);
 }
 

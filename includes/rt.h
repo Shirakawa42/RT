@@ -19,8 +19,8 @@
 # include "SDL2/SDL_thread.h"
 //# include "libft.h"
 
-# define H 300
-# define W 300
+# define H 700
+# define W 700
 # define NB_THREADS 8
 # define SSAA 1
 # define NB_REFLEC 0
@@ -68,18 +68,21 @@ typedef struct	s_sphere
 {
 	t_vec	c;
 	double	r;
+	double	texture_scale;
 }				t_sphere;
 
 typedef struct	s_plane
 {
 	t_vec	n;
 	t_vec	p;
+	double	texture_scale;
 }				t_plane;
 
 typedef struct	s_cylinder
 {
 	t_vec	p;
 	double	r;
+	double	texture_scale;
 }				t_cylinder;
 
 typedef struct	s_cone
@@ -87,6 +90,7 @@ typedef struct	s_cone
 	t_vec	d;
 	double	r;
 	double	aperture;
+	double	texture_scale;
 }				t_cone;
 
 union	u_shape
@@ -208,10 +212,10 @@ void		normalize(t_vec *v);
 t_light		create_light_bulb(double x, double y, double z, t_color color, double intensity);
 
 // create_objects.c
-t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot);
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, t_vec rot);
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot);
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot);
+t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, double texture_scale);
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, double texture_scale);
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, double texture_scale);
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, double texture_scale);
 
 // color.c
 t_color		create_color(double r, double g, double b);
