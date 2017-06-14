@@ -52,6 +52,16 @@ t_ray	change_ray(t_ray ray, t_object obj)
 	return(ray);
 }
 
+t_ray	unchange_ray(t_ray ray, t_object obj)
+{
+	ray.o.x += obj.c.x;
+	ray.o.y += obj.c.y;
+	ray.o.z += obj.c.z;
+	ray.o = matrice2(ray.o, obj.rot);
+	ray.d = matrice2(ray.d, obj.rot);
+	return (ray);
+}
+
 t_color	intersection(t_ray ray, t_env e, int tmp_i, double tmp_t)
 {
 	t_vec	normal;
@@ -225,7 +235,25 @@ t_env	init(void)
 	return (e);
 }
 
-void	handle_events(SDL_Renderer *renderer, t_env e)
+void	save_img(SDL_Renderer *renderer, t_env e, SDL_Window *win)
+{
+	SDL_Surface		*s;
+
+	s = SDL_CreateRGBSurface(0, W, H, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+	SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, s->pixels, s->pitch);
+	SDL_SaveBMP(s, "image.bmp");
+	SDL_FreeSurface(s);
+}
+
+void	reload_or_not(SDL_Renderer *renderer, t_env e, int k)
+{
+	if (k == 'e' || k == 'r' || k == 'z' || k == 'q' || k == 's' || k == 'd'
+			|| k == ' ' || k == 1073742049 || k == 1073741906 ||
+			k == 1073741905 || k == 1073741904 || k == 1073741903)
+		threads(renderer, e);
+}
+
+void	handle_events(SDL_Renderer *renderer, t_env e, SDL_Window *win)
 {
 	SDL_Event		event;
 
@@ -253,7 +281,9 @@ void	handle_events(SDL_Renderer *renderer, t_env e)
 				e.scene.rotation.roty -= 30;
 			else if (event.key.keysym.sym == 1073741903)
 				e.scene.rotation.roty += 30;
-			threads(renderer, e);
+			else if (event.key.keysym.sym == 'a')
+				save_img(renderer, e, win);
+			reload_or_not(renderer, e, event.key.keysym.sym);
 		}
 	}
 }
@@ -281,7 +311,7 @@ int		main(int ac, char **av)
 		e.scene.lights[1].type = 0;
 	}*/
 	threads(renderer, e);
-	handle_events(renderer, e);
+	handle_events(renderer, e, win);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(win);
 	SDL_Quit();
