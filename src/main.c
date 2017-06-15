@@ -188,40 +188,41 @@ t_env	init(void)
 	e.intersect[3] = cylinder_intersect;
 	e.intersect[4] = cone_intersect;
 
-	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 16)) == 0)
+	e.filter = 0;
+
+	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 9)) == 0)
 		exit(0);
 
 	e.scene.objects[0] = create_plane(vec(0, 2, 0), vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER, 3);
 	e.scene.objects[1] = create_plane(vec(0, -2, 0), vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD, 3);
-	e.scene.objects[2] = create_plane(vec(6, -10, 0), vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.9, PAPER, 3);
-	e.scene.objects[3] = create_plane(vec(-6, -10, 0), vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA, 3);
+	//e.scene.objects[2] = create_plane(vec(6, -10, 0), vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.9, PAPER, 3);
+	//e.scene.objects[3] = create_plane(vec(-6, -10, 0), vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA, 3);
 
 
-	e.scene.objects[4] = create_cone(vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, 25, vec(0, 0, 0), 3);
-	e.scene.objects[5] = create_cylinder(vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, vec(0, 0, 0), 3);
-	e.scene.objects[6] = create_cylinder(vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, vec(0, 0, 0), 3);
-	e.scene.objects[7] = create_cylinder(vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, vec(0, 0, 0), 3);
+	e.scene.objects[2] = create_cone(vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, 25, vec(0, 0, 0), 3);
+	e.scene.objects[3] = create_cylinder(vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, vec(0, 0, 0), 3);
+	e.scene.objects[4] = create_cylinder(vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, vec(0, 0, 0), 3);
+	//e.scene.objects[7] = create_cylinder(vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, vec(0, 0, 0), 3);
 
 
-	e.scene.objects[8] = create_cylinder(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, vec(0, 0, 0), 3);
-	e.scene.objects[9] = create_cylinder(vec(-2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.5, PAPER, vec(0, 0, 0), 3);
-	e.scene.objects[10] = create_cylinder(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, GRASS, vec(0, 0, 0), 3);
-	e.scene.objects[11] = create_cylinder(vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA, vec(0, 0, 0), 3);
-
-	e.scene.objects[12] = create_sphere(vec(0, 0, 15), 1.5, create_color(1.0, 1.0, 1.0), 0.5, WOOD, 1);
+	e.scene.objects[5] = create_cylinder(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, vec(0, 0, 0), 3);
+	e.scene.objects[6] = create_cylinder(vec(-2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.5, PAPER, vec(0, 0, 0), 3);
+	e.scene.objects[7] = create_cylinder(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, GRASS, vec(0, 0, 0), 3);
+	//e.scene.objects[11] = create_cylinder(vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA, vec(0, 0, 0), 3);
 
 
-	e.scene.objects[13].type = 0;
 
-	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 7)) == 0)
+	e.scene.objects[8].type = 0;
+
+	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 5)) == 0)
 		exit(0);
-	e.scene.lights[0] = create_light_bulb(0, 1.84, 1, create_color(0.5, 0.5, 0.5), 15);
+	e.scene.lights[0] = create_light_bulb(0, 0, 0, create_color(1, 1, 1), 30);
 	e.scene.lights[1] = create_light_bulb(0, 1.84, 17, create_color(0.5, 0.5, 0.5), 15);
 	e.scene.lights[2] = create_light_bulb(0, 1.84, 33, create_color(0.5, 0.5, 0.5), 15);
 	e.scene.lights[3] = create_light_bulb(0, 1.84, 49, create_color(0.5, 0.5, 0.5), 15);
-	e.scene.lights[4] = create_light_bulb(0, 1.84, 65, create_color(0.5, 0.5, 0.5), 15);
-	e.scene.lights[5] = create_light_bulb(0, 1.84, 81, create_color(0.5, 0.5, 0.5), 15);
-	e.scene.lights[6].type = 0;
+	//e.scene.lights[4] = create_light_bulb(0, 1.84, 65, create_color(0.5, 0.5, 0.5), 15);
+	//e.scene.lights[5] = create_light_bulb(0, 1.84, 81, create_color(0.5, 0.5, 0.5), 15);
+	e.scene.lights[4].type = 0;
 	if (!(e.texture.wood = load_bmp("textures/WOOD.bmp")))
 		exit(0);
 	if (!(e.texture.paper = load_bmp("textures/PAPER.bmp")))
@@ -249,7 +250,8 @@ void	reload_or_not(SDL_Renderer *renderer, t_env e, int k)
 {
 	if (k == 'e' || k == 'r' || k == 'z' || k == 'q' || k == 's' || k == 'd'
 			|| k == ' ' || k == 1073742049 || k == 1073741906 ||
-			k == 1073741905 || k == 1073741904 || k == 1073741903)
+			k == 1073741905 || k == 1073741904 || k == 1073741903 ||
+			k == 1073741922 || k == 1073741913 || k == 1073741914 || k == 1073741915)
 		threads(renderer, e);
 }
 
@@ -283,6 +285,14 @@ void	handle_events(SDL_Renderer *renderer, t_env e, SDL_Window *win)
 				e.scene.rotation.roty += 30;
 			else if (event.key.keysym.sym == 'a')
 				save_img(renderer, e, win);
+			else if (event.key.keysym.sym == 1073741922)
+				e.filter = 0;
+			else if (event.key.keysym.sym == 1073741913)
+				e.filter = 1;
+			else if (event.key.keysym.sym == 1073741914)
+				e.filter = 2;
+			else if (event.key.keysym.sym == 1073741915)
+				e.filter = 3;
 			reload_or_not(renderer, e, event.key.keysym.sym);
 		}
 	}
