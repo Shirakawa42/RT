@@ -172,8 +172,9 @@ typedef struct	s_env
 	int			index;
 	int			ssaa;
 	t_intersect	intersect[5];
-	t_color		colorsave[6 * 6];
+	t_color		colorsave[SSAA * SSAA];
 	int			p[256];
+	int			filter;
 }				t_env;
 
 typedef struct	s_perlin
