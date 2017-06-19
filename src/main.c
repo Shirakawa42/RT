@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/19 16:18:47 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/19 16:31:14 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ t_env	init(void)
 
 
 	e.scene.objects[5] = create_cylinder(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, vec(0, 0, 0), 3, vec(0, 1, 0), vec(0, -1, -2));
-	e.scene.objects[6] = create_sphere(vec(-2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.5, PAPER, 3, vec(-1, -1, 0), vec(0, 0, 0));
+	e.scene.objects[6] = create_sphere(vec(-2, 0, 15), 0.6, create_color(1.0, 1.0, 1.0), 0.5, PAPER, 3, vec(0, 0, 0), vec(-1, -1, 0));
 	e.scene.objects[7] = create_cylinder(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, GRASS, vec(0, 0, 0), 3, vec(0, 0, 0), vec(0, 0, 0));
 	//e.scene.objects[11] = create_cylinder(vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA, vec(0, 0, 0), 3);
 
