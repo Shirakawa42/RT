@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 07:04:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/24 14:50:42 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/18 17:42:59 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,15 @@ t_vec	cone_normal_sphered(union u_shape shape, t_vec p, t_vec d)
 	n.x = (p.x - shape.cone.d.x) / shape.cone.texture_scale;
 	n.y = (p.y - shape.cone.d.y) / shape.cone.texture_scale;
 	n.z = (p.z - shape.cone.d.z) / shape.cone.texture_scale;
+	return (n);
+}
+
+t_vec	hyper_normal_sphered(union u_shape shape, t_vec p, t_vec d)
+{
+	t_vec	n;
+
+	n.x = (p.x - shape.cone.d.x) / 4;
+	n.y = (p.y - shape.cone.d.y) / 4;
+	n.z = (p.z - shape.cone.d.z) / 4;
 	return (n);
 }

@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/05/24 14:43:48 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/19 16:09:57 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct	s_color
 # define PLANE 2
 # define CYLINDER 3
 # define CONE 4
+# define HYPER 5
 
 # define MARBLE 1
 # define MARBLE2 2
@@ -68,6 +69,8 @@ typedef struct	s_sphere
 {
 	t_vec	c;
 	double	r;
+	t_vec	f1;
+	t_vec	f2;
 	double	texture_scale;
 }				t_sphere;
 
@@ -75,6 +78,8 @@ typedef struct	s_plane
 {
 	t_vec	n;
 	t_vec	p;
+	t_vec	f1;
+	t_vec	f2;
 	double	texture_scale;
 }				t_plane;
 
@@ -82,6 +87,8 @@ typedef struct	s_cylinder
 {
 	t_vec	p;
 	double	r;
+	t_vec	f1;
+	t_vec	f2;
 	double	texture_scale;
 }				t_cylinder;
 
@@ -89,9 +96,21 @@ typedef struct	s_cone
 {
 	t_vec	d;
 	double	r;
+	t_vec	f1;
+	t_vec	f2;
 	double	aperture;
 	double	texture_scale;
 }				t_cone;
+
+typedef struct	s_hyper
+{
+	t_vec	d;
+	double	r;
+	float	convex;
+	double aperture;
+	t_vec	f1;
+	t_vec	f2;
+}				t_hyper;
 
 union	u_shape
 {
@@ -99,6 +118,7 @@ union	u_shape
 	t_plane		plane;
 	t_cylinder	cylinder;
 	t_cone		cone;
+	t_hyper		hype;
 };
 
 typedef struct	s_object
@@ -171,7 +191,7 @@ typedef struct	s_env
 	int			editmod;
 	int			index;
 	int			ssaa;
-	t_intersect	intersect[5];
+	t_intersect	intersect[6];
 	t_color		colorsave[SSAA * SSAA];
 	int			p[256];
 	int			filter;
@@ -208,15 +228,17 @@ t_vec		vec(double x, double y, double z);
 t_vec		get_point(t_ray ray, double t);
 t_vec		bisector(t_vec v, t_vec l);
 void		normalize(t_vec *v);
+int			revers(double *f1, double *f2);
 
 // create_lights.c
 t_light		create_light_bulb(double x, double y, double z, t_color color, double intensity);
 
 // create_objects.c
-t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, double texture_scale);
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, double texture_scale);
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, double texture_scale);
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, double texture_scale);
+t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, double texture_scale, t_vec f1, t_vec f2);
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, double texture_scale, t_vec f1, t_vec f2);
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, double texture_scale, t_vec f1, t_vec f2);
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, double texture_scale, t_vec f1, t_vec f2);
+t_object    create_hyper(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, float convex, t_vec f1, t_vec f2);
 
 // color.c
 t_color		create_color(double r, double g, double b);
@@ -226,15 +248,28 @@ int			sphere_intersect(union u_shape shape, t_ray ray, double *t);
 int			plane_intersect(union u_shape shape, t_ray ray, double *t);
 int			cylinder_intersect(union u_shape shape, t_ray ray, double *t);
 int			cone_intersect(union u_shape shape, t_ray ray, double *t);
+int			hyperbol_intersect(union u_shape shape, t_ray ray, double *t);
+int			cut_cyl(t_ray ray, double *t, double tmp, t_cylinder cyl);
+int			cut_co(t_ray ray, double *t, double tmp, t_cone co);
+int			cut_hyper(t_ray ray, double *t, double tmp, t_hyper hype);
+int			cut_plane(t_ray ray, double *t, t_plane plane);
+int			cut_sphere(t_ray ray, double *t, double tmp, t_sphere sphere);
+int			config_cyl(t_ray ray, double *t, double tmp, t_cylinder cyl);
+int			config_co(t_ray ray, double *t, double tmp, t_cone co);
+int			config_hype(t_ray ray, double *t, double tmp, t_hyper hype);
+int			config_plane(t_ray rau, double *t, t_plane plane);
+int			config_sphere(t_ray ray, double *t, double tmp, t_sphere sphere);
 
 // normals.c
 t_vec		sphere_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec		plane_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec		cylinder_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec   	cone_normal(union u_shape shape, t_vec p, t_vec d);
+t_vec		hyper_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec		cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		plane_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		cone_normal_sphered(union u_shape shape, t_vec p, t_vec d);
+t_vec		hyper_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 
 // perlin.c
 t_vec		text1(t_vec n, int text, int permutation[256]);
