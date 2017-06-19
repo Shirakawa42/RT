@@ -6,7 +6,7 @@
 /*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/18 16:20:24 by lomeress          #+#    #+#             */
-/*   Updated: 2017/06/19 16:24:47 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/19 16:27:27 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ int		cut_co(t_ray ray, double *t, double tmp, t_cone co)
 
 	if (co.f1.x == co.f2.x && co.f1.y == co.f2.y && co.f1.z == co.f2.z)
 		return(1);
-//	revers(&co.f1.x, &co.f2.x);
-//	revers(&co.f1.y, &co.f2.y);
-//	revers(&co.f1.z, &co.f2.z);
 	if (config_co(ray, t, tmp, co) == 0)
 		return(0);
 	return (1);
@@ -32,9 +29,6 @@ int		cut_cyl(t_ray ray, double *t, double tmp, t_cylinder cyl)
 
 	if (cyl.f1.x == cyl.f2.x && cyl.f1.y == cyl.f2.y && cyl.f1.z == cyl.f2.z)
 		return(1);
-//	revers(&cyl.f1.x, &cyl.f2.x);
-//	revers(&cyl.f1.y, &cyl.f2.y);
-//	revers(&cyl.f1.z, &cyl.f2.z);
 	if (config_cyl(ray, t, tmp, cyl) == 0)
 		return(0);
 	return (1);
@@ -46,9 +40,6 @@ int		cut_hyper(t_ray ray, double *t, double tmp, t_hyper hype)
 
 	if (hype.f1.x == hype.f2.x && hype.f1.y == hype.f2.y && hype.f1.z == hype.f2.z)
 		return(1);
-//	revers(&hype.f1.x, &hype.f2.x);
-//	revers(&hype.f1.y, &hype.f2.y);
-//	revers(&hype.f1.z, &hype.f2.z);
 	if (config_hype(ray, t, tmp, hype) == 0)
 		return(0);
 	return (1);
@@ -58,9 +49,6 @@ int		cut_plane(t_ray ray, double *t, t_plane plane)
 {
 	if (plane.f1.x == plane.f2.x && plane.f1.y == plane.f2.y && plane.f1.z == plane.f2.z)
 		return(1);
-//	revers(&plane.f1.x, &plane.f2.x);
-//	revers(&plane.f1.y, &plane.f2.y);
-//	revers(&plane.f1.z, &plane.f2.z);
 	if (config_plane(ray, t, plane) == 0)
 		return(0);
 	return(1);
@@ -72,9 +60,6 @@ int		cut_sphere(t_ray ray, double *t, double tmp, t_sphere sphere)
 
 	if (sphere.f1.x == sphere.f2.x && sphere.f1.y == sphere.f2.y && sphere.f1.z == sphere.f2.z)
 		return(1);
-//	revers(&sphere.f1.x, &sphere.f2.x);
-//	revers(&sphere.f1.y, &sphere.f2.y);
-//	revers(&sphere.f1.z, &sphere.f2.z);
 	if (config_sphere(ray, t, tmp, sphere) == 0)
 		return(0);
 	return (1);

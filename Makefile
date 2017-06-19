@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/06/19 16:06:18 by lomeress         ###   ########.fr        #
+#    Updated: 2017/06/19 16:27:46 by lomeress         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,6 @@ SRC = src/main.c \
 	  src/config_hype.c\
 	  src/config_plane.c\
 	  src/config_sphere.c\
-	  src/revers.c\
 	  src/cut.c
 
 OBJ = $(SRC:.c=.o)

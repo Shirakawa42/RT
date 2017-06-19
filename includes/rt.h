@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/19 16:09:57 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/19 16:28:02 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,6 @@ t_vec		vec(double x, double y, double z);
 t_vec		get_point(t_ray ray, double t);
 t_vec		bisector(t_vec v, t_vec l);
 void		normalize(t_vec *v);
-int			revers(double *f1, double *f2);
 
 // create_lights.c
 t_light		create_light_bulb(double x, double y, double z, t_color color, double intensity);
