@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 08:00:46 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/06/18 18:37:57 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/05/23 08:31:05 by rmenegau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color
 	t_ray	ray;
 	t_color	color;
 	t_color	light;
+	t_ray	income_mod;
 
 	//a supprimer plus tard
 	double	tmp;
@@ -66,32 +67,35 @@ t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color
 			tmp = sqrt(ray.d.x * ray.d.x + ray.d.y * ray.d.y + ray.d.z * ray.d.z);
 			normalize(&ray.d);
 			dt = dot(ray.d, normal);
-			normalize(&income.d);
-			income.d.x = -income.d.x;
-			income.d.y = -income.d.y;
-			income.d.z = -income.d.z;
-			sp = dot(bisector(income.d, ray.d), normal);
-			sp = sp * sp;
+			income_mod = income;
+			normalize(&income_mod.d);
+			income_mod.d.x = -income_mod.d.x;
+			income_mod.d.y = -income_mod.d.y;
+			income_mod.d.z = -income_mod.d.z;
+			sp = dot(bisector(income_mod.d, ray.d), normal);
+			sp = sp * sp * sp * sp;
 			if (sp < 0)
 				sp = 0;
 			if (sp > 1)
 				sp = 1;
+			sp = 0;
 			if (dt < 0)
 				dt = 0;
-			sp = 0;
+			if (dt > 1)
+				dt = 1;
 			light = get_intensity(e.scene.lights[i], tmp);
-			color.r += light.r * dt + light.r * sp;
-			color.g += light.g * dt + light.g * sp;
-			color.b += light.b * dt + light.b * sp;
+			color.r += e.scene.objects[obj].color.r * dt + light.r * sp;
+			color.g += e.scene.objects[obj].color.g * dt + light.g * sp;
+			color.b += e.scene.objects[obj].color.b * dt + light.b * sp;
 		}
 		i++;
 	}
 	if (e.scene.objects[obj].texture < WOOD)
 	{
-		color.r = color.r * e.scene.objects[obj].color.r;
+/*		color.r = color.r * e.scene.objects[obj].color.r;
 		color.g = color.g * e.scene.objects[obj].color.g;
 		color.b = color.b * e.scene.objects[obj].color.b;
-	}
+*/	}
 	else
 	{
 		color.r = color.r * text.r;
