@@ -100,12 +100,12 @@ void	apply_color(t_void *truc, t_env e, int x, int y)
 		e.colorsave[0] = BlackAndWhite2(e.colorsave[0]);
 	else if (e.filter == 3)
 		e.colorsave[0] = sepia(e.colorsave[0]);
-	SDL_LockMutex(truc->mutex);
+	pthread_mutex_lock(&truc->mutex);
 	truc->colortab[y][x] = e.colorsave[0];
-	SDL_UnlockMutex(truc->mutex);
+	pthread_mutex_unlock(&truc->mutex);
 }
 
-int		launch(void *truc)
+void	*launch(void *truc)
 {
 	t_ray			ray;
 	int				y;
@@ -120,10 +120,10 @@ int		launch(void *truc)
 	int				n;
 	int				ssaa_squared;
 
-	SDL_LockMutex((*(t_void*)truc).mutex);
+	pthread_mutex_lock(&(*(t_void*)truc).mutex);
 	e = (*(t_void*)truc).e;
 	number = (*(t_void*)truc).number++;
-	SDL_UnlockMutex((*(t_void*)truc).mutex);
+	pthread_mutex_unlock(&(*(t_void*)truc).mutex);
 	y = 0;
 	w = e.editmod ? W / 3 : W;
 	h = e.editmod ? H / 3 : H;

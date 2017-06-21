@@ -143,27 +143,25 @@ void	draw(t_void *truc)
 
 void	threads(SDL_Renderer *renderer, t_env e)
 {
-	SDL_Thread		*threads[NB_THREADS];
+	pthread_t		threads[NB_THREADS];
 	int				i;
 	static t_void	*truc;
-	SDL_mutex		*mutex;
 	int				y;
 
-	mutex = SDL_CreateMutex();
 	if (!truc && (truc = (t_void*)malloc(sizeof(t_void))) == 0)
 		return;
 	truc->e = e;
 	truc->renderer = renderer;
-	truc->mutex = mutex;
+	pthread_mutex_init(&truc->mutex, NULL);
 	truc->number = 0;
 	i = -1;
 	while (++i < NB_THREADS)
-		threads[i] = SDL_CreateThread(launch, NULL, truc);
+		pthread_create(&threads[i], NULL, launch, truc);
 	i = -1;
 	while (++i < NB_THREADS)
-		SDL_WaitThread(threads[i], NULL);
+		pthread_join(threads[i], NULL);
 	draw(truc);
-	SDL_DestroyMutex(mutex);
+	pthread_mutex_destroy(&truc->mutex);
 }
 
 //init = parsing
@@ -218,7 +216,7 @@ t_env	init(void)
 
 	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 6)) == 0)
 		exit(0);
-	e.scene.lights[0] = create_light_bulb(0, 0, 0, create_color(1, 1, 1), 30);
+	e.scene.lights[0] = create_light_bulb(0, 0, 0, create_color(1, 1, 1), 15);
 	e.scene.lights[1] = create_light_bulb(0, 1.84, 17, create_color(0.5, 0.5, 0.5), 15);
 	e.scene.lights[2] = create_light_bulb(0, 1.84, 33, create_color(0.5, 0.5, 0.5), 15);
 	e.scene.lights[3] = create_light_bulb(0, 1.84, 49, create_color(0.5, 0.5, 0.5), 15);
@@ -236,16 +234,6 @@ t_env	init(void)
 	if (!(e.texture.lava = load_bmp("textures/LAVA.bmp")))
 		exit(0);
 	return (e);
-}
-
-void	save_img(SDL_Renderer *renderer, t_env e, SDL_Window *win)
-{
-	SDL_Surface		*s;
-
-	s = SDL_CreateRGBSurface(0, W, H, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-	SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, s->pixels, s->pitch);
-	SDL_SaveBMP(s, "image.bmp");
-	SDL_FreeSurface(s);
 }
 
 void	reload_or_not(SDL_Renderer *renderer, t_env e, int k)
@@ -285,8 +273,6 @@ void	handle_events(SDL_Renderer *renderer, t_env e, SDL_Window *win)
 				e.scene.rotation.roty -= 30;
 			else if (event.key.keysym.sym == 1073741903)
 				e.scene.rotation.roty += 30;
-			else if (event.key.keysym.sym == 'a')
-				save_img(renderer, e, win);
 			else if (event.key.keysym.sym == 1073741922)
 				e.filter = 0;
 			else if (event.key.keysym.sym == 1073741913)

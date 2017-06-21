@@ -16,7 +16,7 @@
 # include <math.h>
 # include <fcntl.h>
 # include "SDL2/SDL.h"
-# include "SDL2/SDL_thread.h"
+# include <pthread.h>
 //# include "libft.h"
 
 # define H 700
@@ -217,7 +217,7 @@ typedef struct	s_void
 {
 	t_env			e;
 	SDL_Renderer	*renderer;
-	SDL_mutex		*mutex;
+	pthread_mutex_t	mutex;
 	int				number;
 	t_color			colortab[W + 1][H + 1];
 }				t_void;
@@ -291,6 +291,6 @@ t_env	parser(int fd);
 t_ray	change_ray(t_ray ray, t_object obj);
 t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color text);
 t_color	ray_trace(t_ray ray, t_env e);
-int		launch(void *truc);
+void	*launch(void *truc);
 
 #endif
