@@ -6,13 +6,13 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:11:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/24 15:47:11 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/22 14:23:11 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot)
+t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2)
 {
 	t_object	ret;
 
@@ -32,10 +32,12 @@ t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int 
 	ret.sin.z = sin(rot.z);
 	ret.reflection = reflection;
 	ret.texture = texture;
+	ret.shape.sphere.f1 = f1;
+	ret.shape.sphere.f2 = f2;
 	return (ret);
 }
 
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, t_vec rot)
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2)
 {
 	t_object	ret;
 
@@ -56,10 +58,12 @@ t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int te
 	normalize(&ret.shape.plane.n);
 	ret.reflection = reflection;
 	ret.texture = texture;
+	ret.shape.plane.f1 = f1;
+	ret.shape.plane.f2 = f2;
 	return (ret);
 }
 
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot)
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2)
 {
 	t_object	ret;
 
@@ -79,10 +83,12 @@ t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, in
 	ret.sin.z = sin(rot.z);
 	ret.reflection = reflection;
 	ret.texture = texture;
+	ret.shape.cylinder.f1 = f1;
+	ret.shape.cylinder.f2 = f2;
 	return (ret);
 }
 
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot)
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, t_vec f1, t_vec f2)
 {
 	t_object ret;
 
@@ -104,5 +110,7 @@ t_object    create_cone(t_vec p, double r, t_color color, double reflection, int
 	ret.reflection = reflection;
 	ret.texture = texture;
 	ret.shape.cone.aperture = aperture;
+	ret.shape.cone.f1 = f1;
+	ret.shape.cone.f2 = f2;
 	return (ret);
 }
