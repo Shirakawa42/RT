@@ -23,7 +23,7 @@
 # define W 700
 # define NB_THREADS 8
 # define SSAA 1
-# define NB_REFLEC 0
+# define NB_REFLEC 2
 
 typedef struct	s_vec
 {
@@ -107,7 +107,7 @@ typedef struct	s_hyper
 	t_vec	d;
 	double	r;
 	float	convex;
-	double aperture;
+	double	aperture;
 	t_vec	f1;
 	t_vec	f2;
 	double	texture_scale;
@@ -235,10 +235,10 @@ t_light		create_light_bulb(double x, double y, double z, t_color color, double i
 
 // create_objects.c
 t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
+t_object	create_plane(t_vec p, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
 t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
 t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
-t_object    create_hyper(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, float convex, t_vec f1, t_vec f2);
+t_object    create_hyper(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, float convex, t_vec f1, t_vec f2, double texture_scale);
 
 // color.c
 t_color		create_color(double r, double g, double b);

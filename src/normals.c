@@ -24,6 +24,7 @@ t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d)
 
 t_vec	plane_normal(union u_shape shape, t_vec p, t_vec d)
 {
+	t_vec	n;
 	if (d.y > 0)
 		return (vec(0, -1, 0));
 	return (vec(0, 1, 0));

@@ -92,7 +92,8 @@ void	plane_facing(double *u, double *v, t_env e, t_vec p, t_ray ray, t_vec N, in
 	t_vec	n;
 
 	n = plane_normal(e.scene.objects[i].shape, p, ray.d);
-	if ((dot(n, vec(1, 0, 0)) > 0.5 && dot(n, vec(1, 0, 0)) < 1.5) || (dot(n, vec(-1, 0, 0)) > 0.5 && dot(n, vec(-1, 0, 0)) < 1.5))
+	n = matrice_o(n, e.scene.objects[i].sin, e.scene.objects[i].cos);
+	if (((dot(n, vec(1, 0, 0)) > 0.5 && dot(n, vec(1, 0, 0)) < 1.5) || (dot(n, vec(-1, 0, 0)) > 0.5 && dot(n, vec(-1, 0, 0)) < 1.5)))
 		*u = asin(N.z) / PI + 0.5;
 	if ((dot(n, vec(0, 1, 0)) > 0.5 && dot(n, vec(0, 1, 0)) < 1.5) || (dot(n, vec(0, -1, 0)) > 0.5 && dot(n, vec(0, -1, 0)) < 1.5))
 		*v = asin(N.z) / PI + 0.5;

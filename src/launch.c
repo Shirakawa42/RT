@@ -156,7 +156,10 @@ void	*launch(void *truc)
 				t_vec gogol = { e.scene.rotation.tmp1, e.scene.rotation.tmp2, e.scene.rotation.tmp3 };
 				ray.d = matrice2(ray.d, gogol);
 				normalize(&ray.d);
-				e.index = NB_REFLEC;
+				if (e.editmod != 0)
+					e.index = 0;
+				else
+					e.index = NB_REFLEC;
 				e.colorsave[n] = is_color_good(ray_trace(ray, e));
 				n++;
 			}
