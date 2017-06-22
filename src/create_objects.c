@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2)
+t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale)
 {
 	t_object	ret;
 
@@ -34,10 +34,11 @@ t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int 
 	ret.texture = texture;
 	ret.shape.sphere.f1 = f1;
 	ret.shape.sphere.f2 = f2;
+	ret.shape.sphere.texture_scale = texture_scale;
 	return (ret);
 }
 
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2)
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale)
 {
 	t_object	ret;
 
@@ -60,10 +61,11 @@ t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int te
 	ret.texture = texture;
 	ret.shape.plane.f1 = f1;
 	ret.shape.plane.f2 = f2;
+	ret.shape.plane.texture_scale = texture_scale;
 	return (ret);
 }
 
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2)
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale)
 {
 	t_object	ret;
 
@@ -85,10 +87,11 @@ t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, in
 	ret.texture = texture;
 	ret.shape.cylinder.f1 = f1;
 	ret.shape.cylinder.f2 = f2;
+	ret.shape.cylinder.texture_scale = texture_scale;
 	return (ret);
 }
 
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, t_vec f1, t_vec f2)
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, t_vec f1, t_vec f2, double texture_scale)
 {
 	t_object ret;
 
@@ -112,5 +115,6 @@ t_object    create_cone(t_vec p, double r, t_color color, double reflection, int
 	ret.shape.cone.aperture = aperture;
 	ret.shape.cone.f1 = f1;
 	ret.shape.cone.f2 = f2;
+	ret.shape.cone.texture_scale = texture_scale;
 	return (ret);
 }

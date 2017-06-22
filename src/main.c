@@ -189,30 +189,27 @@ t_env	init(void)
 
 	e.filter = 0;
 
-	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 9)) == 0)
+	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 8)) == 0)
 		exit(0);
 
-	e.scene.objects[0] = create_plane(vec(0, 2, 0), vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER, 3, vec(0, 0, 0), vec(0, 0, -3));
-	e.scene.objects[1] = create_plane(vec(0, -2, 0), vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD, 3, vec(0, 0, 0), vec(0, 0, 0));
-	//e.scene.objects[2] = create_plane(vec(6, -10, 0), vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.9, PAPER, 3);
-	//e.scene.objects[3] = create_plane(vec(-6, -10, 0), vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, LAVA, 3);
+	e.scene.objects[0] = create_plane(vec(0, 2, 0), vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER, vec(0, 0, 0), vec(0, 0, -3), vec(0, 0, 0), 3);
+	e.scene.objects[1] = create_plane(vec(0, -2, 0), vec(0, 1, 0), create_color(1.0, 1.0, 1.0), 0, WOOD, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
+	e.scene.objects[2] = create_plane(vec(6, -10, 0), vec(1, 0, 0), create_color(1.0, 1.0, 1.0), 0.5, PAPER, vec(0, 0, 0), vec(0, 0, -3), vec(0, 0, 0), 3);
 
 
-	e.scene.objects[2] = create_cone(vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, 25, vec(0, 0, 0), 3, vec(0, 0, 0), vec(-1, -2, 0));
+	e.scene.objects[3] = create_cone(vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, 25, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
 //	e.scene.objects[3] = create_cylinder(vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, vec(0, 0, 0), 3, vec(0, 0, 0), vec(0, -1, 0));
-	e.scene.objects[3] = create_hyper(vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.7, 2, 40, vec(0, 0, 0), -1, vec(0, 4, 0), vec(0, -3, 0));
-	e.scene.objects[4] = create_hyper(vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, 40, vec(0, 0, 0), 1, vec(0, 0, 0), vec(0, 0, 0));
+//	e.scene.objects[3] = create_hyper(vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0.7, 2, 40, vec(0, 0, 0), -1, vec(0, 4, 0), vec(0, -3, 0));
+//	e.scene.objects[4] = create_hyper(vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, 40, vec(0, 0, 0), 1, vec(0, 0, 0), vec(0, 0, 0));
 	//e.scene.objects[7] = create_cylinder(vec(2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.1, 2, vec(0, 0, 0), 3);
 
 
-	e.scene.objects[5] = create_cylinder(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, vec(0, 0, 0), 3, vec(0, 1, 0), vec(0, -1, -2));
-	e.scene.objects[6] = create_sphere(vec(-2, 0, 15), 0.6, create_color(1.0, 1.0, 1.0), 0.5, PAPER, 3, vec(0, 0, 0), vec(-1, -1, 0));
-	e.scene.objects[7] = create_cylinder(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, GRASS, vec(0, 0, 0), 3, vec(0, 0, 0), vec(0, 0, 0));
+	e.scene.objects[4] = create_cylinder(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, vec(0, 0, 0), vec(0, 1, 0), vec(0, -1, -2), 3);
+	e.scene.objects[5] = create_sphere(vec(-2, 0, 15), 0.6, create_color(1.0, 1.0, 1.0), 0.5, PAPER, vec(0, 0, 0), vec(-1, -1, 0), vec(0, 0, 0), 3);
+	e.scene.objects[6] = create_cylinder(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.5, GRASS, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
 	//e.scene.objects[11] = create_cylinder(vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA, vec(0, 0, 0), 3);
 
-
-
-	e.scene.objects[8].type = 0;
+	e.scene.objects[7].type = 0;
 
 	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 6)) == 0)
 		exit(0);
@@ -234,6 +231,17 @@ t_env	init(void)
 	if (!(e.texture.lava = load_bmp("textures/LAVA.bmp")))
 		exit(0);
 	return (e);
+}
+
+void	save_img(SDL_Renderer *renderer, t_env e, SDL_Window *win)
+{
+	SDL_Surface		*s;
+
+	s = SDL_CreateRGBSurface(0, W, H, 32, 0x00ff0000, 0x0000ff00,
+			0x000000ff, 0xff000000);
+	SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, s->pixels, s->pitch);
+	SDL_SaveBMP(s, "screenshot.bmp");
+	SDL_FreeSurface(s);
 }
 
 void	reload_or_not(SDL_Renderer *renderer, t_env e, int k)
@@ -281,6 +289,8 @@ void	handle_events(SDL_Renderer *renderer, t_env e, SDL_Window *win)
 				e.filter = 2;
 			else if (event.key.keysym.sym == 1073741915)
 				e.filter = 3;
+			else if (event.key.keysym.sym == 'a')
+				save_img(renderer, e, win);
 			reload_or_not(renderer, e, event.key.keysym.sym);
 		}
 	}

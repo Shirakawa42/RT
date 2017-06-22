@@ -110,6 +110,7 @@ typedef struct	s_hyper
 	double aperture;
 	t_vec	f1;
 	t_vec	f2;
+	double	texture_scale;
 }				t_hyper;
 
 union	u_shape
@@ -233,10 +234,10 @@ void		normalize(t_vec *v);
 t_light		create_light_bulb(double x, double y, double z, t_color color, double intensity);
 
 // create_objects.c
-t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, double texture_scale, t_vec f1, t_vec f2);
-t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, double texture_scale, t_vec f1, t_vec f2);
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, double texture_scale, t_vec f1, t_vec f2);
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, double texture_scale, t_vec f1, t_vec f2);
+t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
+t_object	create_plane(t_vec p, t_vec n, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
+t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
+t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
 t_object    create_hyper(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, float convex, t_vec f1, t_vec f2);
 
 // color.c
