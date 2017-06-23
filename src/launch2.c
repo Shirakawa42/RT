@@ -6,7 +6,7 @@
 /*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/23 15:37:29 by lomeress          #+#    #+#             */
-/*   Updated: 2017/06/23 15:56:23 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/23 17:47:52 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	app(t_env *e)
 void	*launch(void *truc)
 {
 	t_ray			ray;
-	t_vec			gogol;
 	int				y;
 	int				x;
 	double			w;
@@ -74,10 +73,10 @@ void	*launch(void *truc)
 								(double)(e.ssaa)) / wsave - 0.5),
 					(0.5 - ((double)y + (double)(n / e.ssaa) /
 							(double)(e.ssaa)) / hsave), 1);
-				gogol.x = e.scene.rotation.tmp1;
-				gogol.y = e.scene.rotation.tmp2;
-				gogol.z = e.scene.rotation.tmp3;
-				ray.d = matrice2(ray.d, gogol);
+				ray.gogol.x = e.scene.rotation.tmp1;
+				ray.gogol.y = e.scene.rotation.tmp2;
+				ray.gogol.z = e.scene.rotation.tmp3;
+				ray.d = matrice2(ray.d, ray.gogol);
 				normalize(&ray.d);
 				if (e.editmod != 0)
 					e.index = 0;

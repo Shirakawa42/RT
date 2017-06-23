@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/23 16:45:34 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/23 17:47:57 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct	s_ray
 {
 	t_vec	o;
 	t_vec	d;
+	t_vec	gogol;
 }				t_ray;
 
 typedef struct	s_color
@@ -71,6 +72,9 @@ typedef struct	s_sphere
 	double	r;
 	t_vec	f1;
 	t_vec	f2;
+	int		s;
+	double	tmps;
+	double	disc;
 	double	texture_scale;
 }				t_sphere;
 
@@ -80,6 +84,7 @@ typedef struct	s_plane
 	t_vec	p;
 	t_vec	f1;
 	t_vec	f2;
+	int		s;
 	double	texture_scale;
 }				t_plane;
 
@@ -89,6 +94,9 @@ typedef struct	s_cylinder
 	double	r;
 	t_vec	f1;
 	t_vec	f2;
+	int		s;
+	double	delta;
+	double	tmp;
 	double	texture_scale;
 }				t_cylinder;
 
@@ -98,7 +106,9 @@ typedef struct	s_cone
 	double	r;
 	t_vec	f1;
 	t_vec	f2;
+	double	delta;
 	double	aperture;
+	int		s;
 	double	texture_scale;
 }				t_cone;
 
@@ -110,6 +120,8 @@ typedef struct	s_hyper
 	double	aperture;
 	t_vec	f1;
 	t_vec	f2;
+	int		s;
+	double	delta;
 	double	texture_scale;
 }				t_hyper;
 
@@ -260,7 +272,7 @@ t_vec		bisector(t_vec v, t_vec l);
 void		normalize(t_vec *v);
 
 // create_lights.c
-t_light		create_light_bulb(double x, double y, double z, t_color color, double intensity);
+t_light		create_light_bulb(t_vec vec, t_color color, double intensity);
 
 // create_objects.c
 t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);

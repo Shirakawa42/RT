@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:35:31 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/22 14:19:18 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/23 17:38:34 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,9 +205,9 @@ t_env	init(void)
 	e.scene.objects[5] = create_hyper(vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0, WOOD, 40, vec(0, 0, 0), 1, vec(0, 0, 0), vec(0, 0, 0), 3);
 
 
-	e.scene.objects[6] = create_cylinder(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, WOOD, vec(0, 0, 0), vec(0, 1, 0), vec(0, -1, -2), 6);
+	e.scene.objects[6] = create_sphere(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, WOOD, vec(0, 0, 0), vec(0, 1, 0), vec(0, -1, -2), 6);
 	e.scene.objects[7] = create_sphere(vec(-2, 0, 15), 0.6, create_color(1.0, 1.0, 1.0), 0, PAPER, vec(0, 0, 0), vec(-1, -1, 0), vec(0, 0, 0), 3);
-	e.scene.objects[8] = create_cylinder(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0, GRASS, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
+	e.scene.objects[8] = create_sphere(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0, GRASS, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
 	//e.scene.objects[11] = create_cylinder(vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA, vec(0, 0, 0), 3);
 	e.scene.objects[9] = create_plane(vec(4, 0, 0), create_color(1.0, 1.0, 1.0), 1, METAL, vec(0, 0, -PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
 	e.scene.objects[10] = create_plane(vec(-4, 0, 0), create_color(1.0, 1.0, 1.0), 1, METAL, vec(0, 0, PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
@@ -216,10 +216,10 @@ t_env	init(void)
 
 	if ((e.scene.lights = (t_light*)malloc(sizeof(t_light) * 6)) == 0)
 		exit(0);
-	e.scene.lights[0] = create_light_bulb(0, 0, 0, create_color(1, 1, 1), 15);
-	e.scene.lights[1] = create_light_bulb(0, 1.84, 17, create_color(0.5, 0.5, 0.5), 15);
-	e.scene.lights[2] = create_light_bulb(0, 1.84, 33, create_color(0.5, 0.5, 0.5), 15);
-	e.scene.lights[3] = create_light_bulb(0, 1.84, 49, create_color(0.5, 0.5, 0.5), 15);
+	e.scene.lights[0] = create_light_bulb(vec(0, 0, 0), create_color(1, 1, 1), 15);
+	e.scene.lights[1] = create_light_bulb(vec(0, 1.84, 17), create_color(0.5, 0.5, 0.5), 15);
+	e.scene.lights[2] = create_light_bulb(vec(0, 1.84, 33), create_color(0.5, 0.5, 0.5), 15);
+	e.scene.lights[3] = create_light_bulb(vec(0, 1.84, 49), create_color(0.5, 0.5, 0.5), 15);
 	//e.scene.lights[4] = create_light_bulb(0, 1.84, 65, create_color(0.5, 0.5, 0.5), 15);
 	//e.scene.lights[5] = create_light_bulb(0, 1.84, 81, create_color(0.5, 0.5, 0.5), 15);
 	e.scene.lights[4].type = 0;

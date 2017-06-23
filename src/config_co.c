@@ -6,18 +6,18 @@
 /*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/23 14:43:55 by lomeress          #+#    #+#             */
-/*   Updated: 2017/06/23 14:46:48 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/23 17:01:25 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int		config1co(t_ray ray, double *t, double tmp, t_cone co, int s)
+int		config1co(t_ray ray, double *t, double tmp, t_cone co)
 {
 	t_vec i;
 
 	i = get_point(ray, *t);
-	if (s == 1)
+	if (co.s == 1)
 	{
 		if (i.x > co.f1.x || i.x < co.f2.x)
 		{
@@ -27,7 +27,7 @@ int		config1co(t_ray ray, double *t, double tmp, t_cone co, int s)
 			*t = tmp;
 		}
 	}
-	if (s == 2)
+	if (co.s == 2)
 	{
 		if (i.y > co.f1.y || i.y < co.f2.y)
 		{
@@ -40,12 +40,12 @@ int		config1co(t_ray ray, double *t, double tmp, t_cone co, int s)
 	return (1);
 }
 
-int		config2co(t_ray ray, double *t, double tmp, t_cone co, int s)
+int		config2co(t_ray ray, double *t, double tmp, t_cone co)
 {
 	t_vec i;
 
 	i = get_point(ray, *t);
-	if (s == 3)
+	if (co.s == 3)
 		if ((i.x > co.f1.x || i.x < co.f2.x)
 				|| (i.y > co.f1.y || i.y < co.f2.y))
 		{
@@ -55,7 +55,7 @@ int		config2co(t_ray ray, double *t, double tmp, t_cone co, int s)
 				return (0);
 			*t = tmp;
 		}
-	if (s == 4)
+	if (co.s == 4)
 		if (i.z > co.f1.z || i.z < co.f2.z)
 		{
 			i = get_point(ray, tmp);
@@ -66,12 +66,12 @@ int		config2co(t_ray ray, double *t, double tmp, t_cone co, int s)
 	return (1);
 }
 
-int		config3co(t_ray ray, double *t, double tmp, t_cone co, int s)
+int		config3co(t_ray ray, double *t, double tmp, t_cone co)
 {
 	t_vec i;
 
 	i = get_point(ray, *t);
-	if (s == 5)
+	if (co.s == 5)
 		if ((i.x > co.f1.x || i.x < co.f2.x)
 				|| (i.z > co.f1.z || i.z < co.f2.z))
 		{
@@ -81,7 +81,7 @@ int		config3co(t_ray ray, double *t, double tmp, t_cone co, int s)
 				return (0);
 			*t = tmp;
 		}
-	if (s == 6)
+	if (co.s == 6)
 		if ((i.y > co.f1.y || i.y < co.f2.y)
 				|| (i.z > co.f1.z || i.z < co.f2.z))
 		{
@@ -94,12 +94,12 @@ int		config3co(t_ray ray, double *t, double tmp, t_cone co, int s)
 	return (1);
 }
 
-int		config4co(t_ray ray, double *t, double tmp, t_cone co, int s)
+int		config4co(t_ray ray, double *t, double tmp, t_cone co)
 {
 	t_vec i;
 
 	i = get_point(ray, *t);
-	if (s == 7)
+	if (co.s == 7)
 	{
 		if ((i.x > co.f1.x || i.x < co.f2.x)
 				|| (i.y > co.f1.y || i.y < co.f2.y)
@@ -118,22 +118,19 @@ int		config4co(t_ray ray, double *t, double tmp, t_cone co, int s)
 
 int		config_co(t_ray ray, double *t, double tmp, t_cone co)
 {
-	int s;
-
-	s = 0;
 	if (co.f1.x != co.f2.x)
-		s += 1;
+		co.s += 1;
 	if (co.f1.y != co.f2.y)
-		s += 2;
+		co.s += 2;
 	if (co.f1.z != co.f2.z)
-		s += 4;
-	if (config1co(ray, t, tmp, co, s) == 0)
+		co.s += 4;
+	if (config1co(ray, t, tmp, co) == 0)
 		return (0);
-	if (config2co(ray, t, tmp, co, s) == 0)
+	if (config2co(ray, t, tmp, co) == 0)
 		return (0);
-	if (config3co(ray, t, tmp, co, s) == 0)
+	if (config3co(ray, t, tmp, co) == 0)
 		return (0);
-	if (config4co(ray, t, tmp, co, s) == 0)
+	if (config4co(ray, t, tmp, co) == 0)
 		return (0);
 	return (1);
 }

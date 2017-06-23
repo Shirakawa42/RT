@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   create_lights.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/11 18:05:06 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/04/11 18:05:47 by rmenegau         ###   ########.fr       */
+/*   Created: 2017/06/23 16:54:39 by lomeress          #+#    #+#             */
+/*   Updated: 2017/06/23 17:14:26 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_light	create_light_bulb(double x, double y, double z, t_color color, double intensity)
+t_light	create_light_bulb(t_vec vec, t_color color, double intensity)
 {
 	t_light	ret;
 
 	ret.type = LIGHT_BULB;
-	ret.light.light_bulb.p.x = x;
-	ret.light.light_bulb.p.y = y;
-	ret.light.light_bulb.p.z = z;
+	ret.light.light_bulb.p = vec;
 	ret.color = color;
 	ret.intensity = intensity;
 	return (ret);
