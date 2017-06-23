@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:13:15 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/06/19 16:14:49 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/23 15:08:29 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 		tmps = tmp[0] > tmp[1] ? tmp[0] : tmp[1];
 	}
 	if (cut_sphere(ray, t, tmps, sphere) == 0)
-		return(0);
+		return (0);
 	return (*t > 0);
 }
 
 int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 {
-	t_vec i;
+	t_vec	i;
 	t_plane	plane;
 
 	plane = shape.plane;
@@ -56,8 +56,8 @@ int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 		return (0);
 	*t = ray.o.y / -ray.d.y;
 	if (cut_plane(ray, t, plane) == 0)
-		return(0);
-	return(1);
+		return (0);
+	return (1);
 }
 
 int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
@@ -82,8 +82,8 @@ int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
 		t2 = (-v.y + sqrt(delta)) / (2 * v.x);
 		*t = t1 < t2 ? t1 : t2;
 		tmp = t1 < t2 ? t2 : t1;
-		if(cut_cyl(ray, t, tmp, cyl) == 0)
-			return(0);
+		if (cut_cyl(ray, t, tmp, cyl) == 0)
+			return (0);
 		return (1);
 	}
 	return (0);
@@ -114,7 +114,7 @@ int	cone_intersect(union u_shape shape, t_ray ray, double *t)
 		*t = tmp[0] < tmp[1] ? tmp[0] : tmp[1];
 		tmps = tmp[0] < tmp[1] ? tmp[1] : tmp[0];
 		if (cut_co(ray, t, tmps, co) == 0)
-			return(0);
+			return (0);
 		return (1);
 	}
 	return (0);
@@ -145,7 +145,7 @@ int	hyperbol_intersect(union u_shape shape, t_ray ray, double *t)
 		*t = tmp[0] < tmp[1] ? tmp[0] : tmp[1];
 		tmps = tmp[0] < tmp[1] ? tmp[1] : tmp[0];
 		if (cut_hyper(ray, t, tmps, hype) == 0)
-			return(0);
+			return (0);
 		return (1);
 	}
 	return (0);
