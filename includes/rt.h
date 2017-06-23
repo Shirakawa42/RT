@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/19 16:28:02 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/23 15:39:58 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,20 @@ typedef struct	s_texture
 	SDL_Surface *lava;
 }				t_texture;
 
+typedef struct	s_text_struct
+{
+	t_vec		en;
+	double		v;
+	double		u;
+	int			w;
+	int			h;
+	t_color		color;
+	Uint32		rgb;
+	t_vec		n;
+}				t_text_struct;
+
 typedef int(*t_intersect)(union u_shape, t_ray, double *);
+typedef	t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
 
 typedef struct	s_env
 {
@@ -222,6 +235,21 @@ typedef struct	s_void
 	int				number;
 	t_color			colortab[W + 1][H + 1];
 }				t_void;
+
+typedef struct	s_plane_face
+{
+	double	*u;
+	double	*v;
+	int		i;
+	t_ray	ray;
+}				t_plane_face;
+
+typedef struct	s_wh
+{
+	int		*w;
+	int		*h;
+	double	u;
+}				t_wh;
 
 // vector.c
 double		dot(t_vec a, t_vec b);
@@ -285,6 +313,9 @@ t_vec		matrice2(t_vec v, t_vec ang);
 // texture.c
 t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i);
 SDL_Surface	*load_bmp(char *fichier);
+t_vec		infinite(t_vec n);
+Uint32		which_texture(t_env e, int i, int w, int h);
+
 
 // parser.c
 t_env	parser(int fd);
