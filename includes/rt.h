@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/23 16:29:30 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/23 16:45:34 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ typedef struct	s_env
 
 typedef struct	s_perlin
 {
+	double	*x;
 	int		X;
 	int		Y;
 	int		Z;
@@ -310,6 +311,7 @@ t_vec		text1(t_vec n, int text, int permutation[256]);
 void		init_perlin(t_env *e);
 void		init_perlin7(t_env *e);
 void		init_perlin6(t_env *e);
+double		improvednoise(double x, double y, double z, int permutation[256]);
 
 // matrice.c
 void		radian(double *rotx, double *roty, double *rotz, t_env e);

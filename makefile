@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/06/23 16:30:16 by lomeress         ###   ########.fr        #
+#    Updated: 2017/06/23 16:47:55 by lvasseur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,14 +27,16 @@ SRC = src/main.c \
 	  src/lighting.c\
 	  src/perlin_init.c\
 	  src/perlin_init2.c\
-	  src/perlin_init3.c\
-	  src/config_cyl.c\
-	  src/config_co.c\
-	  src/config_hype.c\
-	  src/config_plane.c\
-	  src/config_sphere.c\
-	  src/launch2.c\
-	  src/cut.c
+	  src/perlin_init3.c \
+	  src/cut.c \
+	  src/config_co.c \
+	  src/config_cyl.c \
+	  src/config_hype.c \
+	  src/config_plane.c \
+	  src/config_sphere.c \
+	  src/texture2.c \
+	  src/perlin2.c \
+	  src/launch2.c
 
 OBJ = $(SRC:.c=.o)
 FLAGS = -Wall -Wextra -Werror
