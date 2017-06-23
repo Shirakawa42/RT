@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   normals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/11 18:29:36 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/06/18 17:42:49 by lomeress         ###   ########.fr       */
+/*   Created: 2017/06/23 16:02:57 by lomeress          #+#    #+#             */
+/*   Updated: 2017/06/23 16:05:43 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@ t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d)
 {
 	t_vec	n;
 
-	n.x = (p.x - shape.sphere.c.x) / (shape.sphere.r * shape.sphere.texture_scale);
-	n.y = (p.y - shape.sphere.c.y) / (shape.sphere.r * shape.sphere.texture_scale);
-	n.z = (p.z - shape.sphere.c.z) / (shape.sphere.r * shape.sphere.texture_scale);
+	n.x = (p.x - shape.sphere.c.x) /
+		(shape.sphere.r * shape.sphere.texture_scale);
+	n.y = (p.y - shape.sphere.c.y) /
+		(shape.sphere.r * shape.sphere.texture_scale);
+	n.z = (p.z - shape.sphere.c.z) /
+		(shape.sphere.r * shape.sphere.texture_scale);
 	return (n);
 }
 
 t_vec	plane_normal(union u_shape shape, t_vec p, t_vec d)
 {
 	t_vec	n;
+
 	if (d.y > 0)
 		return (vec(0, -1, 0));
 	return (vec(0, 1, 0));

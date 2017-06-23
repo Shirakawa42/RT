@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   normals_sphered.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/23 07:04:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/06/18 17:42:59 by lomeress         ###   ########.fr       */
+/*   Created: 2017/06/23 16:07:03 by lomeress          #+#    #+#             */
+/*   Updated: 2017/06/23 16:07:52 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ t_vec	cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d)
 {
 	t_vec	n;
 
-	n.x = (p.x - shape.cylinder.p.x) / (shape.cylinder.r * shape.cylinder.texture_scale);
-	n.y = (p.y - shape.cylinder.p.y) / (shape.cylinder.r * shape.cylinder.texture_scale);
-	n.z = (p.z - shape.cylinder.p.z) / (shape.cylinder.r * shape.cylinder.texture_scale);
+	n.x = (p.x - shape.cylinder.p.x) /
+		(shape.cylinder.r * shape.cylinder.texture_scale);
+	n.y = (p.y - shape.cylinder.p.y) /
+		(shape.cylinder.r * shape.cylinder.texture_scale);
+	n.z = (p.z - shape.cylinder.p.z) /
+		(shape.cylinder.r * shape.cylinder.texture_scale);
 	return (n);
 }
 

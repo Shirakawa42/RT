@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 06:54:10 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/24 14:49:49 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/23 16:01:33 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_vec	matrice2(t_vec v, const t_vec ang)
 	tmp.x = v.x * cos(ang.z) + v.y * -sin(ang.z);
 	tmp.y = v.x * sin(ang.z) + v.y * cos(ang.z);
 	tmp.z = v.z;
-	return(tmp);
+	return (tmp);
 }
 
 t_vec	matrice_o(t_vec v, const t_vec sin, const t_vec cos)
@@ -41,7 +41,7 @@ t_vec	matrice_o(t_vec v, const t_vec sin, const t_vec cos)
 	tmp.x = v.x * cos.z + v.y * -sin.z;
 	tmp.y = v.x * sin.z + v.y * cos.z;
 	tmp.z = v.z;
-	return(tmp);
+	return (tmp);
 }
 
 void	radian(double *rotx, double *roty, double *rotz, t_env e)
