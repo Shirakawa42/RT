@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   perlin_init.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/06/24 13:42:57 by lomeress          #+#    #+#             */
+/*   Updated: 2017/06/24 13:45:00 by lomeress         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
 static void	init_perlin5(t_env *e)
@@ -116,7 +128,7 @@ static void	init_perlin2(t_env *e)
 	init_perlin3(e);
 }
 
-void	init_perlin(t_env *e)
+void		init_perlin(t_env *e)
 {
 	e->p[0] = 151;
 	e->p[1] = 160;
