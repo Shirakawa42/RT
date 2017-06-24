@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/23 17:54:19 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/24 15:50:53 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,7 @@ typedef struct	s_text_struct
 
 typedef int(*t_intersect)(union u_shape, t_ray, double *);
 typedef	t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
+typedef t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
 
 typedef struct	s_env
 {
@@ -235,6 +236,8 @@ typedef struct	s_env
 	t_color		colorsave[SSAA * SSAA];
 	int			p[256];
 	int			filter;
+	double		tmp_t;
+	int			tmp_i;
 }				t_env;
 
 typedef struct	s_perlin
@@ -358,5 +361,13 @@ t_ray	change_ray(t_ray ray, t_object obj);
 t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color text);
 t_color	ray_trace(t_ray ray, t_env e);
 void	*launch(void *truc);
+
+//main.c
+t_color	intersection(t_ray ray, t_env e, int tmp_i, double tmp_t);
+void	save_img(SDL_Renderer *renderer, t_env e, SDL_Window *win);
+void	reload_or_not(SDL_Renderer *renderer, t_env e, int k);
+void	threads(SDL_Renderer *renderer, t_env e);
+t_env	init(void);
+void	draw(t_void *truc);
 
 #endif

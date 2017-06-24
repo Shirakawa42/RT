@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/06/23 16:47:55 by lvasseur         ###   ########.fr        #
+#    Updated: 2017/06/24 15:50:15 by lvasseur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,10 @@ SRC = src/main.c \
 	  src/config_sphere.c \
 	  src/texture2.c \
 	  src/perlin2.c \
-	  src/launch2.c
+	  src/launch2.c \
+	  src/main2.c \
+	  src/main3.c \
+	  src/init.c
 
 OBJ = $(SRC:.c=.o)
 FLAGS = -Wall -Wextra -Werror
