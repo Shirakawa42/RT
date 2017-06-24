@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/23 17:47:57 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/23 17:54:19 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,20 @@ typedef struct	s_color
 # define METAL 8
 # define GRASS 9
 # define LAVA 10
+
+typedef	struct	s_npt
+{
+	int		x;
+	int		y;
+	double	w;
+	double	h;
+	int		number;
+	int		savex;
+	int		wsave;
+	int		hsave;
+	int		n;
+	int		ssaa_squared;
+}				t_npt;
 
 typedef struct	s_sphere
 {
