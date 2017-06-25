@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/23 08:00:46 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/06/23 17:43:53 by lomeress         ###   ########.fr       */
+/*   Created: 2017/06/25 13:56:19 by lomeress          #+#    #+#             */
+/*   Updated: 2017/06/25 14:51:16 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,74 +28,77 @@ t_color	get_intensity(t_light light, double t)
 	return (color);
 }
 
-t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color text)
+void	light_n(t_ligh *l, t_vec *normal, t_env *e, t_color *color)
 {
-	int		i;
-	int		j;
-	double	dt;
-	double	sp;
-	t_ray	ray;
+	l->tmp = sqrt(l->ray.d.x * l->ray.d.x + l->ray.d.y *
+			l->ray.d.y + l->ray.d.z * l->ray.d.z);
+	normalize(&l->ray.d);
+	l->dt = dot(l->ray.d, *normal);
+	l->income_mod = e->income;
+	normalize(&l->income_mod.d);
+	l->income_mod.d.x = -l->income_mod.d.x;
+	l->income_mod.d.y = -l->income_mod.d.y;
+	l->income_mod.d.z = -l->income_mod.d.z;
+	l->sp = dot(bisector(l->income_mod.d, l->ray.d), *normal);
+	l->sp = l->sp * l->sp * l->sp * l->sp;
+	if (l->sp < 0)
+		l->sp = 0;
+	if (l->sp > 1)
+		l->sp = 1;
+	l->sp = 0;
+	if (l->dt < 0)
+		l->dt = 0;
+	if (l->dt > 1)
+		l->dt = 1;
+	l->light = get_intensity(e->scene.lights[l->i], l->tmp);
+	color->r += e->scene.objects[l->obj].color.r * l->dt + l->light.r * l->sp;
+	color->g += e->scene.objects[l->obj].color.g * l->dt + l->light.g * l->sp;
+	color->b += e->scene.objects[l->obj].color.b * l->dt + l->light.b * l->sp;
+}
+
+void	lighti_n(t_ligh *l, t_vec *normal, t_env *e, t_color *color)
+{
+	color->r = e->scene.objects[l->obj].color.r / 10;
+	color->g = e->scene.objects[l->obj].color.g / 10;
+	color->b = e->scene.objects[l->obj].color.b / 10;
+	l->ray.o = e->pp;
+	l->i = 0;
+	while (e->scene.lights[l->i].type)
+	{
+		l->ray.d.x = e->scene.lights[l->i].light.light_bulb.p.x - l->ray.o.x;
+		l->ray.d.y = e->scene.lights[l->i].light.light_bulb.p.y - l->ray.o.y;
+		l->ray.d.z = e->scene.lights[l->i].light.light_bulb.p.z - l->ray.o.z;
+		l->j = -1;
+		while (e->scene.objects[++l->j].type)
+			if (l->j != l->obj && e->intersect
+					[e->scene.objects[l->j].type](e->scene.objects[l->j].shape,
+				change_ray(l->ray, e->scene.objects[l->j]), &l->tmp) &&
+					l->tmp > 0 && l->tmp < 1)
+			{
+				l->j = -1;
+				break ;
+			}
+		if (l->j != -1)
+			light_n(l, normal, e, color);
+		l->i++;
+	}
+}
+
+t_color	lightning(int obj, t_vec normal, t_env e, t_color text)
+{
+	t_ligh	l;
 	t_color	color;
-	t_color	light;
-	t_ray	income_mod;
 
-	//a supprimer plus tard
-	double	tmp;
-
+	l.obj = obj;
 	if (e.editmod == 2)
 		return (e.scene.objects[obj].color);
-	color.r = e.scene.objects[obj].color.r / 10;
-	color.g = e.scene.objects[obj].color.g / 10;
-	color.b = e.scene.objects[obj].color.b / 10;
-	ray.o = p;
-	i = 0;
-	while (e.scene.lights[i].type)
-	{
-		ray.d.x = e.scene.lights[i].light.light_bulb.p.x - ray.o.x;
-		ray.d.y = e.scene.lights[i].light.light_bulb.p.y - ray.o.y;
-		ray.d.z = e.scene.lights[i].light.light_bulb.p.z - ray.o.z;
-		j = -1;
-		while (e.scene.objects[++j].type)
-			if (j != obj && e.intersect[e.scene.objects[j].type](e.scene.objects[j].shape,
-				change_ray(ray, e.scene.objects[j]), &tmp) && tmp > 0 && tmp < 1)
-			{
-				j = -1;
-				break;
-			}
-		if (j != -1)
-		{
-			tmp = sqrt(ray.d.x * ray.d.x + ray.d.y * ray.d.y + ray.d.z * ray.d.z);
-			normalize(&ray.d);
-			dt = dot(ray.d, normal);
-			income_mod = income;
-			normalize(&income_mod.d);
-			income_mod.d.x = -income_mod.d.x;
-			income_mod.d.y = -income_mod.d.y;
-			income_mod.d.z = -income_mod.d.z;
-			sp = dot(bisector(income_mod.d, ray.d), normal);
-			sp = sp * sp * sp * sp;
-			if (sp < 0)
-				sp = 0;
-			if (sp > 1)
-				sp = 1;
-			sp = 0;
-			if (dt < 0)
-				dt = 0;
-			if (dt > 1)
-				dt = 1;
-			light = get_intensity(e.scene.lights[i], tmp);
-			color.r += e.scene.objects[obj].color.r * dt + light.r * sp;
-			color.g += e.scene.objects[obj].color.g * dt + light.g * sp;
-			color.b += e.scene.objects[obj].color.b * dt + light.b * sp;
-		}
-		i++;
-	}
+	lighti_n(&l, &normal, &e, &color);
 	if (e.scene.objects[obj].texture < WOOD)
 	{
-/*		color.r = color.r * e.scene.objects[obj].color.r;
+		color.r = color.r * e.scene.objects[obj].color.r;
 		color.g = color.g * e.scene.objects[obj].color.g;
 		color.b = color.b * e.scene.objects[obj].color.b;
-*/	}
+	}
 	else
 	{
 		color.r = color.r * text.r;

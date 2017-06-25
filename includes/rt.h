@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/24 15:50:53 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/25 14:30:03 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,19 @@ typedef	struct	s_npt
 	int		n;
 	int		ssaa_squared;
 }				t_npt;
+
+typedef	struct	s_ligh
+{
+	int		i;
+	int		j;
+	int		obj;
+	double	dt;
+	double	sp;
+	double	tmp;
+	t_ray	ray;
+	t_color	light;
+	t_ray	income_mod;
+}				t_ligh;
 
 typedef struct	s_sphere
 {
@@ -238,6 +251,8 @@ typedef struct	s_env
 	int			filter;
 	double		tmp_t;
 	int			tmp_i;
+	t_vec		pp;
+	t_ray		income;
 }				t_env;
 
 typedef struct	s_perlin
@@ -358,7 +373,7 @@ Uint32		which_texture(t_env e, int i, int w, int h);
 t_env	parser(int fd);
 
 t_ray	change_ray(t_ray ray, t_object obj);
-t_color	lightning(t_ray income, t_vec p, int obj, t_vec normal, t_env e, t_color text);
+t_color	lightning(int obj, t_vec normal, t_env e, t_color text);
 t_color	ray_trace(t_ray ray, t_env e);
 void	*launch(void *truc);
 
