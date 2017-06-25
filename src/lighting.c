@@ -6,7 +6,7 @@
 /*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/25 13:56:19 by lomeress          #+#    #+#             */
-/*   Updated: 2017/06/25 14:51:16 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/25 15:14:48 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ t_color	lightning(int obj, t_vec normal, t_env e, t_color text)
 	lighti_n(&l, &normal, &e, &color);
 	if (e.scene.objects[obj].texture < WOOD)
 	{
-		color.r = color.r * e.scene.objects[obj].color.r;
+/*		color.r = color.r * e.scene.objects[obj].color.r;
 		color.g = color.g * e.scene.objects[obj].color.g;
 		color.b = color.b * e.scene.objects[obj].color.b;
-	}
+*/	}
 	else
 	{
 		color.r = color.r * text.r;
