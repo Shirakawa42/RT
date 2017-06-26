@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/26 13:56:43 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/26 15:50:31 by tjacquin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <math.h>
 # include <fcntl.h>
-# include "SDL.h"
+# include "../SDL2-2.0.5/include/SDL.h"
 # include <pthread.h>
 //# include "libft.h"
 
