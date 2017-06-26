@@ -6,7 +6,7 @@
 #    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
-#    Updated: 2017/06/24 15:50:15 by lvasseur         ###   ########.fr        #
+#    Updated: 2017/06/26 14:03:17 by lvasseur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,22 +24,22 @@ SRC = src/main.c \
 	  src/texture.c\
 	  src/parser.c\
 	  src/launch.c\
-	  src/lighting.c\
-	  src/perlin_init.c\
-	  src/perlin_init2.c\
-	  src/perlin_init3.c \
-	  src/cut.c \
+	  src/lighting.c \
+	  src/main2.c \
+	  src/main3.c \
 	  src/config_co.c \
 	  src/config_cyl.c \
 	  src/config_hype.c \
 	  src/config_plane.c \
 	  src/config_sphere.c \
-	  src/texture2.c \
 	  src/perlin2.c \
-	  src/launch2.c \
-	  src/main2.c \
-	  src/main3.c \
-	  src/init.c
+	  src/perlin_init.c \
+	  src/perlin_init2.c \
+	  src/perlin_init3.c \
+	  src/texture2.c \
+	  src/init.c \
+	  src/cut.c \
+	  src/launch2.c
 
 OBJ = $(SRC:.c=.o)
 FLAGS = -Wall -Wextra -Werror
@@ -47,11 +47,11 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 %.o: %.c
-	gcc -c $^ -o $@ -I ./includes -I $(HOME)/.brew/Cellar/sdl2/2.0.5/include/
+	gcc -c $^ -o $@ -I ./includes -I ./SDL2/include/SDL2/
 
 $(NAME): $(OBJ)
 	@make -C libft/
-	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L $(HOME)/.brew/Cellar/sdl2/2.0.5/lib/ -lSDL2
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -L ./SDL2/lib/ -lSDL2
 
 c clean:
 	@make clean -C libft/
