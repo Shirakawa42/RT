@@ -6,11 +6,10 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 12:24:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/05/23 07:50:36 by rmenegau         ###   ########.fr       */
+/*   Updated: 2017/06/26 17:16:47 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
 #include "rt.h"
 
 t_env	synthesis(t_env e, t_list *objects, t_list *lights)
@@ -87,9 +86,7 @@ double	parse_float(char *s)
 			break;
 		i++;
 	}
-	printf("%i\n", d);
 	d = s[0] == '-' ? -d : d;
-	printf("%i\n", d);
 	return (apply_decimal(d, dec_point));
 }
 
@@ -155,6 +152,18 @@ t_list	*parse_sphere(int fd)
 			obj.shape.sphere.r = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "color"))
 			obj.color = parse_color(cmd);
+		if (ft_strequ(cmd[0], "reflection"))
+			obj.reflection = 0;
+		if (ft_strequ(cmd[0], "texture"))
+			obj.texture = WOOD;
+		if (ft_strequ(cmd[0], "rotation"))
+			obj.rot = vec(0, 0, 0);
+		if (ft_strequ(cmd[0], "coupe1"))
+			obj.shape.sphere.f1 = vec(0, 0, 0);
+		if (ft_strequ(cmd[0], "coupe2"))
+			obj.shape.sphere.f2 = vec(0, 0, 0);
+		if (ft_strequ(cmd[0], "texture_scale"))
+			obj.shape.sphere.texture_scale = 3;
 	}
 	return (ft_lstnew(&obj, sizeof(t_object)));
 }
@@ -166,6 +175,21 @@ t_env	parser(int fd)
 	t_list	*lights;
 	t_env	e;
 
+	e.editmod = 0;
+	e.ssaa = SSAA;
+	init_perlin(&e);
+	e.scene.rotation.rotx = 0;
+	e.scene.rotation.roty = 0;
+	e.scene.rotation.rotz = 0;
+	e.scene.camera.o = vec(0, 0, 0);
+	e.scene.camera.d = vec(0, 0, 1);
+	e.intersect[0] = NULL;
+	e.intersect[1] = sphere_intersect;
+	e.intersect[2] = plane_intersect;
+	e.intersect[3] = cylinder_intersect;
+	e.intersect[4] = cone_intersect;
+	e.intersect[5] = hyperbol_intersect;
+	e.filter = 0;
 	e.scene.camera.o = vec(0.0, 0.0, 0.0);
 	e.scene.camera.d = vec(0.0, 0.0, 1.0);
 	e.scene.rotation.rotx = 0.0;
@@ -193,5 +217,6 @@ t_env	parser(int fd)
 		exit(0);
 	if (!(e.texture.lava = load_bmp("textures/LAVA.bmp")))
 		exit(0);
+	printf("ok\n");
 	return (synthesis(e, objects, lights));
-}*/
+}

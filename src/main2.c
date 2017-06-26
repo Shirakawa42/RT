@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/24 15:11:59 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/24 15:50:43 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/26 17:16:01 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,15 +127,15 @@ int		main(int ac, char **av)
 		exit(0);
 	if (!(renderer = SDL_CreateRenderer(win, -1, 0)))
 		exit(0);
-//	if (ac != 2)
+	if (ac != 2)
 		e = init();
-/*	else
+	else
 	{
 		e = parser(open(av[1], O_RDONLY));
 		e.scene.lights = (t_light*)malloc(sizeof(t_light) * 2);
-		e.scene.lights[0] = create_light_bulb(0, 2, 0, create_color(0.5, 0.5, 0.5), 15);
+		e.scene.lights[0] = create_light_bulb(vec(0, 2, 0), create_color(0.5, 0.5, 0.5), 15);
 		e.scene.lights[1].type = 0;
-	}*/
+	}
 	threads(renderer, e);
 	handle_events(renderer, e, win);
 	SDL_DestroyRenderer(renderer);

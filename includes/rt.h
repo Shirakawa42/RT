@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/26 15:50:31 by tjacquin         ###   ########.fr       */
+/*   Updated: 2017/06/26 17:17:27 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <fcntl.h>
 # include "../SDL2-2.0.5/include/SDL.h"
 # include <pthread.h>
-//# include "libft.h"
+# include "libft.h"
 
 # define H 700
 # define W 700
