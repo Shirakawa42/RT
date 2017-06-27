@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/24 15:10:25 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/25 15:58:34 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/27 15:55:24 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ t_ray	change_ray(t_ray ray, t_object obj)
 	ray.o.x = ray.o.x - obj.c.x;
 	ray.o.y = ray.o.y - obj.c.y;
 	ray.o.z = ray.o.z - obj.c.z;
-	if (obj.type == SPHERE)
-		return (ray);
 	ray.o = matrice_o(ray.o, obj.sin, obj.cos);
 	ray.d = matrice_o(ray.d, obj.sin, obj.cos);
 	return (ray);
@@ -60,8 +58,6 @@ t_ray	unchange_ray(t_ray ray, t_object obj)
 	ray.o.x += obj.c.x;
 	ray.o.y += obj.c.y;
 	ray.o.z += obj.c.z;
-	if (obj.type == SPHERE)
-		return (ray);
 	ray.o = matrice_o(ray.o, obj.sin, obj.cos);
 	ray.d = matrice_o(ray.d, obj.sin, obj.cos);
 	return (ray);

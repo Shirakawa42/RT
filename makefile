@@ -1,7 +1,7 @@
 NAME		=	RT
 
 CC			=	gcc
-FLAGS		=	-Wall -Wextra -Werror
+FLAGS		=	#-Wall -Wextra -Werror
 
 DELTA		=	$$(echo "$$(tput cols)-47"|bc)
 

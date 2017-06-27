@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/24 15:15:50 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/24 15:49:51 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/27 16:04:29 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ t_env	init(void)
 	e.scene.objects[5] = create_hyper(vec(2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0, WOOD, 40, vec(0, 0, 0), 1, vec(0, 0, 0), vec(0, 0, 0), 3);
 
 
-	e.scene.objects[6] = create_sphere(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, WOOD, vec(0, 0, 0), vec(0, 1, 0), vec(0, -1, -2), 6);
-	e.scene.objects[7] = create_sphere(vec(-2, 0, 15), 0.6, create_color(1.0, 1.0, 1.0), 0, PAPER, vec(0, 0, 0), vec(-1, -1, 0), vec(0, 0, 0), 3);
-	e.scene.objects[8] = create_sphere(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0, GRASS, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
+	e.scene.objects[6] = create_sphere(vec(-2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 1);
+	e.scene.objects[7] = create_sphere(vec(-2, 0, 30), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 1);
+	e.scene.objects[8] = create_sphere(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.8, WOOD, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 1);
 	//e.scene.objects[11] = create_cylinder(vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA, vec(0, 0, 0), 3);
-	e.scene.objects[9] = create_plane(vec(4, 0, 0), create_color(1.0, 1.0, 1.0), 1, METAL, vec(0, 0, -PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
-	e.scene.objects[10] = create_plane(vec(-4, 0, 0), create_color(1.0, 1.0, 1.0), 1, METAL, vec(0, 0, PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
+	e.scene.objects[9] = create_plane(vec(4, 0, 0), create_color(1.0, 1.0, 1.0), 0, METAL, vec(0, 0, -PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
+	e.scene.objects[10] = create_plane(vec(-4, 0, 0), create_color(1.0, 1.0, 1.0), 0, METAL, vec(0, 0, PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
 
 	e.scene.objects[11].type = 0;
 

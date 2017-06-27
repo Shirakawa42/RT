@@ -6,13 +6,13 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/23 14:46:13 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/23 15:40:30 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/27 16:00:23 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_get_normal_sphered	g_get_normal_sphered[6] = {NULL, sphere_normal,
+t_get_normal_sphered	g_get_normal_sphered[6] = {NULL, sphere_normal_sphered,
 	plane_normal_sphered, cylinder_normal_sphered, cone_normal_sphered,
 	hyper_normal_sphered};
 

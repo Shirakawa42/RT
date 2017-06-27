@@ -6,11 +6,24 @@
 /*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/23 16:07:03 by lomeress          #+#    #+#             */
-/*   Updated: 2017/06/23 16:07:52 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/27 15:59:50 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+t_vec	sphere_normal_sphered(union u_shape shape, t_vec p, t_vec d)
+{
+	t_vec	n;
+
+	n.x = (p.x - shape.sphere.c.x) /
+		(shape.sphere.r * shape.sphere.texture_scale);
+	n.y = (p.y - shape.sphere.c.y) /
+		(shape.sphere.r * shape.sphere.texture_scale);
+	n.z = (p.z - shape.sphere.c.z) /
+		(shape.sphere.r * shape.sphere.texture_scale);
+	return (n);
+}
 
 t_vec	cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d)
 {

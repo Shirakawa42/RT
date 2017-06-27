@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/26 17:17:27 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/27 16:00:05 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 # define H 700
 # define W 700
-# define NB_THREADS 8
+# define NB_THREADS 4
 # define SSAA 1
 # define NB_REFLEC 2
 
@@ -349,6 +349,7 @@ t_vec		cylinder_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		plane_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		cone_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		hyper_normal_sphered(union u_shape shape, t_vec p, t_vec d);
+t_vec		sphere_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 
 // perlin.c
 t_vec		text1(t_vec n, int text, int permutation[256]);
