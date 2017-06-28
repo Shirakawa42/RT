@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/24 15:15:50 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/27 16:04:29 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/28 14:30:34 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ t_env	init(void)
 {
 	t_env	e;
 
-	e.editmod = 0;
+	e.editmod = 1;
 	e.ssaa = SSAA;
 	init_perlin(&e);
 
 	e.scene.rotation.rotx = 0;
-	e.scene.rotation.roty = 0;
+	e.scene.rotation.roty = 180;
 	e.scene.rotation.rotz = 0;
 
 	e.scene.camera.o = vec(0, 0, 0);

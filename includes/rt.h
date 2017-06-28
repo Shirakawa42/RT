@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/27 16:00:05 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/28 15:00:51 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ typedef	struct	s_npt
 {
 	int		x;
 	int		y;
-	double	w;
-	double	h;
+	int		w;
+	int		h;
 	int		number;
 	int		savex;
 	int		wsave;

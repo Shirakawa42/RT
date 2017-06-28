@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/24 15:14:11 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/24 15:49:20 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/28 14:20:14 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ void	threads(SDL_Renderer *renderer, t_env e)
 		pthread_create(&threads[i], NULL, launch, truc);
 	i = -1;
 	while (++i < NB_THREADS)
+	{
 		pthread_join(threads[i], NULL);
+		ft_putnbr(i);
+		ft_putchar('\n');
+	}
 	draw(truc);
 	pthread_mutex_destroy(&truc->mutex);
 }
