@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 12:24:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/06/26 17:16:47 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/28 17:51:23 by tjacquin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ t_env	synthesis(t_env e, t_list *objects, t_list *lights)
 			lights = tmp;
 		}
 		e.scene.lights[i++].type = 0;
+	}
+	else
+	{
+		e.scene.lights = (t_light *)malloc(sizeof(t_light));
+		e.scene.lights[0].type = 0;
 	}
 	return (e);
 }
@@ -147,7 +152,10 @@ t_list	*parse_sphere(int fd)
 		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
 			break;
 		if (ft_strequ(cmd[0], "position"))
+		{
 			obj.shape.sphere.c = parse_vec(cmd);
+			obj.c = obj.shape.sphere.c;
+		}
 		if (ft_strequ(cmd[0], "radius"))
 			obj.shape.sphere.r = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "color"))
@@ -155,17 +163,185 @@ t_list	*parse_sphere(int fd)
 		if (ft_strequ(cmd[0], "reflection"))
 			obj.reflection = 0;
 		if (ft_strequ(cmd[0], "texture"))
-			obj.texture = WOOD;
+			obj.texture = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "rotation"))
-			obj.rot = vec(0, 0, 0);
+			obj.rot = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "coupe1"))
-			obj.shape.sphere.f1 = vec(0, 0, 0);
+			obj.shape.sphere.f1 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "coupe2"))
-			obj.shape.sphere.f2 = vec(0, 0, 0);
+			obj.shape.sphere.f2 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "texture_scale"))
-			obj.shape.sphere.texture_scale = 3;
+			obj.shape.sphere.texture_scale = parse_float(cmd[1]);
 	}
 	return (ft_lstnew(&obj, sizeof(t_object)));
+}
+
+t_list	*parse_plane(int fd)
+{
+	char		*buf;
+	char		**cmd;
+	t_object	obj;
+
+	ft_bzero(&obj, sizeof(t_object));
+	obj.type = PLANE;
+	while (get_next_line(fd, &buf) == 1)
+	{
+		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+			break;
+		if (ft_strequ(cmd[0], "position"))
+		{
+			obj.shape.plane.p = parse_vec(cmd);
+			obj.c = obj.shape.plane.p;
+		}
+		if (ft_strequ(cmd[0], "color"))
+			obj.color = parse_color(cmd);
+		if (ft_strequ(cmd[0], "reflection"))
+			obj.reflection = 0;
+		if (ft_strequ(cmd[0], "texture"))
+			obj.texture = parse_float(cmd[1]);
+		if (ft_strequ(cmd[0], "rotation"))
+			obj.rot = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "coupe1"))
+			obj.shape.plane.f1 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "coupe2"))
+			obj.shape.plane.f2 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "texture_scale"))
+			obj.shape.plane.texture_scale = parse_float(cmd[1]);
+	}
+	return (ft_lstnew(&obj, sizeof(t_object)));
+}
+
+t_list	*parse_cylinder(int fd)
+{
+	char		*buf;
+	char		**cmd;
+	t_object	obj;
+
+	ft_bzero(&obj, sizeof(t_object));
+	obj.type = CYLINDER;
+	while (get_next_line(fd, &buf) == 1)
+	{
+		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+			break;
+		if (ft_strequ(cmd[0], "position"))
+		{
+			obj.shape.cylinder.p = parse_vec(cmd);
+			obj.c = obj.shape.cylinder.p;
+		}
+		if (ft_strequ(cmd[0], "radius"))
+			obj.shape.cylinder.r = parse_float(cmd[1]);
+		if (ft_strequ(cmd[0], "color"))
+			obj.color = parse_color(cmd);
+		if (ft_strequ(cmd[0], "reflection"))
+			obj.reflection = 0;
+		if (ft_strequ(cmd[0], "texture"))
+			obj.texture = parse_float(cmd[1]);
+		if (ft_strequ(cmd[0], "rotation"))
+			obj.rot = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "coupe1"))
+			obj.shape.cylinder.f1 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "coupe2"))
+			obj.shape.cylinder.f2 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "texture_scale"))
+			obj.shape.cylinder.texture_scale = parse_float(cmd[1]);
+	}
+	return (ft_lstnew(&obj, sizeof(t_object)));
+}
+
+t_list	*parse_cone(int fd)
+{
+	char		*buf;
+	char		**cmd;
+	t_object	obj;
+
+	ft_bzero(&obj, sizeof(t_object));
+	obj.type = CONE;
+	while (get_next_line(fd, &buf) == 1)
+	{
+		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+			break;
+		if (ft_strequ(cmd[0], "position"))
+		{
+			obj.shape.cone.d = parse_vec(cmd);
+			obj.c = obj.shape.cone.d;
+		}
+		if (ft_strequ(cmd[0], "radius"))
+			obj.shape.cone.r = parse_float(cmd[1]);
+		if (ft_strequ(cmd[0], "color"))
+			obj.color = parse_color(cmd);
+		if (ft_strequ(cmd[0], "reflection"))
+			obj.reflection = 0;
+		if (ft_strequ(cmd[0], "texture"))
+			obj.texture = parse_float(cmd[1]);
+		if (ft_strequ(cmd[0], "rotation"))
+			obj.rot = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "coupe1"))
+			obj.shape.cone.f1 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "coupe2"))
+			obj.shape.cone.f2 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "texture_scale"))
+			obj.shape.cone.texture_scale = parse_float(cmd[1]);
+	}
+	return (ft_lstnew(&obj, sizeof(t_object)));
+}
+
+t_list	*parse_hyper(int fd)
+{
+	char		*buf;
+	char		**cmd;
+	t_object	obj;
+
+	ft_bzero(&obj, sizeof(t_object));
+	obj.type = HYPER;
+	while (get_next_line(fd, &buf) == 1)
+	{
+		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+			break;
+		if (ft_strequ(cmd[0], "position"))
+		{
+			obj.shape.hype.d = parse_vec(cmd);
+			obj.c = obj.shape.hype.d;
+		}
+		//if (ft_strequ(cmd[0], "radius"))
+		//	obj.shape.hype.r = parse_vec(cmd[1]);
+		if (ft_strequ(cmd[0], "color"))
+			obj.color = parse_color(cmd);
+		if (ft_strequ(cmd[0], "reflection"))
+			obj.reflection = 0;
+		if (ft_strequ(cmd[0], "texture"))
+			obj.texture = parse_float(cmd[1]);
+		if (ft_strequ(cmd[0], "rotation"))
+			obj.rot = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "coupe1"))
+			obj.shape.hype.f1 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "coupe2"))
+			obj.shape.hype.f2 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "texture_scale"))
+			obj.shape.hype.texture_scale = parse_float(cmd[1]);
+	}
+	return (ft_lstnew(&obj, sizeof(t_object)));
+}
+
+t_list	*parse_light(int fd)
+{
+	char		*buf;
+	char		**cmd;
+	t_light		lgt;
+
+	ft_bzero(&lgt, sizeof(t_light));
+	lgt.type = LIGHT_BULB;
+	while (get_next_line(fd, &buf) == 1)
+	{
+		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+			break;
+		if (ft_strequ(cmd[0], "position"))
+			lgt.light.light_bulb.p = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "color"))
+			lgt.color = parse_color(cmd);
+		if (ft_strequ(cmd[0], "intensity"))
+			lgt.intensity = parse_float(cmd[1]);
+	}
+	return (ft_lstnew(&lgt, sizeof(t_light)));
 }
 
 t_env	parser(int fd)
@@ -204,8 +380,18 @@ t_env	parser(int fd)
 	lights = NULL;
 	while (get_next_line(fd, &buf) == 1)
 	{
+		if (ft_strequ(buf, "light"))
+			ft_lstadd(&lights, parse_light(fd));
 		if (ft_strequ(buf, "sphere"))
 			ft_lstadd(&objects, parse_sphere(fd));
+		if (ft_strequ(buf, "plane"))
+			ft_lstadd(&objects, parse_plane(fd));
+		if (ft_strequ(buf, "cylinder"))
+			ft_lstadd(&objects, parse_cylinder(fd));
+		if (ft_strequ(buf, "cone"))
+			ft_lstadd(&objects, parse_cone(fd));
+		if (ft_strequ(buf, "hyper"))
+			ft_lstadd(&objects, parse_hyper(fd));
 	}
 	if (!(e.texture.wood = load_bmp("textures/WOOD.bmp")))
 		exit(0);

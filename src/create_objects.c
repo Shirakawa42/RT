@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:11:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/06/22 15:17:55 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/28 17:44:14 by tjacquin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_object    create_cone(t_vec p, double r, t_color color, double reflection, int
 	ret.reflection = reflection;
 	ret.reflection = reflection;
 	ret.texture = texture;
-	ret.shape.cone.aperture = aperture;
+	ret.shape.cone.aperture = aperture; /*METTRE DANS PARSE_CONE*/
 	ret.shape.cone.texture_scale = texture_scale;
 	ret.shape.cone.f1 = f1;
 	ret.shape.cone.f2 = f2;
@@ -127,8 +127,8 @@ t_object	create_hyper(t_vec p, double r, t_color color, double reflection, int t
 	ret.sin.z = sin(rot.z);
 	ret.reflection = reflection;
 	ret.texture = texture;
-	ret.shape.hype.aperture = aperture;
-	ret.shape.hype.convex = convex;
+	ret.shape.hype.aperture = aperture; /*METTRE DANS PARSE HYPER*/
+	ret.shape.hype.convex = convex; /*METTRE PARSE HYPER*/
 	ret.shape.hype.f1 = f1;
 	ret.shape.hype.f2 = f2;
 	ret.shape.hype.texture_scale = texture_scale;
