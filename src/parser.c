@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/21 12:24:00 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/06/28 17:51:23 by tjacquin         ###   ########.fr       */
+/*   Updated: 2017/06/29 14:19:07 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,11 +196,17 @@ t_list	*parse_plane(int fd)
 		if (ft_strequ(cmd[0], "color"))
 			obj.color = parse_color(cmd);
 		if (ft_strequ(cmd[0], "reflection"))
-			obj.reflection = 0;
+			obj.reflection = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "texture"))
 			obj.texture = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "rotation"))
 			obj.rot = parse_vec(cmd);
+		obj.cos.x = cos(obj.rot.x);
+		obj.cos.y = cos(obj.rot.y);
+		obj.cos.z = cos(obj.rot.z);
+		obj.sin.x = sin(obj.rot.x);
+		obj.sin.y = sin(obj.rot.y);
+		obj.sin.z = sin(obj.rot.z);
 		if (ft_strequ(cmd[0], "coupe1"))
 			obj.shape.plane.f1 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "coupe2"))
@@ -238,6 +244,12 @@ t_list	*parse_cylinder(int fd)
 			obj.texture = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "rotation"))
 			obj.rot = parse_vec(cmd);
+		obj.cos.x = cos(obj.rot.x);
+		obj.cos.y = cos(obj.rot.y);
+		obj.cos.z = cos(obj.rot.z);
+		obj.sin.x = sin(obj.rot.x);
+		obj.sin.y = sin(obj.rot.y);
+		obj.sin.z = sin(obj.rot.z);
 		if (ft_strequ(cmd[0], "coupe1"))
 			obj.shape.cylinder.f1 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "coupe2"))
@@ -275,10 +287,18 @@ t_list	*parse_cone(int fd)
 			obj.texture = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "rotation"))
 			obj.rot = parse_vec(cmd);
+		obj.cos.x = cos(obj.rot.x);
+		obj.cos.y = cos(obj.rot.y);
+		obj.cos.z = cos(obj.rot.z);
+		obj.sin.x = sin(obj.rot.x);
+		obj.sin.y = sin(obj.rot.y);
+		obj.sin.z = sin(obj.rot.z);
 		if (ft_strequ(cmd[0], "coupe1"))
 			obj.shape.cone.f1 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "coupe2"))
 			obj.shape.cone.f2 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "aperture"))
+			obj.shape.cone.aperture = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "texture_scale"))
 			obj.shape.cone.texture_scale = parse_float(cmd[1]);
 	}
@@ -302,8 +322,8 @@ t_list	*parse_hyper(int fd)
 			obj.shape.hype.d = parse_vec(cmd);
 			obj.c = obj.shape.hype.d;
 		}
-		//if (ft_strequ(cmd[0], "radius"))
-		//	obj.shape.hype.r = parse_vec(cmd[1]);
+		if (ft_strequ(cmd[0], "radius"))
+			obj.shape.hype.r = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "color"))
 			obj.color = parse_color(cmd);
 		if (ft_strequ(cmd[0], "reflection"))
@@ -312,10 +332,20 @@ t_list	*parse_hyper(int fd)
 			obj.texture = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "rotation"))
 			obj.rot = parse_vec(cmd);
+		obj.cos.x = cos(obj.rot.x);
+		obj.cos.y = cos(obj.rot.y);
+		obj.cos.z = cos(obj.rot.z);
+		obj.sin.x = sin(obj.rot.x);
+		obj.sin.y = sin(obj.rot.y);
+		obj.sin.z = sin(obj.rot.z);
 		if (ft_strequ(cmd[0], "coupe1"))
 			obj.shape.hype.f1 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "coupe2"))
 			obj.shape.hype.f2 = parse_vec(cmd);
+		if (ft_strequ(cmd[0], "aperture"))
+			obj.shape.hype.aperture = parse_float(cmd[1]);
+		if (ft_strequ(cmd[0], "convex"))
+			obj.shape.hype.convex = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "texture_scale"))
 			obj.shape.hype.texture_scale = parse_float(cmd[1]);
 	}
