@@ -3,7 +3,7 @@ position 0 0 5
 radius 0.1
 color 1 1 1
 reflection 0
-texture 2
+texture 1
 rotation 0 0 0
 coupe1 0 0 0
 coupe2 -1 -1 0
@@ -13,46 +13,49 @@ plane
 position 0 0 5
 color 1 1 1
 reflection 0
-texture 3
-rotation 0 0 0
-coupe1 0 0 0
-coupe2 0 0 0
+texture 7
+rotation 1.5 0 0
+coupe1 -0.5 0.5 1
+coupe2 -1 -1 -1
 texture_scale 3
 
 cylinder
-position 0 0 5
+position 2 0 5
 radius 0.1
 color 1 1 1
 reflection 0
-texture 2
+texture 8
 rotation 0 0 0
 coupe1 0 0 0
 coupe2 -1 -1 0
 texture_scale 3
 
 cone
-position 0 0 5
+position -2 0 5
 radius 0.1
 color 1 1 1
 reflection 0
 texture 2
 rotation 0 0 0
 coupe1 0 0 0
-coupe2 -1 -1 0
+coupe2 0 -1 0
+aperture 10
 texture_scale 3
 
 hyper
-position 0 0 5
-radius 0.1
-color 1 1 1
+position 1 0 5
+radius 0.4
+color 0 0.3 1
 reflection 0
-texture 2
+texture 6
 rotation 0 0 0
-coupe1 0 0 0
-coupe2 -1 -1 0
+coupe1 0 1 0
+coupe2 0 -1 0
+aperture 20
+convex -0.04
 texture_scale 3
 
 light
 position 0 0 4
-color 0.1 0.1 0.1
-intensity 15
+color 1 0.1 0.1
+intensity 1
