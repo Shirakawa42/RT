@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/24 15:11:59 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/28 16:36:31 by tjacquin         ###   ########.fr       */
+/*   Updated: 2017/06/29 19:18:51 by tjacquin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int		main(int ac, char **av)
 		e = init();
 	else
 	{
-		e = parser(open(av[1], O_RDONLY));
+		e = parser(open(av[1], O_RDONLY), e);
 		/*e.scene.lights = (t_light*)malloc(sizeof(t_light) * 2);
 		e.scene.lights[0] = create_light_bulb(vec(0, 2, 0), create_color(0.5, 0.5, 0.5), 15);
 		e.scene.lights[1].type = 0;*/

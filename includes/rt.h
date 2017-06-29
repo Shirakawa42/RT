@@ -6,7 +6,7 @@
 /*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/28 15:00:51 by lvasseur         ###   ########.fr       */
+/*   Updated: 2017/06/29 19:17:42 by tjacquin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,7 +371,27 @@ Uint32		which_texture(t_env e, int i, int w, int h);
 
 
 // parser.c
-t_env	parser(int fd);
+t_env		parser(int fd, t_env e);
+
+
+double		apply_decimal(double d, int	dec_point);
+double		parse_float(char *s);
+t_vec		parse_vec(char **cmd);
+t_env		synthesis(t_env e, t_list *objects, t_list *lights);
+t_color		parse_color(char **cmd);
+double		parse_float(char *s);
+void		apply_rot(t_object *obj);
+void		obj_strequ(char **cmd, t_object *obj);
+
+t_list		*parse_sphere(int fd);
+t_list		*parse_plane(int fd);
+t_list		*parse_cylinder(int fd);
+t_list		*parse_cone(int fd);
+t_list		*parse_plane(int fd);
+t_list		*parse_cone(int fd);
+t_list		*parse_plane(int fd);
+t_list		*parse_hyper(int fd);
+
 
 t_ray	change_ray(t_ray ray, t_object obj);
 t_color	lightning(int obj, t_vec normal, t_env e, t_color text);

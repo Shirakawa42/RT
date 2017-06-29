@@ -6,7 +6,7 @@
 #    By: tjacquin <tjacquin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/12 14:42:00 by tjacquin          #+#    #+#              #
-#    Updated: 2017/06/27 17:40:06 by tjacquin         ###   ########.fr        #
+#    Updated: 2017/06/29 17:15:53 by tjacquin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ perlin.c \
 color.c \
 matrice.c \
 texture.c \
-parser.c \
+parser_init.c \
 launch.c \
 lighting.c \
 main2.c \
@@ -60,6 +60,11 @@ texture2.c \
 init.c \
 cut.c \
 launch2.c \
+parser_1.c \
+parser_2.c \
+parse_obj_1.c \
+parse_obj_2.c \
+parse_obj_3.c \
 
 SRCS = $(addprefix $(SRC_DIR), $(SRC_BASE))
 OBJS = $(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))
