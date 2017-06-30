@@ -32,6 +32,10 @@ t_color	ray_trace(t_ray ray, t_env e)
 		}
 		i++;
 	}
+	if (tmp_t < 0)
+		tmp_t = 0;
+	if (tmp_t > 100000)
+		tmp_t = 100000;
 	if (tmp_i >= 0)
 	{
 		return ((e.editmod == 2) ? (e.scene.objects[tmp_i].color) :
@@ -130,12 +134,7 @@ int		main(int ac, char **av)
 	if (ac != 2)
 		e = init();
 	else
-	{
 		e = parser(open(av[1], O_RDONLY), e);
-		/*e.scene.lights = (t_light*)malloc(sizeof(t_light) * 2);
-		e.scene.lights[0] = create_light_bulb(vec(0, 2, 0), create_color(0.5, 0.5, 0.5), 15);
-		e.scene.lights[1].type = 0;*/
-	}
 	threads(renderer, e);
 	handle_events(renderer, e, win);
 	SDL_DestroyRenderer(renderer);

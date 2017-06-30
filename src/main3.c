@@ -52,11 +52,7 @@ void	threads(SDL_Renderer *renderer, t_env e)
 		pthread_create(&threads[i], NULL, launch, truc);
 	i = -1;
 	while (++i < NB_THREADS)
-	{
 		pthread_join(threads[i], NULL);
-		ft_putnbr(i);
-		ft_putchar('\n');
-	}
 	draw(truc);
 	pthread_mutex_destroy(&truc->mutex);
 }

@@ -16,7 +16,7 @@ t_env	init(void)
 {
 	t_env	e;
 
-	e.editmod = 1;
+	e.editmod = 0;
 	e.ssaa = SSAA;
 	init_perlin(&e);
 
@@ -39,8 +39,8 @@ t_env	init(void)
 	if ((e.scene.objects = (t_object*)malloc(sizeof(t_object) * 12)) == 0)
 		exit(0);
 
-	e.scene.objects[0] = create_plane(vec(0, 2, 0), create_color(1.0, 1.0, 1.0), 0, GRASS, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
-	e.scene.objects[1] = create_plane(vec(0, -2, 0), create_color(1.0, 1.0, 1.0), 0, WOOD, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
+	e.scene.objects[0] = create_plane(vec(0, 2, 0), create_color(1.0, 1.0, 1.0), 0, 0, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
+	e.scene.objects[1] = create_plane(vec(0, -2, 0), create_color(1.0, 1.0, 1.0), 0, 0, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
 
 	e.scene.objects[2] = create_cone(vec(2, 0, 18), 0.6, create_color(1.0, 1.0, 1.0), 0, WOOD, 25, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 3);
 	e.scene.objects[3] = create_cylinder(vec(2, 0, 33), 0.6, create_color(1.0, 1.0, 1.0), 0, 2, vec(0, 0, 0), vec(0, 0, 0), vec(0, -1, 0), 3);
@@ -52,8 +52,8 @@ t_env	init(void)
 	e.scene.objects[7] = create_sphere(vec(-2, 0, 30), 0.6, create_color(1.0, 1.0, 1.0), 0.5, WOOD, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 1);
 	e.scene.objects[8] = create_sphere(vec(-2, 0, 48), 0.6, create_color(1.0, 1.0, 1.0), 0.8, WOOD, vec(0, 0, 0), vec(0, 0, 0), vec(0, 0, 0), 1);
 	//e.scene.objects[11] = create_cylinder(vec(-2, 0, 63), 0.6, create_color(1.0, 1.0, 1.0), 0.5, LAVA, vec(0, 0, 0), 3);
-	e.scene.objects[9] = create_plane(vec(4, 0, 0), create_color(1.0, 1.0, 1.0), 0, METAL, vec(0, 0, -PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
-	e.scene.objects[10] = create_plane(vec(-4, 0, 0), create_color(1.0, 1.0, 1.0), 0, METAL, vec(0, 0, PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
+	e.scene.objects[9] = create_plane(vec(4, 0, 0), create_color(1.0, 1.0, 1.0), 0, 0, vec(0, 0, -M_PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
+	e.scene.objects[10] = create_plane(vec(-4, 0, 0), create_color(1.0, 1.0, 1.0), 0, 0, vec(0, 0, M_PI / 2), vec(0, 0, 0), vec(0, 0, 0), 3);
 
 	e.scene.objects[11].type = 0;
 
