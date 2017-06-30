@@ -21,7 +21,7 @@ t_env	init(void)
 	init_perlin(&e);
 
 	e.scene.rotation.rotx = 0;
-	e.scene.rotation.roty = 180;
+	e.scene.rotation.roty = 0;
 	e.scene.rotation.rotz = 0;
 
 	e.scene.camera.o = vec(0, 0, 0);
