@@ -6,7 +6,7 @@
 /*   By: lomeress <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/25 13:56:19 by lomeress          #+#    #+#             */
-/*   Updated: 2017/06/25 15:14:48 by lomeress         ###   ########.fr       */
+/*   Updated: 2017/06/30 15:44:29 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,21 @@ void	light_n(t_ligh *l, t_vec *normal, t_env *e, t_color *color)
 	if (l->dt > 1)
 		l->dt = 1;
 	l->light = get_intensity(e->scene.lights[l->i], l->tmp);
-	color->r += e->scene.objects[l->obj].color.r * l->dt + l->light.r * l->sp;
-	color->g += e->scene.objects[l->obj].color.g * l->dt + l->light.g * l->sp;
-	color->b += e->scene.objects[l->obj].color.b * l->dt + l->light.b * l->sp;
+	color->r += e->scene.objects[l->obj].color.r * l->dt + l->light.r;
+	color->g += e->scene.objects[l->obj].color.g * l->dt + l->light.g;
+	color->b += e->scene.objects[l->obj].color.b * l->dt + l->light.b;
 }
 
 void	lighti_n(t_ligh *l, t_vec *normal, t_env *e, t_color *color)
 {
+	t_light light;
+
 	color->r = e->scene.objects[l->obj].color.r / 10;
 	color->g = e->scene.objects[l->obj].color.g / 10;
 	color->b = e->scene.objects[l->obj].color.b / 10;
 	l->ray.o = e->pp;
-	l->i = 0;
-	while (e->scene.lights[l->i].type)
+	l->i = -1;
+	while (e->scene.lights[++l->i].type)
 	{
 		l->ray.d.x = e->scene.lights[l->i].light.light_bulb.p.x - l->ray.o.x;
 		l->ray.d.y = e->scene.lights[l->i].light.light_bulb.p.y - l->ray.o.y;
@@ -80,7 +82,6 @@ void	lighti_n(t_ligh *l, t_vec *normal, t_env *e, t_color *color)
 			}
 		if (l->j != -1)
 			light_n(l, normal, e, color);
-		l->i++;
 	}
 }
 
@@ -95,10 +96,10 @@ t_color	lightning(int obj, t_vec normal, t_env e, t_color text)
 	lighti_n(&l, &normal, &e, &color);
 	if (e.scene.objects[obj].texture < WOOD)
 	{
-/*		color.r = color.r * e.scene.objects[obj].color.r;
+		color.r = color.r * e.scene.objects[obj].color.r;
 		color.g = color.g * e.scene.objects[obj].color.g;
 		color.b = color.b * e.scene.objects[obj].color.b;
-*/	}
+	}
 	else
 	{
 		color.r = color.r * text.r;
