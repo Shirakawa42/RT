@@ -3,107 +3,70 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquin <tjacquin@student.42.fr>          +#+  +:+       +#+         #
+#    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/05/12 14:42:00 by tjacquin          #+#    #+#              #
-#    Updated: 2017/06/29 17:15:53 by tjacquin         ###   ########.fr        #
+#    Created: 2017/02/14 17:09:20 by lvasseur          #+#    #+#              #
+#    Updated: 2017/05/21 12:12:16 by rmenegau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	RT
+NAME = RT
 
-CC			=	gcc
-FLAGS		=
+SRC = src/main.c \
+	  src/vector.c \
+	  src/create_lights.c \
+	  src/create_objects.c \
+	  src/intersects.c \
+	  src/normals.c \
+	  src/normals_sphered.c \
+	  src/perlin.c \
+	  src/color.c \
+	  src/matrice.c \
+	  src/texture.c\
+	  src/launch.c\
+	  src/lighting.c \
+	  src/perlin_init.c \
+	  src/perlin_init2.c \
+	  src/perlin_init3.c \
+	  src/texture2.c \
+	  src/main2.c \
+	  src/main3.c \
+	  src/launch2.c \
+	  src/config_co.c \
+	  src/config_cyl.c \
+	  src/config_hype.c \
+	  src/config_plane.c \
+	  src/config_sphere.c \
+	  src/init.c \
+	  src/perlin2.c \
+	  src/cut.c \
+	  src/parser_1.c \
+	  src/parser_2.c \
+	  src/parse_obj_1.c \
+	  src/parse_obj_2.c \
+	  src/parse_obj_3.c \
+	  src/parser_init.c
 
-LIBFT_DIR	=	libft/
-LIBFT_LIB	=	$(LIBFT_DIR)libft.a
-LIBFT_INC	=	$(LIBFT_DIR)includes/
+OBJ = $(SRC:.c=.o)
+	FLAGS = #-Wall -Wextra -Werror
 
-SRC_DIR		=	src/
-INC_DIR		=	includes/
-OBJ_DIR		=	objs/
+all: $(NAME)
 
-SDL_DIR		=	SDL2-2.0.5
-SDL_LIB		=	$(SDL_DIR)/build/.libs/libSDL2.a
-SDL_INC		=	$(SDL_DIR)/include/
+%.o: %.c
+	gcc -c $^ -o $@ -I ./includes
 
-FLAG_SDL	=	-I/$(SDL_INC) $(SDL_LIB) -framework Cocoa -framework CoreAudio -framework AudioToolbox -framework ForceFeedback -framework CoreVideo -framework Carbon -framework IOKit -liconv
+$(NAME): $(OBJ)
+	@make -C libft/
+	gcc $(FLAGS) -o $(NAME) $(OBJ) libft/libft.a -lSDL2 -lm -lpthread
 
+c clean:
+	rm -f $(OBJ)
+	@make clean -C libft/
 
-SRC_BASE	=	\
-main.c \
-vector.c \
-create_lights.c \
-create_objects.c \
-intersects.c \
-normals.c \
-normals_sphered.c \
-perlin.c \
-color.c \
-matrice.c \
-texture.c \
-parser_init.c \
-launch.c \
-lighting.c \
-main2.c \
-main3.c \
-config_co.c \
-config_cyl.c \
-config_hype.c \
-config_plane.c \
-config_sphere.c \
-perlin2.c \
-perlin_init.c \
-perlin_init2.c \
-perlin_init3.c \
-texture2.c \
-init.c \
-cut.c \
-launch2.c \
-parser_1.c \
-parser_2.c \
-parse_obj_1.c \
-parse_obj_2.c \
-parse_obj_3.c \
+f fclean: clean
+	rm -f $(NAME)
+	@make fclean -C libft/
 
-SRCS = $(addprefix $(SRC_DIR), $(SRC_BASE))
-OBJS = $(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))
+r re: fclean all
 
-all : $(NAME)
-
-$(NAME):		$(SDL_LIB) $(LIBFT_LIB) $(OBJ_DIR) $(OBJS)
-	@$(CC) $(OBJS) -o $(NAME) \
-		-I $(INC_DIR) \
-		-I $(LIBFT_INC) $(LIBFT_LIB) \
-		$(FLAG_SDL) \
-		$(FLAGS)
-	@echo "\033[1;34mRT is ready to run"
-
-$(LIBFT_LIB):
-	@make -j -C $(LIBFT_DIR)
-
-$(OBJ_DIR) :
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(dir $(OBJS))
-
-$(OBJ_DIR)%.o :	$(SRC_DIR)%.c | $(OBJ_DIR)
-	@$(CC) $(FLAGS) -MMD -c $< -o $@\
-		-I $(INC_DIR)\
-		-I $(SDL_INC)\
-		-I $(LIBFT_INC)
-
-clean:
-	@make clean -C $(LIBFT_DIR)
-	@rm -rf $(OBJ_DIR)
-	@echo "\033[0;33mall is clean";
-
-fclean: clean
-	@make fclean -C $(LIBFT_DIR)
-	@rm -f $(NAME)
-	@echo "\033[3;0;31mall files have been scratched";
-
-re:				fclean all
-
-.PHONY :		fclean clean re
-
--include $(OBJS:.o=.d)
+g good: $(NAME) clean

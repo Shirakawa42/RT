@@ -15,14 +15,21 @@
 t_get_normal g_get_normal[6] = {NULL, sphere_normal, plane_normal,
 	cylinder_normal, cone_normal, hyper_normal};
 
+t_vec	truc(t_vec n, t_object obj)
+{
+	obj.sin.x = -obj.sin.x;
+	obj.sin.y = -obj.sin.y;
+	obj.sin.z = -obj.sin.z;
+	n = matrice_o(n, obj.sin, obj.cos);
+	return (n);
+}
+
 void	reflexion(t_color *color, t_ray ray, t_vec normal, t_env e)
 {
 	double	dot_cos;
 	t_color	reflection;
 
-	if (e.scene.objects[e.tmp_i].type == PLANE)
-		normal = matrice_o(normal, e.scene.objects[e.tmp_i].sin,
-				e.scene.objects[e.tmp_i].cos);
+	normal = truc(normal, e.scene.objects[e.tmp_i]);
 	ray.o.x = ray.o.x + ray.d.x * e.tmp_t;
 	ray.o.y = ray.o.y + ray.d.y * e.tmp_t;
 	ray.o.z = ray.o.z + ray.d.z * e.tmp_t;
