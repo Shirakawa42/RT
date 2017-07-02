@@ -24,6 +24,23 @@
 # define NB_THREADS 8
 # define SSAA 1
 # define NB_REFLEC 5
+# define PI 3.14159265359
+# define SPHERE 1
+# define PLANE 2
+# define CYLINDER 3
+# define CONE 4
+# define HYPER 5
+# define MARBLE 1
+# define MARBLE2 2
+# define MARBLE3 3
+# define NOISE 4
+# define NOISE2 5
+# define WOOD 6
+# define PAPER 7
+# define METAL 8
+# define GRASS 9
+# define LAVA 10
+# define LIGHT_BULB 1
 
 typedef struct	s_vec
 {
@@ -45,26 +62,6 @@ typedef struct	s_color
 	double	g;
 	double	b;
 }				t_color;
-
-# define PI 3.14159265359
-
-# define SPHERE 1
-# define PLANE 2
-# define CYLINDER 3
-# define CONE 4
-# define HYPER 5
-
-# define MARBLE 1
-# define MARBLE2 2
-# define MARBLE3 3
-# define NOISE 4
-# define NOISE2 5
-
-# define WOOD 6
-# define PAPER 7
-# define METAL 8
-# define GRASS 9
-# define LAVA 10
 
 typedef	struct	s_npt
 {
@@ -175,8 +172,6 @@ typedef struct	s_object
 	union u_shape	shape;
 }				t_object;
 
-# define LIGHT_BULB 1
-
 typedef struct	s_light_bulb
 {
 	t_vec	p;
@@ -236,7 +231,7 @@ typedef struct	s_text_struct
 
 typedef int(*t_intersect)(union u_shape, t_ray, double *);
 typedef	t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
-typedef t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
+typedef	t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
 
 typedef struct	s_env
 {
@@ -296,24 +291,12 @@ typedef struct	s_wh
 	double	u;
 }				t_wh;
 
-// vector.c
 double		dot(t_vec a, t_vec b);
 t_vec		vec(double x, double y, double z);
 t_vec		get_point(t_ray ray, double t);
 t_vec		bisector(t_vec v, t_vec l);
 void		normalize(t_vec *v);
-
-// create_lights.c
 t_light		create_light_bulb(t_vec vec, t_color color, double intensity);
-
-// create_objects.c
-t_object	create_sphere(t_vec c, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
-t_object	create_plane(t_vec p, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
-t_object	create_cylinder(t_vec p, double r, t_color color, double reflection, int texture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
-t_object    create_cone(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, t_vec f1, t_vec f2, double texture_scale);
-t_object    create_hyper(t_vec p, double r, t_color color, double reflection, int texture, double aperture, t_vec rot, float convex, t_vec f1, t_vec f2, double texture_scale);
-
-// color.c
 t_color		create_color(double r, double g, double b);
 void        apply_color(t_void *truc, t_env e, int x, int y);
 void        app(t_env *e);
@@ -321,8 +304,6 @@ t_color     sepia(t_color c);
 t_color     blackandwhite2(t_color color);
 t_color     blackandwhite(t_color color);
 t_color     is_color_good(t_color color);
-
-// intersects.c
 int			sphere_intersect(union u_shape shape, t_ray ray, double *t);
 int			plane_intersect(union u_shape shape, t_ray ray, double *t);
 int			cylinder_intersect(union u_shape shape, t_ray ray, double *t);
@@ -338,8 +319,6 @@ int			config_co(t_ray ray, double *t, double tmp, t_cone co);
 int			config_hype(t_ray ray, double *t, double tmp, t_hyper hype);
 int			config_plane(t_ray rau, double *t, t_plane plane);
 int			config_sphere(t_ray ray, double *t, double tmp, t_sphere sphere);
-
-// normals.c
 t_vec		sphere_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec		plane_normal(union u_shape shape, t_vec p, t_vec d);
 t_vec		cylinder_normal(union u_shape shape, t_vec p, t_vec d);
@@ -350,30 +329,19 @@ t_vec		plane_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		cone_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		hyper_normal_sphered(union u_shape shape, t_vec p, t_vec d);
 t_vec		sphere_normal_sphered(union u_shape shape, t_vec p, t_vec d);
-
-// perlin.c
 t_vec		text1(t_vec n, int text, int permutation[256]);
 void		init_perlin(t_env *e);
 void		init_perlin7(t_env *e);
 void		init_perlin6(t_env *e);
 double		improvednoise(double x, double y, double z, int permutation[256]);
-
-// matrice.c
 void		radian(double *rotx, double *roty, double *rotz, t_env e);
 t_vec		matrice_o(t_vec v, const t_vec sin, const t_vec cos);
 t_vec		matrice2(t_vec v, t_vec ang);
-
-// texture.c
 t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i);
 SDL_Surface	*load_bmp(char *fichier);
 t_vec		infinite(t_vec n);
 Uint32		which_texture(t_env e, int i, int w, int h);
-
-
-// parser.c
 t_env		parser(int fd, t_env e);
-
-
 double		apply_decimal(double d, int	dec_point);
 double		parse_float(char *s);
 t_vec		parse_vec(char **cmd);
@@ -382,7 +350,6 @@ t_color		parse_color(char **cmd);
 double		parse_float(char *s);
 void		apply_rot(t_object *obj);
 void		obj_strequ(char **cmd, t_object *obj);
-
 t_list		*parse_sphere(int fd);
 t_list		*parse_plane(int fd);
 t_list		*parse_cylinder(int fd);
@@ -391,18 +358,14 @@ t_list		*parse_plane(int fd);
 t_list		*parse_cone(int fd);
 t_list		*parse_plane(int fd);
 t_list		*parse_hyper(int fd);
-
-
-t_ray	change_ray(t_ray ray, t_object obj);
-t_color	lightning(int obj, t_vec normal, t_env e, t_color text);
-t_color	ray_trace(t_ray ray, t_env e);
-void	*launch(void *truc);
-
-//main.c
-t_color	intersection(t_ray ray, t_env e, int tmp_i, double tmp_t);
-void	reload_or_not(SDL_Renderer *renderer, t_env e, int k);
-void	threads(SDL_Renderer *renderer, t_env e);
-t_env	init(void);
-void	draw(t_void *truc);
+t_ray		change_ray(t_ray ray, t_object obj);
+t_color		lightning(int obj, t_vec normal, t_env e, t_color text);
+t_color		ray_trace(t_ray ray, t_env e);
+void		*launch(void *truc);
+t_color		intersection(t_ray ray, t_env e, int tmp_i, double tmp_t);
+void		reload_or_not(SDL_Renderer *renderer, t_env e, int k);
+void		threads(SDL_Renderer *renderer, t_env e);
+t_env		init(void);
+void		draw(t_void *truc);
 
 #endif
