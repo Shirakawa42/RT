@@ -81,29 +81,28 @@ t_env		parser_init(t_env e)
 t_env		parser(int fd)
 {
 	char	*buf;
-	t_list	*objects;
-	t_list	*lights;
+	t_ll	ll;
 	t_env	e;
 
 	init_perlin(&e);
-	objects = NULL;
-	lights = NULL;
+	ll.objects = NULL;
+	ll.lights = NULL;
 	e = parser_init(e);
 	while (get_next_line(fd, &buf) == 1)
 	{
 		if (ft_strequ(buf, "light"))
-			ft_lstadd(&lights, parse_light(fd));
+			ft_lstadd(&ll.lights, parse_light(fd));
 		if (ft_strequ(buf, "sphere"))
-			ft_lstadd(&objects, parse_sphere(fd));
+			ft_lstadd(&ll.objects, parse_sphere(fd));
 		if (ft_strequ(buf, "plane"))
-			ft_lstadd(&objects, parse_plane(fd));
+			ft_lstadd(&ll.objects, parse_plane(fd));
 		if (ft_strequ(buf, "cylinder"))
-			ft_lstadd(&objects, parse_cylinder(fd));
+			ft_lstadd(&ll.objects, parse_cylinder(fd));
 		if (ft_strequ(buf, "cone"))
-			ft_lstadd(&objects, parse_cone(fd));
+			ft_lstadd(&ll.objects, parse_cone(fd));
 		if (ft_strequ(buf, "hyper"))
-			ft_lstadd(&objects, parse_hyper(fd));
+			ft_lstadd(&ll.objects, parse_hyper(fd));
 	}
 	e = load_textures(e);
-	return (synthesis(e, objects, lights));
+	return (synthesis(e, ll.objects, ll.lights));
 }

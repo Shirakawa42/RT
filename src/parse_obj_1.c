@@ -27,7 +27,11 @@ void		obj_strequ(char **cmd, t_object *obj)
 	if (ft_strequ(cmd[0], "color"))
 		obj->color = parse_color(cmd);
 	if (ft_strequ(cmd[0], "reflection"))
+	{
 		obj->reflection = parse_float(cmd[1]);
+		if (obj->type == PLANE)
+			obj->reflection = 0;
+	}
 	if (ft_strequ(cmd[0], "texture"))
 		obj->texture = parse_float(cmd[1]);
 	if (ft_strequ(cmd[0], "rotation"))

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#define ABS(x) (x < 0 ? -x : x)
 
 double	dot(t_vec a, t_vec b)
 {
@@ -30,14 +31,10 @@ t_vec	get_point(t_ray ray, double t)
 t_vec	bisector(t_vec v, t_vec l)
 {
 	t_vec	b;
-	t_vec	sum;
 
-	sum.x = v.x + l.x;
-	sum.y = v.y + l.y;
-	sum.z = v.z + l.z;
-	b.x = sum.x / fabs(sum.x);
-	b.y = sum.y / fabs(sum.y);
-	b.z = sum.z / fabs(sum.z);
+	b.x = v.x + l.x;
+	b.y = v.y + l.y;
+	b.z = v.z + l.z;
 	return (b);
 }
 

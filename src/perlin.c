@@ -39,21 +39,21 @@ double	grad(int hash, double x, double y, double z)
 
 void	initmore(double *y, double *z, t_perlin *p, int j[512])
 {
-	p->X = (int)floor(*p->x) & 255;
-	p->Y = (int)floor(*y) & 255;
-	p->Z = (int)floor(*z) & 255;
-	*p->x -= floor(*p->x);
+	p->x = (int)floor(*p->xx) & 255;
+	p->y = (int)floor(*y) & 255;
+	p->z = (int)floor(*z) & 255;
+	*p->xx -= floor(*p->xx);
 	*y -= floor(*y);
 	*z -= floor(*z);
-	p->u = fade(*p->x);
+	p->u = fade(*p->xx);
 	p->v = fade(*y);
 	p->w = fade(*z);
-	p->A = j[p->X] + p->Y;
-	p->AA = j[p->A] + p->Z;
-	p->AB = j[p->A + 1] + p->Z;
-	p->B = j[p->X + 1] + p->Y;
-	p->BA = j[p->B] + p->Z;
-	p->BB = j[p->B + 1] + p->Z;
+	p->a = j[p->x] + p->y;
+	p->aa = j[p->a] + p->z;
+	p->ab = j[p->a + 1] + p->z;
+	p->b = j[p->x + 1] + p->y;
+	p->ba = j[p->b] + p->z;
+	p->bb = j[p->b + 1] + p->z;
 }
 
 double	improvednoise(double x, double y, double z, int permutation[256])
@@ -71,13 +71,13 @@ double	improvednoise(double x, double y, double z, int permutation[256])
 			i++;
 		}
 	}
-	p.x = &x;
+	p.xx = &x;
 	initmore(&y, &z, &p, j);
-	return (lerp(p.w, lerp(p.v, lerp(p.u, grad(j[p.AA], x, y, z), grad(j[p.BA],
+	return (lerp(p.w, lerp(p.v, lerp(p.u, grad(j[p.aa], x, y, z), grad(j[p.ba],
 							x - 1, y, z)),
-		lerp(p.u, grad(j[p.AB], x, y - 1, z), grad(j[p.BB], x - 1, y - 1, z))),
-		lerp(p.v, lerp(p.u, grad(j[p.AA + 1], x, y, z - 1), grad(j[p.BA + 1],
+		lerp(p.u, grad(j[p.ab], x, y - 1, z), grad(j[p.bb], x - 1, y - 1, z))),
+		lerp(p.v, lerp(p.u, grad(j[p.aa + 1], x, y, z - 1), grad(j[p.ba + 1],
 					x - 1, y, z - 1)),
-			lerp(p.u, grad(j[p.AB + 1], x, y - 1, z - 1), grad(j[p.BB + 1],
+			lerp(p.u, grad(j[p.ab + 1], x, y - 1, z - 1), grad(j[p.bb + 1],
 				x - 1, y - 1, z - 1)))));
 }

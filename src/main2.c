@@ -19,9 +19,9 @@ t_color	ray_trace(t_ray ray, t_env e)
 	double	tmp_t;
 	int		tmp_i;
 
-	i = 0;
+	i = -1;
 	tmp_i = -1;
-	while (e.scene.objects[i].type)
+	while (e.scene.objects[++i].type)
 	{
 		if (e.intersect[e.scene.objects[i].type](e.scene.objects[i].shape
 			, change_ray(ray, e.scene.objects[i]), &t) && t > 0
@@ -30,11 +30,8 @@ t_color	ray_trace(t_ray ray, t_env e)
 			tmp_t = t;
 			tmp_i = i;
 		}
-		i++;
 	}
-	if (tmp_t < 0)
-		tmp_i = -1;
-	if (tmp_t > 100000)
+	if (tmp_t < 0 || tmp_t > 100000)
 		tmp_i = -1;
 	if (tmp_i >= 0)
 	{

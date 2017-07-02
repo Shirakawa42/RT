@@ -43,3 +43,16 @@ void	threads(SDL_Renderer *renderer, t_env e)
 	draw(truc);
 	pthread_mutex_destroy(&truc->mutex);
 }
+
+double	power(double l, int power)
+{
+	int		i;
+
+	i = 0;
+	while (i < power)
+	{
+		l = l * l;
+		i++;
+	}
+	return (l);
+}

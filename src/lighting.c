@@ -39,18 +39,31 @@ t_vec	n_rot(t_vec n, t_object obj)
 
 void	light_n(t_ligh *l, t_vec *normal, t_env *e, t_color *color)
 {
-	l->tmp = sqrt(l->ray.d.x * l->ray.d.x + l->ray.d.y *
-			l->ray.d.y + l->ray.d.z * l->ray.d.z);
+	t_vec	tmp;
+
 	normalize(&l->ray.d);
 	l->dt = dot(l->ray.d, n_rot(*normal, e->scene.objects[l->obj]));
-	if (l->dt < 0)
-		l->dt = 0;
-	if (l->dt > 1)
-		l->dt = 1;
+	l->income_mod.d.x = -e->income.d.x;
+	l->income_mod.d.y = -e->income.d.y;
+	l->income_mod.d.z = -e->income.d.z;
+	normalize(&l->income_mod.d);
+	tmp = bisector(l->income_mod.d, l->ray.d);
+	normalize(&tmp);
+	l->sp = dot(tmp, n_rot(*normal, e->scene.objects[l->obj]));
+	l->sp = power(l->sp, 6);
+	if (l->sp < 0 || l->sp > 1)
+		l->sp = l->sp < 0 ? 0 : 1;
+	if (l->dt < 0 || l->dt > 1)
+		l->dt = l->dt < 0 ? 0 : 1;
+	l->tmp = sqrt(l->ray.d.x * l->ray.d.x + l->ray.d.y *
+			l->ray.d.y + l->ray.d.z * l->ray.d.z);
 	l->light = get_intensity(e->scene.lights[l->i], l->tmp);
-	color->r += e->scene.objects[l->obj].color.r * l->dt * l->light.r;
-	color->g += e->scene.objects[l->obj].color.g * l->dt * l->light.g;
-	color->b += e->scene.objects[l->obj].color.b * l->dt * l->light.b;
+	color->r += e->scene.objects[l->obj].color.r * l->dt * l->light.r +
+			(l->sp * l->light.r);
+	color->g += e->scene.objects[l->obj].color.g * l->dt * l->light.g +
+			(l->sp * l->light.g);
+	color->b += e->scene.objects[l->obj].color.b * l->dt * l->light.b +
+			(l->sp * l->light.b);
 }
 
 void	lighti_n(t_ligh *l, t_vec *normal, t_env *e, t_color *color)
