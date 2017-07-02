@@ -52,6 +52,7 @@ double		parse_float(char *s)
 	int	i;
 	int	dec_point;
 
+	i = 0;
 	if (!s)
 		return (0.0);
 	d = 0;

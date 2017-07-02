@@ -59,16 +59,20 @@ void			w_and_h(t_env e, double v, int i, t_wh a)
 	}
 }
 
-t_plane_face	setface(t_plane_face pl, double *u, double *v, int i)
+t_plane_face	setface(double *u, double *v, int i)
 {
+	t_plane_face	pl;
+
 	pl.u = u;
 	pl.v = v;
 	pl.i = i;
 	return (pl);
 }
 
-t_wh			seta(t_wh a, int *w, int *h, double u)
+t_wh			seta(int *w, int *h, double u)
 {
+	t_wh	a;
+
 	a.w = w;
 	a.h = h;
 	a.u = u;
@@ -91,11 +95,11 @@ t_color			texturing_all(t_ray ray, t_vec p, t_env e, int i)
 	t.v = asin(t.en.y) / PI + 0.5;
 	if (e.scene.objects[i].type == PLANE)
 	{
-		pl = setface(pl, &t.u, &t.v, i);
+		pl = setface(&t.u, &t.v, i);
 		pl.ray = ray;
 		plane_facing(e, p, t.en, pl);
 	}
-	a = seta(a, &t.w, &t.h, t.u);
+	a = seta(&t.w, &t.h, t.u);
 	w_and_h(e, t.v, i, a);
 	t.rgb = which_texture(e, i, t.w, t.h);
 	t.color.r = (double)((t.rgb >> 16) & 255) / 255.0;

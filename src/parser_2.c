@@ -34,7 +34,7 @@ t_vec		parse_vec(char **cmd)
 	return (v);
 }
 
-t_env		synthesis_bis(t_env e, t_list *objects, t_list *lights)
+t_env		synthesis_bis(t_env e, t_list *lights)
 {
 	int		n;
 	int		i;
@@ -87,7 +87,7 @@ t_env		synthesis(t_env e, t_list *objects, t_list *lights)
 		e.scene.objects = (t_object *)malloc(sizeof(t_object));
 		e.scene.objects[0].type = 0;
 	}
-	return (synthesis_bis(e, objects, lights));
+	return (synthesis_bis(e, lights));
 }
 
 t_color		parse_color(char **cmd)

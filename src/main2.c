@@ -90,7 +90,7 @@ void	handle_event2(int k, t_env *e)
 		e->scene.camera.o.x += 0.5 - (k == 'q');
 }
 
-void	handle_events(SDL_Renderer *renderer, t_env e, SDL_Window *win)
+void	handle_events(SDL_Renderer *renderer, t_env e)
 {
 	SDL_Event		event;
 
@@ -130,11 +130,10 @@ int		main(int ac, char **av)
 	if (!(renderer = SDL_CreateRenderer(win, -1, 0)))
 		exit(0);
 	if (ac != 2)
-		e = init();
-	else
-		e = parser(open(av[1], O_RDONLY), e);
+		return (0);
+	e = parser(open(av[1], O_RDONLY));
 	threads(renderer, e);
-	handle_events(renderer, e, win);
+	handle_events(renderer, e);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(win);
 	SDL_Quit();

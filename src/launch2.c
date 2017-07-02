@@ -22,7 +22,7 @@ void	app(t_env *e)
 		e->colorsave[0] = sepia(e->colorsave[0]);
 }
 
-void	init_launch(void *truc, t_ray *ray, t_env *e, t_npt *np)
+void	init_launch(t_env *e, t_npt *np)
 {
 	np->y = 0;
 	np->w = e->editmod ? W / 3 : W;
@@ -76,7 +76,7 @@ void	*launch(void *truc)
 	e = (*(t_void*)truc).e;
 	np.number = (*(t_void*)truc).number++;
 	pthread_mutex_unlock(&(*(t_void*)truc).mutex);
-	init_launch(truc, &ray, &e, &np);
+	init_launch(&e, &np);
 	if (!(np.number < NB_THREADS / 2))
 		np.savex = ((np.number - (NB_THREADS / 2)) * (np.w / (NB_THREADS / 2)));
 	np.w = np.savex + (np.w / (NB_THREADS / 2));

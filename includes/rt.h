@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/06 12:34:20 by lvasseur          #+#    #+#             */
-/*   Updated: 2017/06/29 19:17:42 by tjacquin         ###   ########.fr       */
+/*   Created: 2017/04/11 18:07:58 by rmenegau          #+#    #+#             */
+/*   Updated: 2017/06/23 14:57:15 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,6 @@
 # define NB_THREADS 8
 # define SSAA 1
 # define NB_REFLEC 5
-# define PI 3.14159265359
-# define SPHERE 1
-# define PLANE 2
-# define CYLINDER 3
-# define CONE 4
-# define HYPER 5
-# define MARBLE 1
-# define MARBLE2 2
-# define MARBLE3 3
-# define NOISE 4
-# define NOISE2 5
-# define WOOD 6
-# define PAPER 7
-# define METAL 8
-# define GRASS 9
-# define LAVA 10
-# define LIGHT_BULB 1
 
 typedef struct	s_vec
 {
@@ -62,6 +45,26 @@ typedef struct	s_color
 	double	g;
 	double	b;
 }				t_color;
+
+# define PI 3.14159265359
+
+# define SPHERE 1
+# define PLANE 2
+# define CYLINDER 3
+# define CONE 4
+# define HYPER 5
+
+# define MARBLE 1
+# define MARBLE2 2
+# define MARBLE3 3
+# define NOISE 4
+# define NOISE2 5
+
+# define WOOD 6
+# define PAPER 7
+# define METAL 8
+# define GRASS 9
+# define LAVA 10
 
 typedef	struct	s_npt
 {
@@ -172,6 +175,8 @@ typedef struct	s_object
 	union u_shape	shape;
 }				t_object;
 
+# define LIGHT_BULB 1
+
 typedef struct	s_light_bulb
 {
 	t_vec	p;
@@ -231,7 +236,7 @@ typedef struct	s_text_struct
 
 typedef int(*t_intersect)(union u_shape, t_ray, double *);
 typedef	t_vec(*t_get_normal_sphered)(union u_shape, t_vec, t_vec);
-typedef	t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
+typedef t_vec(*t_get_normal)(union u_shape, t_vec, t_vec);
 
 typedef struct	s_env
 {
@@ -296,7 +301,6 @@ t_vec		vec(double x, double y, double z);
 t_vec		get_point(t_ray ray, double t);
 t_vec		bisector(t_vec v, t_vec l);
 void		normalize(t_vec *v);
-t_light		create_light_bulb(t_vec vec, t_color color, double intensity);
 t_color		create_color(double r, double g, double b);
 void        apply_color(t_void *truc, t_env e, int x, int y);
 void        app(t_env *e);
@@ -341,7 +345,7 @@ t_color		texturing_all(t_ray ray, t_vec p, t_env e, int i);
 SDL_Surface	*load_bmp(char *fichier);
 t_vec		infinite(t_vec n);
 Uint32		which_texture(t_env e, int i, int w, int h);
-t_env		parser(int fd, t_env e);
+t_env		parser(int fd);
 double		apply_decimal(double d, int	dec_point);
 double		parse_float(char *s);
 t_vec		parse_vec(char **cmd);
@@ -365,7 +369,6 @@ void		*launch(void *truc);
 t_color		intersection(t_ray ray, t_env e, int tmp_i, double tmp_t);
 void		reload_or_not(SDL_Renderer *renderer, t_env e, int k);
 void		threads(SDL_Renderer *renderer, t_env e);
-t_env		init(void);
 void		draw(t_void *truc);
 
 #endif

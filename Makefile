@@ -13,7 +13,7 @@
 NAME		=	RT
 
 CC			=	gcc
-FLAGS		=
+FLAGS		= -Wall -Wextra -Werror
 
 LIBFT_DIR	=	libft/
 LIBFT_LIB	=	$(LIBFT_DIR)libft.a
@@ -33,8 +33,6 @@ FLAG_SDL	=	-I/$(SDL_INC) $(SDL_LIB) -framework Cocoa -framework CoreAudio -frame
 SRC_BASE	=	\
 main.c \
 vector.c \
-create_lights.c \
-create_objects.c \
 intersects.c \
 normals.c \
 normals_sphered.c \
@@ -57,7 +55,6 @@ perlin_init.c \
 perlin_init2.c \
 perlin_init3.c \
 texture2.c \
-init.c \
 cut.c \
 launch2.c \
 parser_1.c \

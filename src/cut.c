@@ -14,8 +14,6 @@
 
 int		cut_co(t_ray ray, double *t, double tmp, t_cone co)
 {
-	t_vec i;
-
 	if (co.f1.x == co.f2.x && co.f1.y == co.f2.y && co.f1.z == co.f2.z)
 		return (1);
 	if (config_co(ray, t, tmp, co) == 0)
@@ -25,8 +23,6 @@ int		cut_co(t_ray ray, double *t, double tmp, t_cone co)
 
 int		cut_cyl(t_ray ray, double *t, double tmp, t_cylinder cyl)
 {
-	t_vec i;
-
 	if (cyl.f1.x == cyl.f2.x && cyl.f1.y == cyl.f2.y && cyl.f1.z == cyl.f2.z)
 		return (1);
 	if (config_cyl(ray, t, tmp, cyl) == 0)
@@ -36,8 +32,6 @@ int		cut_cyl(t_ray ray, double *t, double tmp, t_cylinder cyl)
 
 int		cut_hyper(t_ray ray, double *t, double tmp, t_hyper hype)
 {
-	t_vec i;
-
 	if (hype.f1.x == hype.f2.x && hype.f1.y == hype.f2.y &&
 			hype.f1.z == hype.f2.z)
 		return (1);
@@ -58,8 +52,6 @@ int		cut_plane(t_ray ray, double *t, t_plane plane)
 
 int		cut_sphere(t_ray ray, double *t, double tmp, t_sphere sphere)
 {
-	t_vec i;
-
 	if (sphere.f1.x == sphere.f2.x && sphere.f1.y == sphere.f2.y &&
 			sphere.f1.z == sphere.f2.z)
 		return (1);

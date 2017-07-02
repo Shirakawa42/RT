@@ -43,17 +43,6 @@ void	light_n(t_ligh *l, t_vec *normal, t_env *e, t_color *color)
 			l->ray.d.y + l->ray.d.z * l->ray.d.z);
 	normalize(&l->ray.d);
 	l->dt = dot(l->ray.d, n_rot(*normal, e->scene.objects[l->obj]));
-	l->income_mod = e->income;
-	normalize(&l->income_mod.d);
-	l->income_mod.d.x = -l->income_mod.d.x;
-	l->income_mod.d.y = -l->income_mod.d.y;
-	l->income_mod.d.z = -l->income_mod.d.z;
-	l->sp = dot(bisector(l->income_mod.d, l->ray.d), *normal);
-	l->sp = l->sp * l->sp * l->sp * l->sp;
-	if (l->sp < 0)
-		l->sp = 0;
-	if (l->sp > 1)
-		l->sp = 1;
 	if (l->dt < 0)
 		l->dt = 0;
 	if (l->dt > 1)
@@ -101,13 +90,7 @@ t_color	lightning(int obj, t_vec normal, t_env e, t_color text)
 	if (e.editmod == 2)
 		return (e.scene.objects[obj].color);
 	lighti_n(&l, &normal, &e, &color);
-	if (e.scene.objects[obj].texture < WOOD)
-	{
-/*		color.r = color.r * e.scene.objects[obj].color.r;
-		color.g = color.g * e.scene.objects[obj].color.g;
-		color.b = color.b * e.scene.objects[obj].color.b;
-*/	}
-	else
+	if (e.scene.objects[obj].texture >= WOOD)
 	{
 		color.r = color.r * text.r;
 		color.g = color.g * text.g;

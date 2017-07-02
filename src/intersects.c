@@ -43,7 +43,6 @@ int	sphere_intersect(union u_shape shape, t_ray ray, double *t)
 
 int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 {
-	t_vec	i;
 	t_plane	plane;
 
 	plane = shape.plane;
@@ -58,7 +57,6 @@ int	plane_intersect(union u_shape shape, t_ray ray, double *t)
 int	cylinder_intersect(union u_shape shape, t_ray ray, double *t)
 {
 	t_vec		v;
-	t_vec		i;
 	t_cylinder	cyl;
 	double		t1;
 	double		t2;

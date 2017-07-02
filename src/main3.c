@@ -27,7 +27,6 @@ void	threads(SDL_Renderer *renderer, t_env e)
 	pthread_t		threads[NB_THREADS];
 	int				i;
 	static t_void	*truc;
-	int				y;
 
 	if (!truc && (truc = (t_void*)malloc(sizeof(t_void))) == 0)
 		return ;

@@ -78,11 +78,12 @@ t_env		parser_init(t_env e)
 	return (e);
 }
 
-t_env		parser(int fd, t_env e)
+t_env		parser(int fd)
 {
 	char	*buf;
 	t_list	*objects;
 	t_list	*lights;
+	t_env	e;
 
 	init_perlin(&e);
 	objects = NULL;
