@@ -33,9 +33,9 @@ t_color	ray_trace(t_ray ray, t_env e)
 		i++;
 	}
 	if (tmp_t < 0)
-		tmp_t = 0;
+		tmp_i = -1;
 	if (tmp_t > 100000)
-		tmp_t = 100000;
+		tmp_i = -1;
 	if (tmp_i >= 0)
 	{
 		return ((e.editmod == 2) ? (e.scene.objects[tmp_i].color) :

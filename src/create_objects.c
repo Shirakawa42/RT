@@ -100,7 +100,6 @@ t_object    create_cone(t_vec p, double r, t_color color, double reflection, int
 	ret.sin.y = sin(rot.y);
 	ret.sin.z = sin(rot.z);
 	ret.reflection = reflection;
-	ret.reflection = reflection;
 	ret.texture = texture;
 	ret.shape.cone.aperture = aperture; /*METTRE DANS PARSE_CONE*/
 	ret.shape.cone.texture_scale = texture_scale;

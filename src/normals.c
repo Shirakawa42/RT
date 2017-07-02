@@ -16,9 +16,9 @@ t_vec	sphere_normal(union u_shape shape, t_vec p, t_vec d)
 {
 	t_vec	n;
 
-	n.x = (p.x - shape.sphere.c.x) / shape.sphere.r;
-	n.y = (p.y - shape.sphere.c.y) / shape.sphere.r;
-	n.z = (p.z - shape.sphere.c.z) / shape.sphere.r;
+	n.x = p.x / shape.sphere.r;
+	n.y = p.y / shape.sphere.r;
+	n.z = p.z / shape.sphere.r;
 	return (n);
 }
 
@@ -37,9 +37,9 @@ t_vec	cylinder_normal(union u_shape shape, t_vec p, t_vec d)
 	double	r;
 
 	r = 1 / shape.cylinder.r;
-	n.x = (p.x - shape.cylinder.p.x) * r;
+	n.x = p.x * r;
 	n.y = 0;
-	n.z = (p.z - shape.cylinder.p.z) * r;
+	n.z = p.z * r;
 	return (n);
 }
 
@@ -51,9 +51,9 @@ t_vec	cone_normal(union u_shape shape, t_vec p, t_vec d)
 
 	i = 0;
 	r = shape.cone.r;
-	n.x = (p.x - shape.cone.d.x) / r;
+	n.x = p.x / r;
 	n.y = 0;
-	n.z = (p.z - shape.cone.d.z) / r;
+	n.z = p.z / r;
 	return (n);
 }
 
@@ -65,9 +65,8 @@ t_vec	hyper_normal(union u_shape shape, t_vec p, t_vec d)
 
 	i = 0;
 	r = shape.hype.r;
-	n.x = (p.x - shape.hype.d.x) / r;
+	n.x = p.x / r;
 	n.y = 0;
-	n.z = (p.z - shape.hype.d.z) / r;
-	normalize(&n);
+	n.z = p.z / r;
 	return (n);
 }

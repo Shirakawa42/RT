@@ -86,15 +86,16 @@ t_color	intersection(t_ray ray, t_env e, int tmp_i, double tmp_t)
 	e.pp = get_point(ray, tmp_t);
 	normal =
 		g_get_normal[e.scene.objects[tmp_i].type](e.scene.objects[tmp_i].shape
-			, e.pp, change_ray(ray, e.scene.objects[tmp_i]).d);
+			, get_point(change_ray(ray, e.scene.objects[tmp_i]), tmp_t), change_ray(ray, e.scene.objects[tmp_i]).d);
+	normalize(&normal);
 	if (e.scene.objects[tmp_i].texture)
 		normal = text1(normal, e.scene.objects[tmp_i].texture, e.p);
 	tmp_color = lightning(tmp_i, normal, e,
 		texturing_all(ray, e.pp, e, tmp_i));
-	if (e.scene.objects[tmp_i].texture != 4 && e.scene.objects[tmp_i].texture
-			!= 6 && e.scene.objects[tmp_i].texture != 2)
-		normal = g_get_normal[e.scene.objects[tmp_i].type](e.scene.objects
-				[tmp_i].shape, e.pp, change_ray(ray, e.scene.objects[tmp_i]).d);
+//	if (e.scene.objects[tmp_i].texture != 4 && e.scene.objects[tmp_i].texture
+//			!= 6 && e.scene.objects[tmp_i].texture != 2)
+//		normal = g_get_normal[e.scene.objects[tmp_i].type](e.scene.objects
+//				[tmp_i].shape, e.pp, change_ray(ray, e.scene.objects[tmp_i]).d);
 	e.tmp_t = tmp_t;
 	e.tmp_i = tmp_i;
 	if (e.scene.objects[tmp_i].reflection && e.index)

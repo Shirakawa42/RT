@@ -30,6 +30,9 @@ t_color	get_intensity(t_light light, double t)
 
 t_vec	n_rot(t_vec n, t_object obj)
 {
+	obj.sin.x = -obj.sin.x;
+	obj.sin.y = -obj.sin.y;
+	obj.sin.z = -obj.sin.z;
 	n = matrice_o(n, obj.sin, obj.cos);
 	return (n);
 }
@@ -39,7 +42,7 @@ void	light_n(t_ligh *l, t_vec *normal, t_env *e, t_color *color)
 	l->tmp = sqrt(l->ray.d.x * l->ray.d.x + l->ray.d.y *
 			l->ray.d.y + l->ray.d.z * l->ray.d.z);
 	normalize(&l->ray.d);
-	l->dt = dot(n_rot(l->ray.d, e->scene.objects[l->obj]), *normal);
+	l->dt = dot(l->ray.d, n_rot(*normal, e->scene.objects[l->obj]));
 	l->income_mod = e->income;
 	normalize(&l->income_mod.d);
 	l->income_mod.d.x = -l->income_mod.d.x;
