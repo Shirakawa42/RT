@@ -12,18 +12,6 @@
 
 #include "rt.h"
 
-void	save_img(SDL_Renderer *renderer, t_env e, SDL_Window *win)
-{
-	SDL_Surface		*s;
-
-	s = SDL_CreateRGBSurface(0, W, H, 32, 0x00ff0000, 0x0000ff00,
-			0x000000ff, 0xff000000);
-	SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888,
-			s->pixels, s->pitch);
-	SDL_SaveBMP(s, "screenshot.bmp");
-	SDL_FreeSurface(s);
-}
-
 void	reload_or_not(SDL_Renderer *renderer, t_env e, int k)
 {
 	if (k == 'e' || k == 'r' || k == 'z' || k == 'q' || k == 's' || k == 'd'

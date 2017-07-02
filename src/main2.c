@@ -110,8 +110,6 @@ void	handle_events(SDL_Renderer *renderer, t_env e, SDL_Window *win)
 					event.key.keysym.sym == 1073742049)
 				e.scene.camera.o.y += 0.5 - (event.key.keysym.sym
 						== 1073742049);
-			else if (event.key.keysym.sym == 'a')
-				save_img(renderer, e, win);
 			handle_event2(event.key.keysym.sym, &e);
 			reload_or_not(renderer, e, event.key.keysym.sym);
 		}

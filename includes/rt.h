@@ -400,7 +400,6 @@ void	*launch(void *truc);
 
 //main.c
 t_color	intersection(t_ray ray, t_env e, int tmp_i, double tmp_t);
-void	save_img(SDL_Renderer *renderer, t_env e, SDL_Window *win);
 void	reload_or_not(SDL_Renderer *renderer, t_env e, int k);
 void	threads(SDL_Renderer *renderer, t_env e);
 t_env	init(void);
