@@ -59,6 +59,7 @@ t_list		*parse_sphere(int fd)
 			break ;
 		sphere_bis(cmd, &obj);
 		obj_strequ(cmd, &obj);
+		apply_rot(&obj);
 		if (ft_strequ(cmd[0], "coupe1"))
 			obj.shape.sphere.f1 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "coupe2"))

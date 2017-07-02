@@ -55,8 +55,8 @@ t_ray	change_ray(t_ray ray, t_object obj)
 	ray.o.x = ray.o.x - obj.c.x;
 	ray.o.y = ray.o.y - obj.c.y;
 	ray.o.z = ray.o.z - obj.c.z;
-	if (obj.type == SPHERE)
-		return (ray);
+//	if (obj.type == SPHERE)
+//		return (ray);
 	ray.o = matrice_o(ray.o, obj.sin, obj.cos);
 	ray.d = matrice_o(ray.d, obj.sin, obj.cos);
 	return (ray);
@@ -67,8 +67,8 @@ t_ray	unchange_ray(t_ray ray, t_object obj)
 	ray.o.x += obj.c.x;
 	ray.o.y += obj.c.y;
 	ray.o.z += obj.c.z;
-	if (obj.type == SPHERE)
-		return (ray);
+//	if (obj.type == SPHERE)
+//		return (ray);
 	ray.o = matrice_o(ray.o, obj.sin, obj.cos);
 	ray.d = matrice_o(ray.d, obj.sin, obj.cos);
 	return (ray);

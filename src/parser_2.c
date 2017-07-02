@@ -82,6 +82,11 @@ t_env		synthesis(t_env e, t_list *objects, t_list *lights)
 		}
 		e.scene.objects[i++].type = 0;
 	}
+	else
+	{
+		e.scene.objects = (t_object *)malloc(sizeof(t_object));
+		e.scene.objects[0].type = 0;
+	}
 	return (synthesis_bis(e, objects, lights));
 }
 
