@@ -6,7 +6,7 @@
 /*   By: tjacquin <tjacquin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 18:29:10 by tjacquin          #+#    #+#             */
-/*   Updated: 2017/06/29 19:19:26 by tjacquin         ###   ########.fr       */
+/*   Updated: 2019/05/14 14:56:32 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ t_env		parser(int fd)
 			ft_lstadd(&ll.objects, parse_cone(fd));
 		if (ft_strequ(buf, "hyper"))
 			ft_lstadd(&ll.objects, parse_hyper(fd));
+		free(buf);
 	}
+	free(buf);
 	e = load_textures(e);
 	return (synthesis(e, ll.objects, ll.lights));
 }

@@ -21,9 +21,9 @@
 
 # define H 700
 # define W 700
-# define NB_THREADS 8
+# define NB_THREADS 4
 # define SSAA 1
-# define NB_REFLEC 5
+# define NB_REFLEC 2
 
 typedef struct	s_vec
 {

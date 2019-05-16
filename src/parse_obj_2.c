@@ -31,6 +31,7 @@ t_list		*parse_cylinder(int fd)
 
 	ft_bzero(&obj, sizeof(t_object));
 	obj.type = CYLINDER;
+	obj.shape.cylinder.texture_scale = 1;
 	while (get_next_line(fd, &buf) == 1)
 	{
 		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
@@ -43,8 +44,11 @@ t_list		*parse_cylinder(int fd)
 		if (ft_strequ(cmd[0], "coupe2"))
 			obj.shape.cylinder.f2 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "texture_scale"))
-			obj.shape.cylinder.texture_scale = parse_float(cmd[1]);
+			if ((obj.shape.cylinder.texture_scale = parse_float(cmd[1])) <= 0)
+				obj.shape.cylinder.texture_scale = 1;
 	}
+	if (obj.shape.cylinder.r <= 0)
+		obj.shape.cylinder.r = 0.1;
 	return (ft_lstnew(&obj, sizeof(t_object)));
 }
 
@@ -57,6 +61,8 @@ void		cone_bis(char **cmd, t_object *obj)
 	}
 	if (ft_strequ(cmd[0], "radius"))
 		obj->shape.cone.r = parse_float(cmd[1]);
+	if (ft_strequ(cmd[0], "aperture"))
+		obj->shape.cone.aperture = parse_float(cmd[1]);
 }
 
 t_list		*parse_cone(int fd)
@@ -67,6 +73,7 @@ t_list		*parse_cone(int fd)
 
 	ft_bzero(&obj, sizeof(t_object));
 	obj.type = CONE;
+	obj.shape.cone.texture_scale = 1;
 	while (get_next_line(fd, &buf) == 1)
 	{
 		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
@@ -78,10 +85,11 @@ t_list		*parse_cone(int fd)
 			obj.shape.cone.f1 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "coupe2"))
 			obj.shape.cone.f2 = parse_vec(cmd);
-		if (ft_strequ(cmd[0], "aperture"))
-			obj.shape.cone.aperture = parse_float(cmd[1]);
 		if (ft_strequ(cmd[0], "texture_scale"))
-			obj.shape.cone.texture_scale = parse_float(cmd[1]);
+			if ((obj.shape.cone.texture_scale = parse_float(cmd[1])) <= 0)
+				obj.shape.cone.texture_scale = 1;
 	}
+	if (obj.shape.cone.r <= 0)
+		obj.shape.cone.r = 0.1;
 	return (ft_lstnew(&obj, sizeof(t_object)));
 }

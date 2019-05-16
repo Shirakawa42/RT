@@ -57,6 +57,7 @@ t_list		*parse_sphere(int fd)
 
 	ft_bzero(&obj, sizeof(t_object));
 	obj.type = SPHERE;
+	obj.shape.sphere.texture_scale = 1;
 	while (get_next_line(fd, &buf) == 1)
 	{
 		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
@@ -69,7 +70,10 @@ t_list		*parse_sphere(int fd)
 		if (ft_strequ(cmd[0], "coupe2"))
 			obj.shape.sphere.f2 = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "texture_scale"))
-			obj.shape.sphere.texture_scale = parse_float(cmd[1]);
+			if ((obj.shape.sphere.texture_scale = parse_float(cmd[1])) <= 0)
+				obj.shape.sphere.texture_scale = 1;
 	}
+	if (obj.shape.sphere.r <= 0)
+		obj.shape.sphere.r = 0.1;
 	return (ft_lstnew(&obj, sizeof(t_object)));
 }
