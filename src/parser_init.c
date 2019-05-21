@@ -104,22 +104,14 @@ t_env		parser(int fd)
 	{		
 		if (ft_strequ(buf, "light"))
 			ft_lstadd(&ll.lights, parse_light(fd));	
-
 		if (ft_strequ(buf, "sphere"))
 			ft_lstadd(&ll.objects, parse_sphere(fd));	
-
-
 		if (ft_strequ(buf, "plane"))
 			ft_lstadd(&ll.objects, parse_plane(fd));
-
-		
 		if (ft_strequ(buf, "cylinder"))
 			ft_lstadd(&ll.objects, parse_cylinder(fd));
-
-	
 		if (ft_strequ(buf, "cone"))
 			ft_lstadd(&ll.objects, parse_cone(fd));
-		
 		free(buf);
 	}
 	free(buf);
