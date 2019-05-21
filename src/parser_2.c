@@ -49,6 +49,7 @@ t_env		synthesis_bis(t_env e, t_list *lights)
 		{
 			e.scene.lights[i++] = *((t_light*)(tmp->content));
 			tmp = tmp->next;
+			free(lights->content);
 			free(lights);
 			lights = tmp;
 		}
@@ -60,6 +61,12 @@ t_env		synthesis_bis(t_env e, t_list *lights)
 		e.scene.lights[0].type = 0;
 	}
 	return (e);
+}
+
+void		del(void *v, size_t t)
+{
+	t = 0;
+	free(v);
 }
 
 t_env		synthesis(t_env e, t_list *objects, t_list *lights)
@@ -77,6 +84,7 @@ t_env		synthesis(t_env e, t_list *objects, t_list *lights)
 		{
 			e.scene.objects[i++] = *((t_object*)(tmp->content));
 			tmp = tmp->next;
+			free(objects->content);
 			free(objects);
 			objects = tmp;
 		}

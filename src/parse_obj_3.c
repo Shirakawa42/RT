@@ -26,6 +26,7 @@ t_list		*parse_plane(int fd)
 	char		*buf;
 	char		**cmd;
 	t_object	obj;
+	int			i;
 
 	ft_bzero(&obj, sizeof(t_object));
 	obj.type = PLANE;
@@ -33,6 +34,7 @@ t_list		*parse_plane(int fd)
 	while (get_next_line(fd, &buf) == 1 && (cmd = ft_strsplit(buf, ' ')) &&
 			cmd[0])
 	{
+		i = 0;
 		obj_strequ(cmd, &obj);
 		apply_rot(&obj);
 		plane_bis(cmd, &obj);
@@ -43,7 +45,21 @@ t_list		*parse_plane(int fd)
 		if (ft_strequ(cmd[0], "texture_scale"))
 			if ((obj.shape.plane.texture_scale = parse_float(cmd[1])) <= 0)
 				obj.shape.plane.texture_scale = 1;
+		while (cmd[i])
+		{
+			free(cmd[i++]);
+			cmd[i - 1] = NULL;
+		}
+		free(cmd);
+		cmd = NULL;
+		free(buf);
 	}
+	if (cmd)
+	{
+		free(cmd);
+		cmd = NULL;
+	}
+	free(buf);
 	return (ft_lstnew(&obj, sizeof(t_object)));
 }
 
@@ -67,6 +83,7 @@ t_list		*parse_hyper(int fd)
 	char		*buf;
 	char		**cmd;
 	t_object	obj;
+	int			i;
 
 	ft_bzero(&obj, sizeof(t_object));
 	obj.type = HYPER;
@@ -74,6 +91,7 @@ t_list		*parse_hyper(int fd)
 	while (get_next_line(fd, &buf) == 1 && (cmd = ft_strsplit(buf, ' ')) &&
 			cmd[0])
 	{
+		i = 0;
 		hyper_bis(cmd, &obj);
 		obj_strequ(cmd, &obj);
 		apply_rot(&obj);
@@ -84,7 +102,13 @@ t_list		*parse_hyper(int fd)
 		if (ft_strequ(cmd[0], "texture_scale"))
 			if ((obj.shape.hype.texture_scale = parse_float(cmd[1])) <= 0)
 				obj.shape.hype.texture_scale = 1;
+		while (cmd[i])
+			free(cmd[i++]);
+		free(cmd);
+		free(buf);
 	}
+	free(buf);
+	i = 0;
 	if (obj.shape.hype.r <= 0)
 		obj.shape.hype.r = 0.1;
 	return (ft_lstnew(&obj, sizeof(t_object)));

@@ -17,20 +17,32 @@ t_list		*parse_light(int fd)
 	char		*buf;
 	char		**cmd;
 	t_light		lgt;
+	int			i;
 
 	ft_bzero(&lgt, sizeof(t_light));
 	lgt.type = LIGHT_BULB;
 	while (get_next_line(fd, &buf) == 1)
 	{
+		i = 0;
 		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+		{
+			while (cmd[i])
+				free(cmd[i++]);
+			free(cmd);
 			break ;
+		}
 		if (ft_strequ(cmd[0], "position"))
 			lgt.light.light_bulb.p = parse_vec(cmd);
 		if (ft_strequ(cmd[0], "color"))
 			lgt.color = parse_color(cmd);
 		if (ft_strequ(cmd[0], "intensity"))
 			lgt.intensity = parse_float(cmd[1]);
+		while (cmd[i])
+			free(cmd[i++]);
+		free(cmd);
+		free(buf);
 	}
+	free(buf);
 	return (ft_lstnew(&lgt, sizeof(t_light)));
 }
 
@@ -89,19 +101,25 @@ t_env		parser(int fd)
 	ll.lights = NULL;
 	e = parser_init(e);
 	while (get_next_line(fd, &buf) == 1)
-	{
+	{		
 		if (ft_strequ(buf, "light"))
-			ft_lstadd(&ll.lights, parse_light(fd));
+			ft_lstadd(&ll.lights, parse_light(fd));	
+
 		if (ft_strequ(buf, "sphere"))
-			ft_lstadd(&ll.objects, parse_sphere(fd));
+			ft_lstadd(&ll.objects, parse_sphere(fd));	
+
+
 		if (ft_strequ(buf, "plane"))
 			ft_lstadd(&ll.objects, parse_plane(fd));
+
+		
 		if (ft_strequ(buf, "cylinder"))
 			ft_lstadd(&ll.objects, parse_cylinder(fd));
+
+	
 		if (ft_strequ(buf, "cone"))
 			ft_lstadd(&ll.objects, parse_cone(fd));
-		if (ft_strequ(buf, "hyper"))
-			ft_lstadd(&ll.objects, parse_hyper(fd));
+		
 		free(buf);
 	}
 	free(buf);

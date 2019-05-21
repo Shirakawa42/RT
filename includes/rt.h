@@ -22,7 +22,7 @@
 # define H 900
 # define W 900
 # define NB_THREADS 4
-# define SSAA 4
+# define SSAA 2
 # define NB_REFLEC 2
 
 typedef struct	s_vec

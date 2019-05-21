@@ -28,14 +28,21 @@ t_list		*parse_cylinder(int fd)
 	char		*buf;
 	char		**cmd;
 	t_object	obj;
+	int			i;
 
 	ft_bzero(&obj, sizeof(t_object));
 	obj.type = CYLINDER;
 	obj.shape.cylinder.texture_scale = 1;
 	while (get_next_line(fd, &buf) == 1)
 	{
+		i = 0;
 		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+		{
+			while (cmd[i])
+				free(cmd[i++]);
+			free(cmd);
 			break ;
+		}
 		cylinder_bis(cmd, &obj);
 		obj_strequ(cmd, &obj);
 		apply_rot(&obj);
@@ -46,7 +53,12 @@ t_list		*parse_cylinder(int fd)
 		if (ft_strequ(cmd[0], "texture_scale"))
 			if ((obj.shape.cylinder.texture_scale = parse_float(cmd[1])) <= 0)
 				obj.shape.cylinder.texture_scale = 1;
+		while (cmd[i])
+			free(cmd[i++]);
+		free(cmd);
+		free(buf);
 	}
+	free(buf);
 	if (obj.shape.cylinder.r <= 0)
 		obj.shape.cylinder.r = 0.1;
 	return (ft_lstnew(&obj, sizeof(t_object)));
@@ -70,14 +82,21 @@ t_list		*parse_cone(int fd)
 	char		*buf;
 	char		**cmd;
 	t_object	obj;
+	int			i;
 
 	ft_bzero(&obj, sizeof(t_object));
 	obj.type = CONE;
 	obj.shape.cone.texture_scale = 1;
 	while (get_next_line(fd, &buf) == 1)
 	{
+		i = 0;
 		if (!(cmd = ft_strsplit(buf, ' ')) || !cmd[0])
+		{
+			while (cmd[i])
+				free(cmd[i++]);
+			free(cmd);
 			break ;
+		}
 		cone_bis(cmd, &obj);
 		obj_strequ(cmd, &obj);
 		apply_rot(&obj);
@@ -88,7 +107,12 @@ t_list		*parse_cone(int fd)
 		if (ft_strequ(cmd[0], "texture_scale"))
 			if ((obj.shape.cone.texture_scale = parse_float(cmd[1])) <= 0)
 				obj.shape.cone.texture_scale = 1;
+		while (cmd[i])
+			free(cmd[i++]);
+		free(cmd);
+		free(buf);
 	}
+	free(buf);
 	if (obj.shape.cone.r <= 0)
 		obj.shape.cone.r = 0.1;
 	return (ft_lstnew(&obj, sizeof(t_object)));
