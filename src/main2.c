@@ -121,7 +121,7 @@ int		main(int ac, char **av)
 
 	if (SDL_Init(SDL_INIT_VIDEO))
 		exit(0);
-	if (!(win = SDL_CreateWindow("RT", SDL_WINDOWPOS_CENTERED,
+	if (!(win = SDL_CreateWindow("rtv1", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, W, H, SDL_WINDOW_SHOWN)))
 		exit(0);
 	if (!(renderer = SDL_CreateRenderer(win, -1, 0)))
