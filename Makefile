@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquin <tjacquin@student.42.fr>          +#+  +:+       +#+         #
+#    By: lvasseur <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/05/12 14:42:00 by tjacquin          #+#    #+#              #
-#    Updated: 2017/06/29 17:15:53 by tjacquin         ###   ########.fr        #
+#    Created: 2019/05/21 17:27:35 by lvasseur          #+#    #+#              #
+#    Updated: 2019/05/21 17:27:37 by lvasseur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	RT
+NAME		=	rtv1
 
 CC			=	gcc
 FLAGS		= -Wall -Wextra -Werror
