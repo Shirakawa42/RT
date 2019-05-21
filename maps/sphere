@@ -1,0 +1,58 @@
+sphere
+position 0.0 0.0 4.0
+radius 0.5
+color 1.0 1.0 1.0
+texture 4
+
+light
+position 0.0 0.0 -2.0
+color 1.0 1.0 1.0
+intensity 4
+
+plane
+position 0.0 -1.5 0.0
+color 1 1 1
+rotation 0 0 0
+texture 9
+
+cylinder
+position 1.0 0.0 4.0
+radius 0.3
+color 1.0 1.0 1.0
+texture 6
+
+cone
+position -1.0 0.0 4.0
+aperture 10.0
+color 1.0 1.0 1.0
+texture 8
+reflection 2
+
+cylinder
+position 2.0 0.0 3.0
+radius 0.25
+color 1.0 1.0 1.0
+texture 7
+rotation 1 0 1
+
+light
+position 2.0 0.0 -2.0
+color 1.0 0.0 0.0
+intensity 4
+
+light
+position 1.0 0.0 10.0
+color 0.0 0.0 1.0
+intensity 2
+
+cone
+position -2.0 0.0 3.0
+color 1.0 1.0 1.0
+rotation 0 0 1
+texture 10
+aperture 15.0
+
+plane
+position 0.0 -1.5 16.0
+color 0 1 1
+rotation 1 0 0

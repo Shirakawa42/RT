@@ -6,7 +6,7 @@
 /*   By: rmenegau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 18:07:58 by rmenegau          #+#    #+#             */
-/*   Updated: 2017/06/23 14:57:15 by lomeress         ###   ########.fr       */
+/*   Updated: 2019/05/21 15:46:18 by lvasseur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <pthread.h>
 # include "libft.h"
 
-# define H 700
-# define W 700
+# define H 900
+# define W 900
 # define NB_THREADS 4
-# define SSAA 1
+# define SSAA 4
 # define NB_REFLEC 2
 
 typedef struct	s_vec
