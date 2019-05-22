@@ -6,11 +6,21 @@
 /*   By: tjacquin <tjacquin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 18:29:10 by tjacquin          #+#    #+#             */
-/*   Updated: 2019/05/14 14:56:32 by lomeress         ###   ########.fr       */
+/*   Updated: 2019/05/22 12:02:54 by lomeress         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void		end_light(char **cmd, t_light *lgt)
+{
+	if (ft_strequ(cmd[0], "position"))
+		lgt->light.light_bulb.p = parse_vec(cmd);
+	if (ft_strequ(cmd[0], "color"))
+		lgt->color = parse_color(cmd);
+	if (ft_strequ(cmd[0], "intensity"))
+		lgt->intensity = parse_float(cmd[1]);
+}
 
 t_list		*parse_light(int fd)
 {
@@ -31,12 +41,7 @@ t_list		*parse_light(int fd)
 			free(cmd);
 			break ;
 		}
-		if (ft_strequ(cmd[0], "position"))
-			lgt.light.light_bulb.p = parse_vec(cmd);
-		if (ft_strequ(cmd[0], "color"))
-			lgt.color = parse_color(cmd);
-		if (ft_strequ(cmd[0], "intensity"))
-			lgt.intensity = parse_float(cmd[1]);
+		end_light(cmd, &lgt);
 		while (cmd[i])
 			free(cmd[i++]);
 		free(cmd);
@@ -101,11 +106,11 @@ t_env		parser(int fd)
 	ll.lights = NULL;
 	e = parser_init(e);
 	while (get_next_line(fd, &buf) == 1)
-	{		
+	{
 		if (ft_strequ(buf, "light"))
-			ft_lstadd(&ll.lights, parse_light(fd));	
+			ft_lstadd(&ll.lights, parse_light(fd));
 		if (ft_strequ(buf, "sphere"))
-			ft_lstadd(&ll.objects, parse_sphere(fd));	
+			ft_lstadd(&ll.objects, parse_sphere(fd));
 		if (ft_strequ(buf, "plane"))
 			ft_lstadd(&ll.objects, parse_plane(fd));
 		if (ft_strequ(buf, "cylinder"))
